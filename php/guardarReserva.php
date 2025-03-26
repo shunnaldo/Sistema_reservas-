@@ -1,0 +1,58 @@
+<?php
+// Incluir la conexión a la base de datos
+include('conexion.php');
+
+// Obtener los datos del JSON enviado desde JavaScript
+$data = json_decode(file_get_contents('php://input'), true);
+
+// Verificar que los datos fueron recibidos correctamente
+if (!$data) {
+    echo json_encode(['success' => false, 'message' => 'No se recibieron los datos correctamente.']);
+    exit;
+}
+
+// Obtener los valores del formulario
+$rut = $data['rut'];
+$nombre = $data['nombre'];
+$apellido = $data['apellido'];
+$correo = $data['correo'];
+$fecha = $data['fecha'];
+$hora_inicio = $data['horaInicio'];
+$hora_fin = $data['horaFin'];
+
+// Verificar si el RUT existe en la tabla ctrtecnicos
+$sql_check_rut = "SELECT * FROM ctrtecnicos WHERE ctrtec_rut = ?";
+$stmt_check = $conexion->prepare($sql_check_rut);
+$stmt_check->bind_param("s", $rut);
+$stmt_check->execute();
+$result_check = $stmt_check->get_result();
+
+if ($result_check->num_rows == 0) {
+    // Si el RUT no está en la tabla, mostrar mensaje de error
+    echo json_encode(['success' => false, 'message' => 'Lo sentimos! Usted no cuenta con tarjeta vecina. Puede acercarse a Casa Emprender para sacar una.']);
+    exit;
+}
+
+// Verificar si la hora ya está reservada
+$sql = "SELECT * FROM Reservas WHERE fecha = ? AND ((hora_inicio <= ? AND hora_fin > ?) OR (hora_inicio < ? AND hora_fin >= ?))";
+$stmt = $conexion->prepare($sql);
+$stmt->bind_param("sssss", $fecha, $hora_inicio, $hora_inicio, $hora_fin, $hora_fin);
+$stmt->execute();
+$result = $stmt->get_result();
+
+if ($result->num_rows > 0) {
+    echo json_encode(['success' => false, 'message' => 'La hora seleccionada ya está ocupada.']);
+} else {
+    // Insertar la reserva
+    $sql_insert = "INSERT INTO Reservas (rut, nombre_vecino, apellido_vecino, correo_vecino, fecha, hora_inicio, hora_fin) VALUES (?, ?, ?, ?, ?, ?, ?)";
+    $stmt_insert = $conexion->prepare($sql_insert);
+    $stmt_insert->bind_param("sssssss", $rut, $nombre, $apellido, $correo, $fecha, $hora_inicio, $hora_fin);
+    $stmt_insert->execute();
+
+    if ($stmt_insert->affected_rows > 0) {
+        echo json_encode(['success' => true, 'message' => 'Reserva realizada con éxito.']);
+    } else {
+        echo json_encode(['success' => false, 'message' => 'Error al realizar la reserva.']);
+    }
+}
+?>
