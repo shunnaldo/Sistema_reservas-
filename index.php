@@ -34,6 +34,14 @@
                 <input type="email" id="correo" name="correo" required class="input-text">
             </div>
             <div class="form-group">
+                <label for="cowork">Cowork:</label>
+                <select id="cowork" name="cowork" required class="input-text">
+                    <option value="oficina">Oficina</option>
+                    <option value="cowork_principal">Cowork Principal</option>
+                    <option value="cowork_terraza">Cowork Terraza</option>
+                </select>
+            </div>
+            <div class="form-group">
                 <label for="fecha">Selecciona el día:</label>
                 <input type="date" id="fecha" name="fecha" required class="input-text">
             </div>
@@ -56,7 +64,7 @@
     <div class="footer-left">
         <img src="img/logo2.png" alt="Logo" class="footer-logo">
         <div class="social-buttons">
-            <a href="https://www.instagram.com/fomentolaflorida/" target="_blank" class="social-btn instagram-btn">
+            <a href="https://www.instagram.com/casaemprenderlf/" target="_blank" class="social-btn instagram-btn">
                 <i class="fab fa-instagram"></i>
             </a>
             <a href="https://www.facebook.com/FomentolaFlorida" target="_blank" class="social-btn facebook-btn">
