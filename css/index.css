@@ -103,6 +103,14 @@ label {
 .input-text {
     width: 100%;
 }
+#footer-container {
+    width: 100%;
+    background-color: #212121;
+    color: white;
+    padding: 30px 0;
+    text-align: center;
+    margin-top: auto; /* Empuja el footer hacia abajo */
+}
 
 .input-rut {
     width: calc(100% - 0px);

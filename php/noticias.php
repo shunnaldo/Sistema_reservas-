@@ -28,6 +28,14 @@ h2.mb-4 {
     text-align: center; /* Centra el texto */
     font-weight: bold; /* Opcional: hacer el texto más negrita */
 }
+#footer-container {
+    width: 100%;
+    background-color: #212121;
+    color: white;
+    padding: 30px 0;
+    text-align: center;
+    margin-top: auto; /* Empuja el footer hacia abajo */
+}
 
     </style>
 </head>
@@ -113,12 +121,13 @@ h2.mb-4 {
 
     </div>
 </div>
-
+<div id="footer-container"></div>
 
 
 
 
     <script src="../js/navbar.js"></script>
+    <script src="../js/footer.js"></script>
 
 </body>
 </html>

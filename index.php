@@ -63,40 +63,15 @@
         <div id="error-message" style="display: none; color: red;"></div>
     </div>
 
-    <div class="footer">
-    <div class="footer-left">
-        <img src="img/logo2.png" alt="Logo" class="footer-logo">
-        <div class="social-buttons">
-            <a href="https://www.instagram.com/casaemprenderlf/" target="_blank" class="social-btn instagram-btn">
-                <i class="fab fa-instagram"></i>
-            </a>
-            <a href="https://www.facebook.com/FomentolaFlorida" target="_blank" class="social-btn facebook-btn">
-                <i class="fab fa-facebook-f"></i>
-            </a>
-            <a href="https://www.fomentolf.cl/index.php" target="_blank" class="social-btn website-btn">
-                <i class="fas fa-globe"></i>
-            </a>
-        </div>
-    </div>
-    <div class="footer-center">
-    <h3 id="contact">COFODEP</h3>
-        <a href="https://www.fomentolf.cl/quienes-somos.php">Quiénes somos</a>
-        <a href="https://www.fomentolf.cl/convenios.php">Convenios</a>
-        <a href="https://www.fomentolf.cl/proyectos.php">Proyectos</a>
-        <a href="https://www.fomentolf.cl/innovacion.php">Innovación</a>
-    </div>
-    <div class="footer-right">
-        <a href="https://www.fomentolf.cl/contactanos.php" style="text-decoration: none; color: white;">
-            <h3 id="contact">Contáctanos</h3>
-        </a>
-        <p>Enrique Olivares 1003</p>
-        <p>La Florida, Chile</p>
-        <p>Estadio Bicentenario</p>
-    </div> 
+ 
+
 </div>
+   
+    <div id="footer-container"></div>
 
     <script src="js/navbar.js"></script>
     <script src="js/index.js"></script>
+    <script src="js/footer.js"></script>
 
 
 
