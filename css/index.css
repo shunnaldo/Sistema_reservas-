@@ -5,7 +5,13 @@
 }
 
 body {
-    font-family: 'Arial', sans-serif;
+    background-image: url(../img/fondo.png);
+    background-size: cover; 
+    background-position: center; 
+    background-repeat: no-repeat; 
+    background-attachment: fixed; 
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 400;
     background-color: #f2f3f7;
     display: flex;
     justify-content: center;
@@ -15,29 +21,69 @@ body {
     margin: 0;
     color: #212121;
     min-height: 100vh;
+    padding-top: 180px; 
+    
 
  
 }
 
+
 .logo-container {
-    width: 100%;
-    text-align: center;
-    margin-bottom: 40px;
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    padding: 10px 0;
+    position: absolute;
+    top: 10px;
+    left: 50%;
+    transform: translateX(-50%);
     z-index: 1000;
+    padding: 10px;
+    margin-top: -2%;
+}
+
+.logo-container {
+    position: absolute;
+    top: 10px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 1000;
+    padding: 10px;
 }
 
 .logo {
-    width: 300px;
+    width: 350px;
     height: auto;
-    border-radius: 8px;
     padding: 10px;
-    background-color: transparent;
-    max-width: 100%;
+    background: transparent;
+    filter: drop-shadow(0px 8px 15px rgba(0, 0, 0, 0.4)); /* Sombra elegante */
+    transition: filter 0.4s ease, transform 0.3s ease;
+    margin-top: -15%;
+    animation: logoAnimation 1.5s ease-out;
+}
+@keyframes logoAnimation {
+    0% {
+        opacity: 0;
+        transform: scale(0.8);
+    }
+    100% {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+/* Efecto al pasar el mouse */
+.logo:hover {
+    filter: drop-shadow(0px 12px 20px rgba(0, 0, 0, 0.6)); /* Sombra más intensa */
+    transform: scale(1.05); /* Pequeño realce */
+}
+
+/* Efecto de iluminación */
+.logo::before {
+    content: "";
+    position: absolute;
+    top: 10%;
+    left: 15%;
+    width: 70%;
+    height: 50%;
+    background: radial-gradient(circle, rgba(255, 255, 255, 0.3) 0%, rgba(255, 255, 255, 0) 80%);
+    opacity: 0.5;
+    pointer-events: none;
 }
 
 .form-container {
@@ -54,6 +100,17 @@ body {
     background-color: #fafafa;
     transition: transform 0.3s ease-in-out, box-shadow 0.3s ease, background-color 0.3s ease;
     padding-bottom: 80px;
+    animation: fadeInUp 1s ease-out;
+}
+@keyframes fadeInUp {
+    0% {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0);
+    }
 }
 
 
@@ -133,32 +190,39 @@ button:active {
     transform: translateY(1px);
 }
 
-/* Responsividad */
 @media (max-width: 768px) {
- 
 
+   
     .logo-container {
         padding: 10px;
-        margin-left: -10%;
+        margin-left: 0%;
     }
 
+    .logo {
+        width: 100%;
+        margin-top: -30%;
+    }
+
+    /* Formulario */
     .form-container {
         padding: 20px;
-        width: 85%; 
-        height: 100%;
-        margin-top: 100%;
+        width: 75%; 
+        height: 150%;
+        margin-top: 170%;
         margin-left: 0%;
-     
     }
 
+    /* Título */
     h2 {
         font-size: 22px;
     }
 
+    /* Etiquetas */
     label {
         font-size: 12px;
     }
 
+    /* Campos de entrada y botón */
     .input-rut, .input-text, button {
         font-size: 14px;
         padding: 12px;
@@ -171,32 +235,75 @@ button:active {
     .message {
         font-size: 12px;
     }
+}
+@media (max-width: 768px) {
     .footer {
-        width: 100%; 
-        margin-left: 0; 
-        margin-top: 10%;
+        width: 100%;
+        min-height: 600px;
+        margin-top: 50px; 
+        position: relative;
+        padding: 15px;
+        height: auto; 
+        box-sizing: border-box;
+        flex-direction: column;
+        padding-bottom: 40px; 
+        background-color: #212121;
+        display: flex;
+        align-items: flex-start; /* Alinea todo el contenido a la izquierda */
     }
+
+    .footer-left, .footer-right {
+        width: 100%;
+        margin: 0;
+        padding: 0;
+    }
+
+    .footer-logo {
+        width: 150px; 
+        margin-bottom: 10px;
+    }
+
+    .social-buttons {
+        justify-content: center;
+        gap: 15px; /* Espacio entre los botones */
+    }
+
+    .social-btn {
+        font-size: 25px; /* Reducir el tamaño de los iconos */
+        padding: 10px;
+    }
+
+    .footer-center p {
+        font-size: 16px;
+    }
+
     .footer-right {
-
-        display: none !important;
+        font-size: 14px;
+        margin-top: 10px;
+        margin-left: 50%;
     }
-    .footer-center{
-        display: none !important;
 
-
+    .footer-logo-2 {
+        width: 150px; 
     }
-    .logo{
 
-        width: 60%;
-        margin-left: 25%;
+    .footer-left, .footer-center, .footer-right {
+        display: flex;
+        flex-direction: column;
+    }
 
+    /* Aquí forzamos el .footer-center a alinearse a la izquierda completamente */
+    .footer-center {
+        width: 100% !important; /* Asegura que ocupe todo el ancho disponible */
+        display: block !important; /* Cambiamos el display a block para evitar interferencia con flexbox */
+        margin-left: 0 !important; /* Eliminamos cualquier margen que pudiera estar interfiriendo */
+        margin-right: 0 !important; /* Eliminamos cualquier margen derecho */
+        padding: 0 !important; /* Eliminamos rellenos extra que puedan interferir */
     }
-    .form-container select:focus {
-        max-height: 150px; /* Limita la altura del desplegable */
-        overflow-y: auto; 
-        width: 70%;
+    .footer-center a {
+        display: block;  /* Hace que cada enlace ocupe una línea completa */
+        margin-bottom: 10px; /* Añade espacio entre los enlaces */
     }
-  
 }
 
 .footer {
@@ -211,8 +318,11 @@ button:active {
     bottom: 0;
     left: 0;
     height: 180px;
-    box-sizing: border-box; /* Asegura que el padding no afecte el ancho */
+    box-sizing: border-box; 
 }
+
+
+
 
 .footer-left {
     display: flex;
@@ -314,3 +424,24 @@ button:active {
     margin: 0;
     padding: 0;
 }
+
+
+
+.footer-logo-2{
+
+    width: 300px;
+    }
+
+#success-message, #error-message {
+    animation: fadeInMessage 0.5s ease-in-out;
+
+}
+    
+    @keyframes fadeInMessage {
+        0% {
+            opacity: 0;
+        }
+        100% {
+            opacity: 1;
+        }
+    }

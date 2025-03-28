@@ -17,9 +17,14 @@ $fecha = $data['fecha'];
 $hora_inicio = $data['horaInicio'];
 $hora_fin = $data['horaFin'];
 
+$hora_inicio_int = (int)substr($hora_inicio, 0, 2);
+$hora_fin_int = (int)substr($hora_fin, 0, 2);
 
+if ($hora_inicio_int < 9 || $hora_inicio_int >= 18 || $hora_fin_int < 9 || $hora_fin_int > 18) {
+    echo json_encode(['success' => false, 'message' => 'Lo sentimos! Nuestro horario es de 9AM-6PM']);
+    exit;
+}
 
-// Verificar si el RUT existe en la tabla ctrtecnicos
 $sql_check_rut = "SELECT * FROM ctrtecnicos WHERE ctrtec_rut = ?";
 $stmt_check = $conexion->prepare($sql_check_rut);
 $stmt_check->bind_param("s", $rut);
@@ -27,12 +32,10 @@ $stmt_check->execute();
 $result_check = $stmt_check->get_result();
 
 if ($result_check->num_rows == 0) {
-    // Si el RUT no está en la tabla, mostrar mensaje de error
     echo json_encode(['success' => false, 'message' => 'Lo sentimos! Usted no cuenta con tarjeta vecina.']);
     exit;
 }
 
-// Verificar si la hora ya está reservada
 $sql = "SELECT * FROM Reservas 
         WHERE fecha = ? 
         AND cowork = ? 
@@ -47,7 +50,6 @@ $result = $stmt->get_result();
 if ($result->num_rows > 0) {
     echo json_encode(['success' => false, 'message' => 'La hora seleccionada ya está ocupada en este cowork.']);
 } else {
-    // Insertar la reserva
     $sql_insert = "INSERT INTO Reservas (rut, nombre_vecino, apellido_vecino, correo_vecino, fecha, hora_inicio, hora_fin, cowork) 
                    VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
 
@@ -61,3 +63,4 @@ if ($result->num_rows > 0) {
         echo json_encode(['success' => false, 'message' => 'Error al realizar la reserva.']);
     }
 }
+?>

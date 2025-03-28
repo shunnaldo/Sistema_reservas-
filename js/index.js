@@ -43,6 +43,10 @@ document.getElementById('reservation-form').addEventListener('submit', function 
             alert("El máximo de horas para agendar es 2.");
             return;
         }
+        else if (diferenciaHoras < 0.5){
+            alert("El mínimo de tiempo para agendar es de 30M");
+            return;
+        }
     } else {
         alert("Por favor, completa las horas de inicio y fin.");
         return;

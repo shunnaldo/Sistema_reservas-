@@ -6,13 +6,15 @@
     <title>Reserva</title>
     <link rel="stylesheet" href="css/index.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600&display=swap" rel="stylesheet">
+
 
 </head>
 <body>
 
-    <div class="logo-container">
-        <img src="img/logo.png" alt="Logo" class="logo">
-    </div>
+   <div class="logo-container">
+        <img src="img/logoEmprender.png" alt="Logo" class="logo">
+    </div> 
 
     <div class="form-container">
         <h2 id="reserva">Reservar Hora</h2>
@@ -75,6 +77,7 @@
             </a>
         </div>
     </div>
+    
     <div class="footer-center">
     <h3 id="contact">COFODEP</h3>
         <a href="https://www.fomentolf.cl/quienes-somos.php">Quiénes somos</a>
@@ -90,7 +93,13 @@
         <p>La Florida, Chile</p>
         <p>Estadio Bicentenario</p>
     </div>
+    <div class="footer-left-2">
+        <img src="img/logoEmprender2.png" alt="Logo" class="footer-logo-2">
+    </div>
+    
 </div>
+
+   
 
     <script src="/js/index.js"></script>
 
