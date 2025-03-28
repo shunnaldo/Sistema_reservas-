@@ -9,35 +9,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 
-    <style>
-        #newsCarousel .carousel-inner .carousel-item img {
-    width: 100%; /* Asegura que la imagen ocupe todo el ancho del carrusel */
-    height: 400px; /* Limita la altura de las imágenes */
-    object-fit: cover; /* Asegura que la imagen cubra el área sin distorsionarse */
-}
-
-/* Opcional: Ajustar la altura y el tamaño de las imágenes para pantallas más pequeñas */
-@media (max-width: 768px) {
-    #newsCarousel .carousel-inner .carousel-item img {
-        height: 250px; /* Reduce la altura de las imágenes en pantallas más pequeñas */
-    }
-}
-/* Estilo para el título */
-h2.mb-4 {
-    font-size: 3rem; /* Aumenta el tamaño de la fuente */
-    text-align: center; /* Centra el texto */
-    font-weight: bold; /* Opcional: hacer el texto más negrita */
-}
-#footer-container {
-    width: 100%;
-    background-color: #212121;
-    color: white;
-    padding: 30px 0;
-    text-align: center;
-    margin-top: auto; /* Empuja el footer hacia abajo */
-}
-
-    </style>
+    <link rel="stylesheet" href="../css/noticias.css">
 </head>
 <body>
 
@@ -48,22 +20,19 @@ h2.mb-4 {
             <div class="carousel-item active">
                 <img src="../img/logo.png" class="d-block w-100" alt="Noticia 1">
                 <div class="carousel-caption d-none d-md-block">
-                    <h5>Noticia Destacada 1</h5>
-                    <p>Descripción corta de la noticia destacada número 1.</p>
+
                 </div>
             </div>
             <div class="carousel-item">
                 <img src="../img/Captura de pantalla 2025-03-27 163858.png" class="d-block w-100" alt="Noticia 2">
                 <div class="carousel-caption d-none d-md-block">
-                    <h5>Noticia Destacada 2</h5>
-                    <p>Descripción corta de la noticia destacada número 2.</p>
+
                 </div>
             </div>
             <div class="carousel-item">
                 <img src="../img/Captura de pantalla 2025-03-27 163858.png" class="d-block w-100" alt="Noticia 3">
                 <div class="carousel-caption d-none d-md-block">
-                    <h5>Noticia Destacada 3</h5>
-                    <p>Descripción corta de la noticia destacada número 3.</p>
+
                 </div>
             </div>
         </div>
@@ -80,16 +49,16 @@ h2.mb-4 {
 <br><br><br>
        <!-- Sección de Noticias -->
        <div class="container mt-5">
-    <h2 class="mb-4 text-center">Cursos en la Comunidad</h2>
+    <h2 class="mb-4 text-center">Cursos y noticias de la Comunidad</h2>
     <div class="row">
         <!-- Curso 1 -->
         <div class="col-md-4">
             <div class="card mb-4">
-                <img src="../img/Captura de pantalla 2025-03-27 163858.png" class="card-img-top" alt="Curso 1">
+                <img src="../img/Tarjetas-1-300x169.png" class="card-img-top" alt="Curso 1">
                 <div class="card-body">
-                    <h5 class="card-title">Curso de Desarrollo Web</h5>
-                    <p class="card-text">Aprende a crear tu propia página web desde cero con HTML, CSS y JavaScript.</p>
-                    <a href="#" class="btn btn-primary">Mas informacion</a>
+                    <h5 class="card-title">Tarjeta vecino</h5>
+                    <p class="card-text">La Tarjeta Vive La Florida se puede obtener en la Corporación de Fomento de La Florida. Los vecinos pueden inscribirse a través de su página web o en las oficinas correspondientes para recibir descuentos en servicios, combustibles, salud, y más.</p>
+                    <a href="https://www.instagram.com/fomentolaflorida/" class="btn btn-primary">Mas informacion</a>
                 </div>
             </div>
         </div>

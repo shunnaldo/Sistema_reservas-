@@ -1,0 +1,73 @@
+/* Estilo para las imágenes del carrusel */
+#newsCarousel .carousel-inner .carousel-item img {
+    width: 100%; /* Asegura que la imagen ocupe todo el ancho del carrusel */
+    height: 400px; /* Limita la altura de las imágenes */
+    object-fit: cover; /* Asegura que la imagen cubra el área sin distorsionarse */
+}
+
+/* Ajustes para pantallas más pequeñas */
+@media (max-width: 768px) {
+    #newsCarousel .carousel-inner .carousel-item img {
+        height: 250px; /* Reduce la altura de las imágenes en pantallas más pequeñas */
+    }
+
+    /* Ajustar las tarjetas a un solo columna en pantallas pequeñas */
+    .col-md-4 {
+        flex: 0 0 100%; /* Hacer que las tarjetas ocupen el 100% del ancho en pantallas pequeñas */
+        max-width: 100%;
+    }
+
+    .card-img-top {
+        height: 200px; /* Reducir la altura de las imágenes de las tarjetas en pantallas pequeñas */
+        object-fit: cover;
+    }
+
+    /* Ajustar el tamaño del título en pantallas pequeñas */
+    h2.mb-4 {
+        font-size: 2rem; /* Ajusta el tamaño del título en pantallas pequeñas */
+    }
+
+    /* Ajustar el tamaño de los botones */
+    .btn {
+        font-size: 0.9rem; /* Hacer que los botones sean más pequeños */
+        padding: 8px 12px; /* Reducir el tamaño del padding de los botones */
+    }
+
+    /* Asegurar que el footer se ajuste bien */
+    #footer-container {
+        padding: 20px 0; /* Ajustar el padding para pantallas pequeñas */
+    }
+}
+
+/* Estilo para las tarjetas */
+.card {
+    display: flex;
+    flex-direction: column;
+    height: 100%; /* Asegura que todas las tarjetas tengan la misma altura */
+}
+
+.card-body {
+    flex-grow: 1; /* Hace que el cuerpo de la tarjeta ocupe el espacio restante */
+}
+
+.card-img-top {
+    height: 200px; /* Establece una altura para las imágenes */
+    object-fit: cover; /* Ajusta las imágenes para que no se deformen */
+}
+
+/* Estilo para el título */
+h2.mb-4 {
+    font-size: 3rem; /* Aumenta el tamaño de la fuente */
+    text-align: center; /* Centra el texto */
+    font-weight: bold; /* Opcional: hacer el texto más negrita */
+}
+
+/* Estilo para el footer */
+#footer-container {
+    width: 100%;
+    background-color: #212121;
+    color: white;
+    padding: 30px 0;
+    text-align: center;
+    margin-top: auto; /* Empuja el footer hacia abajo */
+}
