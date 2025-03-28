@@ -1,4 +1,14 @@
 <?php
+
+// Iniciar la sesión
+session_start();
+
+// Verificar si el administrador está logueado
+if (!isset($_SESSION['admin_id'])) {
+    header("Location: loginAdmin.php");
+    exit;
+}
+
 // Verificar si existe el archivo antes de incluirlo
 if (file_exists('../conexion.php')) {
     include('../conexion.php');
@@ -14,6 +24,9 @@ if (!$conexion) {
 // Realizar la consulta
 $sql = "SELECT nombre_vecino, apellido_vecino, rut, correo_vecino, fecha, hora_inicio, hora_fin, fecha_creacion, cowork FROM Reservas";
 $result = $conexion->query($sql);
+
+
+
 ?>
 
 <!DOCTYPE html>

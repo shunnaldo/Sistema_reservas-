@@ -1,0 +1,63 @@
+/* Centra todo el contenido dentro del contenedor principal */
+.container-center {
+    text-align: center; /* Centra el texto */
+    margin: 0 auto; /* Asegura que el contenedor esté centrado */
+    width: 100%; /* Asegura que ocupe todo el ancho disponible */
+    max-width: 600px; /* Define un ancho máximo para el formulario */
+    padding: 20px; /* Espaciado alrededor del contenido */
+    background-color: #f9f9f9; /* Fondo de color gris claro */
+    border-radius: 8px; /* Bordes redondeados */
+    margin-top: 90px; /* Espacio desde la parte superior */
+    margin-bottom: 50px; /* Espacio desde la parte inferior */
+}
+
+/* Contenedor de la página, que permite al contenido centrarse en el área restante */
+.main-container {
+    display: flex;
+    justify-content: center; /* Centra el contenido horizontalmente */
+    align-items: flex-start; /* Centra el contenido verticalmente, pero comenzando desde la parte superior */
+    height: 100%; /* Asegura que ocupe todo el alto disponible */
+    padding-left: 250px; /* Ajuste para el sidebar, si es necesario */
+}
+
+/* Alinea el formulario y el contenido */
+form {
+    display: block;
+    margin-top: 20px;
+}
+
+/* Estilo de los inputs y botones */
+input[type="text"],
+input[type="email"],
+input[type="password"],
+input[type="submit"] {
+    width: 100%; /* Hace que los campos ocupen todo el ancho */
+    padding: 10px;
+    margin: 10px 0;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    box-sizing: border-box; /* Asegura que el padding no sobresalga del ancho */
+}
+
+/* Estilo del botón */
+input[type="submit"] {
+    background-color: #4CAF50; /* Color verde */
+    color: white;
+    border: none;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+input[type="submit"]:hover {
+    background-color: #45a049; /* Efecto hover en el botón */
+}
+
+/* Asegura que los mensajes de error y éxito se muestren correctamente */
+p {
+    font-size: 16px;
+    font-weight: bold;
+}
+
+.container-fluid {
+    padding-top: 80px; /* Ajuste para el navbar */
+}
