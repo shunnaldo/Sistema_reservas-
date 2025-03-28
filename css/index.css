@@ -7,15 +7,30 @@
 body {
     font-family: 'Arial', sans-serif;
     background-color: #f2f3f7;
+    margin: 0;
+    color: #212121;
+    min-height: 100vh;
     display: flex;
     justify-content: center;
     align-items: center;
     flex-direction: column;
-    height: 100vh;
-    margin: 0;
-    color: #212121;
-    min-height: 100vh;
 }
+
+
+#navbar-container {
+    width: 100%;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 1000; /* Asegura que esté encima */
+    background-color: white; /* Asegura que tenga un color de fondo visible */
+}
+
+.form-container {
+    margin-top: 100px; /* Ajusta según la altura del navbar */
+}
+
 
 .logo-container {
     width: 100%;
@@ -28,6 +43,7 @@ body {
     padding: 10px 0;
     z-index: 1000;
 }
+
 
 .logo {
     width: 200px;
@@ -46,12 +62,9 @@ body {
     width: 100%;
     max-width: 500px;
     padding: 30px;
-    box-sizing: border-box;
-    margin-top: 20%; /* Ajustamos el margen para mejor visualización en móviles */
     border: 1px solid #e0e0e0;
     background-color: #fafafa;
     transition: transform 0.3s ease-in-out, box-shadow 0.3s ease, background-color 0.3s ease;
-    padding-bottom: 80px;
 }
 
 h2 {

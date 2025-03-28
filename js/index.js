@@ -6,9 +6,14 @@ document.getElementById('reservation-form').addEventListener('submit', function 
     const nombre = document.getElementById('nombre').value.trim();
     const apellido = document.getElementById('apellido').value.trim();
     const correo = document.getElementById('correo').value;
+    const cowork = document.getElementById('cowork').value;
     const fecha = document.getElementById('fecha').value;
     const horaInicio = document.getElementById('horaInicio').value;
     const horaFin = document.getElementById('horaFin').value;
+    
+
+    
+
 
     // Expresión regular para validar que solo contenga letras y espacios
     const nombreApellidoRegex = /^[a-zA-ZáéíóúÁÉÍÓÚñÑ\s]+$/;
@@ -48,9 +53,12 @@ document.getElementById('reservation-form').addEventListener('submit', function 
         nombre: nombre,
         apellido: apellido,
         correo: correo,
+        cowork: cowork,
         fecha: fecha,
         horaInicio: horaInicio,
         horaFin: horaFin
+        
+     
     };
 
     fetch('../php/guardarReserva.php', {

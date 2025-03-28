@@ -6,15 +6,18 @@
     <title>Reserva</title>
     <link rel="stylesheet" href="css/index.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
-
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </head>
 <body>
 
-    <div class="logo-container">
-        <img src="img/logo.png" alt="Logo" class="logo">
-    </div>
+<div id="navbar-container"></div> 
 
-    <div class="form-container">
+<div class="form-container ">
+
+
         <h2 id="reserva">Reservar Hora</h2>
         <form id="reservation-form" method="POST">
             <div class="form-group">
@@ -32,6 +35,14 @@
             <div class="form-group">
                 <label for="correo">Correo:</label>
                 <input type="email" id="correo" name="correo" required class="input-text">
+            </div>
+            <div class="form-group">
+                <label for="cowork">Cowork:</label>
+                <select id="cowork" name="cowork" required class="input-text">
+                    <option value="oficina">Oficina</option>
+                    <option value="cowork_principal">Cowork Principal</option>
+                    <option value="cowork_terraza">Cowork Terraza</option>
+                </select>
             </div>
             <div class="form-group">
                 <label for="fecha">Selecciona el día:</label>
@@ -56,7 +67,7 @@
     <div class="footer-left">
         <img src="img/logo2.png" alt="Logo" class="footer-logo">
         <div class="social-buttons">
-            <a href="https://www.instagram.com/fomentolaflorida/" target="_blank" class="social-btn instagram-btn">
+            <a href="https://www.instagram.com/casaemprenderlf/" target="_blank" class="social-btn instagram-btn">
                 <i class="fab fa-instagram"></i>
             </a>
             <a href="https://www.facebook.com/FomentolaFlorida" target="_blank" class="social-btn facebook-btn">
@@ -81,10 +92,14 @@
         <p>Enrique Olivares 1003</p>
         <p>La Florida, Chile</p>
         <p>Estadio Bicentenario</p>
-    </div>
+    </div> 
 </div>
 
-    <script src="/js/index.js"></script>
+    <script src="js/navbar.js"></script>
+    <script src="js/index.js"></script>
 
-</body>
+
+
+
+    </body>
 </html>
