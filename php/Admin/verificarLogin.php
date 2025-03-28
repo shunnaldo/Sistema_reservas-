@@ -33,6 +33,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             // Guardar datos del administrador en la sesión
             $_SESSION['admin_id'] = $admin['id_usuario'];  // Cambiar 'id' a 'id_usuario'
             $_SESSION['nombre'] = $admin['nombre'];
+            $_SESSION['correo'] = $admin['correo'];
 
             // Si el usuario selecciona "Mantener sesión"
             if (isset($_POST['recordar'])) {

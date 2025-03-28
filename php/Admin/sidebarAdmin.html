@@ -1,4 +1,6 @@
 
+
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -37,9 +39,10 @@
                     <img src="../../img/Logo CE negro-02.png" alt="User Image">
                 </div>
                 <div class="sidebar__info">
-                  <p class="sidebar__name" id="user-name">Cargando...</p>
-                  <p class="sidebar__email" id="user-email">Cargando...</p>
                 </div>
+                <p class="sidebar__name" id="user-name">Cargando...</p>
+                <br>
+                <p class="sidebar__email" id="user-email" style="font-size: 0.875rem; ">Cargando...</p>
             </div>
 
            <div class="sidebar__content">
@@ -47,7 +50,7 @@
                  <h3 class="sidebar__title">MANAGE</h3>
 
                  <div class="sidebar__list">
-                    <a href="sidebarAdmin.html" class="sidebar__link ">
+                    <a href="userData.php" class="sidebar__link ">
                        <i class="ri-pie-chart-2-fill"></i>
                        <span>Dashboard</span>
                     </a>
@@ -97,19 +100,20 @@
 
 
      <script src="../../js/sidebar.js"></script>
-     <script>
-      fetch('userData.php')
-          .then(response => response.json())
-          .then(data => {
-              if (data.error) {
-                  console.error("Error:", data.error);
-              } else {
-                  document.getElementById('user-name').textContent = data.nombre;
-                  document.getElementById('user-email').textContent = data.correo;
-              }
-          })
-          .catch(error => console.error('Error al obtener los datos del usuario:', error));
-  </script>
+<script>
+   fetch('userData.php')
+.then(response => response.json())
+.then(data => {
+   console.log("Respuesta del servidor:", data);
+   if (data.error) {
+         console.error("Error:", data.error);
+   } else {
+         document.getElementById('user-name').textContent = data.nombre || "Usuario desconocido";
+         document.getElementById('user-email').textContent = data.correo || "Correo no disponible";
+   }
+})
+.catch(error => console.error('Error al obtener los datos del usuario:', error));
+</script>
 
 </body>
 </html>

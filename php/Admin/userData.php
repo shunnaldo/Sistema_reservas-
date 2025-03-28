@@ -1,19 +1,14 @@
 <?php
 session_start();
 
-if (!isset($_SESSION['id_usuario'])) {
+if (!isset($_SESSION['admin_id'])) {
     echo json_encode(['error' => 'No hay sesión activa']);
     exit();
 }
 
 // Asegurar que los datos existen antes de enviarlos
-$nombre = $_SESSION['nombre'] ?? null;
-$correo = $_SESSION['correo'] ?? null;
-
-if (!$nombre || !$correo) {
-    echo json_encode(['error' => 'Datos de sesión incompletos']);
-    exit();
-}
+$nombre = $_SESSION['nombre'] ?? "";
+$correo = $_SESSION['correo'] ?? "";
 
 echo json_encode([
     'nombre' => $nombre,

@@ -77,5 +77,19 @@ if (!isset($_SESSION['admin_id'])) {
 
     <script src="../../js/navbarAdmin.js"></script>
     <script src="../../js/sidebar.js"></script>  
+    <script>
+   fetch('userData.php')
+.then(response => response.json())
+.then(data => {
+   console.log("Respuesta del servidor:", data);
+   if (data.error) {
+         console.error("Error:", data.error);
+   } else {
+         document.getElementById('user-name').textContent = data.nombre || "Usuario desconocido";
+         document.getElementById('user-email').textContent = data.correo || "Correo no disponible";
+   }
+})
+.catch(error => console.error('Error al obtener los datos del usuario:', error));
+</script>
 </body>
 </html>
