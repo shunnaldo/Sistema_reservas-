@@ -21,10 +21,6 @@
     <!--=============== HEADER ===============-->
     <header class="header" id="header">
         <div class="header__container">
-            <a href="logout.php" class="header__logo">
-               <i class="ri-logout-box-r-line"></i>
-               <span>Logout</span>
-            </a>
            <button class="header__toggle" id="header-toggle">
               <i class="ri-menu-line"></i>
            </button>
@@ -50,7 +46,7 @@
                  <h3 class="sidebar__title">MANAGE</h3>
 
                  <div class="sidebar__list">
-                    <a href="userData.php" class="sidebar__link ">
+                    <a href="dashboardAdmin.php" class="sidebar__link ">
                        <i class="ri-pie-chart-2-fill"></i>
                        <span>Dashboard</span>
                     </a>
@@ -59,17 +55,13 @@
                      <i class=" ri-tools-fill "></i>
                      <span>Reservas</span>
                      </a>
-                  
-                    <a href="noticiasAdmin.php" class="sidebar__link">
-                       <i class="ri-question-fill"></i>
-                       <span>Noticias</span>
-                    </a>
-
                                       
                     <a href="registroAdmin.php" class="sidebar__link">
                      <i class="ri-user-3-line"></i>
                      <span>Gestios de Usuarios</span>
                   </a>
+
+
 
                  </div>
               </div>
@@ -85,10 +77,11 @@
                      </i>
                   </button>
     
-                  <button class="sidebar__link">
+                  <a href="logout.php" class="sidebar__link">
                      <i class="ri-logout-box-r-fill"></i>
                      <span>Log Out</span>
-                  </button>
+                  </a>
+                  
                </div>
 
               </div>
