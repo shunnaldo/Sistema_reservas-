@@ -190,7 +190,7 @@ button:active {
     transform: translateY(1px);
 }
 
-@media (max-width: 768px) {
+@media (max-width: 1280px) {
 
    
     .logo-container {
@@ -212,17 +212,14 @@ button:active {
         margin-left: 0%;
     }
 
-    /* Título */
     h2 {
         font-size: 22px;
     }
 
-    /* Etiquetas */
     label {
         font-size: 12px;
     }
 
-    /* Campos de entrada y botón */
     .input-rut, .input-text, button {
         font-size: 14px;
         padding: 12px;
@@ -292,17 +289,16 @@ button:active {
         flex-direction: column;
     }
 
-    /* Aquí forzamos el .footer-center a alinearse a la izquierda completamente */
     .footer-center {
-        width: 100% !important; /* Asegura que ocupe todo el ancho disponible */
-        display: block !important; /* Cambiamos el display a block para evitar interferencia con flexbox */
-        margin-left: 0 !important; /* Eliminamos cualquier margen que pudiera estar interfiriendo */
-        margin-right: 0 !important; /* Eliminamos cualquier margen derecho */
-        padding: 0 !important; /* Eliminamos rellenos extra que puedan interferir */
+        width: 100% !important; 
+        display: block !important; 
+        margin-left: 0 !important; 
+        margin-right: 0 !important; 
+        padding: 0 !important; 
     }
     .footer-center a {
-        display: block;  /* Hace que cada enlace ocupe una línea completa */
-        margin-bottom: 10px; /* Añade espacio entre los enlaces */
+        display: block; 
+        margin-bottom: 10px; 
     }
 }
 

@@ -17,17 +17,11 @@ $fecha = $data['fecha'];
 $hora_inicio = $data['horaInicio'];
 $hora_fin = $data['horaFin'];
 
-$hora_inicio_int = (int)substr($hora_inicio, 0, 2);
-$hora_fin_int = (int)substr($hora_fin, 0, 2);
+$rut_cliente_sin_dv = substr($rut, 0, 8);
 
-if ($hora_inicio_int < 9 || $hora_inicio_int >= 18 || $hora_fin_int < 9 || $hora_fin_int > 18) {
-    echo json_encode(['success' => false, 'message' => 'Lo sentimos! Nuestro horario es de 9AM-6PM']);
-    exit;
-}
-
-$sql_check_rut = "SELECT * FROM ctrtecnicos WHERE ctrtec_rut = ?";
+$sql_check_rut = "SELECT * FROM ctrtecnicos WHERE LEFT(ctrtec_rut, 8) = ?";
 $stmt_check = $conexion->prepare($sql_check_rut);
-$stmt_check->bind_param("s", $rut);
+$stmt_check->bind_param("s", $rut_cliente_sin_dv);
 $stmt_check->execute();
 $result_check = $stmt_check->get_result();
 
@@ -62,5 +56,7 @@ if ($result->num_rows > 0) {
     } else {
         echo json_encode(['success' => false, 'message' => 'Error al realizar la reserva.']);
     }
+
+
 }
 ?>
