@@ -441,3 +441,17 @@ button:active {
             opacity: 1;
         }
     }
+
+
+@media (max-width: 1720px) {
+    .logo-container {
+
+        margin-top: -3%;
+
+    }
+    body {
+        margin: 0;
+        padding: 500px 0 0 0; /* Espacio arriba sin afectar el resto */
+    }
+
+}
