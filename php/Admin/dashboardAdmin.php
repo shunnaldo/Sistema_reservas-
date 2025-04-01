@@ -1,4 +1,11 @@
 <?php
+session_start();
+
+// Verificar si el administrador está logueado
+if (!isset($_SESSION['admin_id'])) {
+    header("Location: loginAdmin.php");
+    exit;
+}
 // Incluir la conexión a la base de datos
 include_once __DIR__ . "/../conexion.php";
 
@@ -7,14 +14,6 @@ if (!isset($conexion)) {
     die("Error: No se pudo establecer conexión con la base de datos.");
 }
 
-// Iniciar la sesión
-session_start();
-
-// Verificar si el administrador está logueado
-if (!isset($_SESSION['admin_id'])) {
-    header("Location: loginAdmin.php");
-    exit;
-}
 
 // Configurar MySQL para devolver los meses en español
 $conexion->query("SET lc_time_names = 'es_ES'");
