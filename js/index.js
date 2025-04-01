@@ -23,11 +23,11 @@ document.getElementById('reservation-form').addEventListener('submit', function 
         return;
     }
 
-    // Obtener la fecha y hora actuales
+    // fecha y hora actuales
     const now = new Date();
     const fechaSeleccionada = new Date(fecha + "T" + horaInicio);
 
-    // Verificar si la fecha y hora seleccionadas son válidas y no están en el pasado
+    // Verificar si la fecha y hora seleccionadas son válidas y no están en pasado
     if (fechaSeleccionada < now) {
         alert("La fecha y hora deben ser válidas o a futuro.");
         return;
@@ -41,6 +41,10 @@ document.getElementById('reservation-form').addEventListener('submit', function 
 
         if (diferenciaHoras > 2) {
             alert("El máximo de horas para agendar es 2.");
+            return;
+        }
+        else if (diferenciaHoras < 0.5){
+            alert("El mínimo de tiempo para agendar es de 30M");
             return;
         }
     } else {
@@ -61,7 +65,7 @@ document.getElementById('reservation-form').addEventListener('submit', function 
      
     };
 
-    fetch('../php/guardarReserva.php', {
+    fetch('/sistema_reservas/Sistema_reservas-/php/guardarReserva.php', {
         method: 'POST',
         body: JSON.stringify(data),
         headers: {

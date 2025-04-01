@@ -17,9 +17,7 @@
 
 <div id="navbar-container"></div> 
 
-<div class="form-container ">
-
-
+<div class="form-container">
         <h2 id="reserva">Reservar Hora</h2>
         <form id="reservation-form" method="POST">
             <div class="form-group">

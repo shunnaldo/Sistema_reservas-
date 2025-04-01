@@ -135,6 +135,41 @@ function filterTable() {
    }
 })
 .catch(error => console.error('Error al obtener los datos del usuario:', error));
+
+// Función para cargar las reservas con AJAX
+function loadReservas() {
+    fetch('getReservas.php')
+        .then(response => response.json())
+        .then(data => {
+            let tableBody = document.querySelector('#reservasTable tbody');
+            tableBody.innerHTML = '';
+
+            if (data.length > 0) {
+                data.forEach(row => {
+                    let tr = document.createElement('tr');
+                    tr.innerHTML = `
+                        <td>${row.nombre_vecino}</td>
+                        <td>${row.apellido_vecino}</td>
+                        <td class='rut'>${row.rut}</td>
+                        <td>${row.correo_vecino}</td>
+                        <td class='fecha'>${row.fecha}</td>
+                        <td>${row.hora_inicio}</td>
+                        <td>${row.hora_fin}</td>
+                        <td>${row.fecha_creacion}</td>
+                        <td>${row.cowork}</td>
+                    `;
+                    tableBody.appendChild(tr);
+                });
+            } else {
+                tableBody.innerHTML = '<tr><td colspan="9">No hay reservas disponibles</td></tr>';
+            }
+        })
+        .catch(error => console.error('Error al cargar reservas:', error));
+}
+
+// Cargar reservas al inicio y cada 30 segundos
+loadReservas();
+setInterval(loadReservas, 30000);
 </script>
 
 </body>

@@ -10,39 +10,309 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<style>
+    @media (max-width: 1280px) {
 
+   
+.logo-container {
+    padding: 10px;
+    margin-left: 0%;
+}
+
+.logo {
+    width: 100%;
+    margin-top: -30%;
+}
+
+/* Formulario */
+.form-container {
+    padding: 20px;
+    width: 75%; 
+    height: 150%;
+    margin-top: 170%;
+    margin-left: 0%;
+}
+
+h2 {
+    font-size: 22px;
+}
+
+label {
+    font-size: 12px;
+}
+
+.input-rut, .input-text, button {
+    font-size: 14px;
+    padding: 12px;
+}
+
+button {
+    font-size: 16px;
+}
+
+.message {
+    font-size: 12px;
+}
+}
+@media (max-width: 768px) {
+.footer {
+    width: 100%;
+    min-height: 600px;
+    margin-top: 50px; 
+    position: relative;
+    padding: 15px;
+    height: auto; 
+    box-sizing: border-box;
+    flex-direction: column;
+    padding-bottom: 40px; 
+    background-color: #212121;
+    display: flex;
+    align-items: flex-start; /* Alinea todo el contenido a la izquierda */
+}
+
+.footer-left, .footer-right {
+    width: 100%;
+    margin: 0;
+    padding: 0;
+}
+
+.footer-logo {
+    width: 150px; 
+    margin-bottom: 10px;
+}
+
+.social-buttons {
+    justify-content: center;
+    gap: 15px; /* Espacio entre los botones */
+}
+
+.social-btn {
+    font-size: 25px; /* Reducir el tamaño de los iconos */
+    padding: 10px;
+}
+
+.footer-center p {
+    font-size: 16px;
+}
+
+.footer-right {
+    font-size: 14px;
+    margin-top: 10px;
+    margin-left: 50%;
+}
+
+.footer-logo-2 {
+    width: 150px; 
+}
+
+.footer-left, .footer-center, .footer-right {
+    display: flex;
+    flex-direction: column;
+}
+
+.footer-center {
+    width: 100% !important; 
+    display: block !important; 
+    margin-left: 0 !important; 
+    margin-right: 0 !important; 
+    padding: 0 !important; 
+}
+.footer-center a {
+    display: block; 
+    margin-bottom: 10px; 
+}
+}
+
+.footer {
+background-color: #212121;
+color: #fff;
+padding: 30px 40px;
+display: flex;
+justify-content: space-between;
+align-items: center;
+width: 100%;
+position: relative;
+bottom: 0;
+left: 0;
+height: 180px;
+box-sizing: border-box; 
+}
+
+
+
+
+.footer-left {
+display: flex;
+flex-direction: column;
+align-items: flex-start;
+margin-left: 5%;
+gap: 12px;
+}
+
+.footer-logo {
+width: 200px;
+}
+
+.social-buttons {
+display: flex;
+gap: 20px;
+}
+
+.social-btn {
+font-size: 30px;
+padding: 12px;
+border-radius: 50%;
+display: inline-block;
+text-align: center;
+transition: transform 0.3s ease;
+}
+
+.social-btn:hover {
+transform: scale(1.2);
+}
+
+.instagram-btn {
+background-color: #E4405F;
+color: white;
+}
+
+.facebook-btn {
+background-color: #3b5998;
+color: white;
+}
+
+.website-btn {
+background-color: #212121;
+color: #ffffff;
+}
+
+.footer-center {
+display: flex;
+flex-direction: column;
+align-items: center;
+justify-content: center;
+gap: 6px;
+margin-left: 50%;
+max-width: 300px;
+line-height: 1.5;
+font-size: 16px;
+margin-top: 30px;
+}
+
+.footer-center p {
+font-weight: bold;
+font-size: 18px;
+margin-bottom: 10px;
+color: white;
+}
+
+.footer-center a {
+color: white;
+text-decoration: none;
+font-size: 16px;
+transition: color 0.3s ease;
+}
+
+.footer-center a:hover {
+color: #FFC239;
+}
+
+.footer-right {
+display: flex;
+flex-direction: column;
+align-items: flex-start;
+gap: 6px;
+max-width: 300px;
+font-size: 16px;
+line-height: 1.5;
+margin-right: 5%;
+}
+
+#contact:hover {
+color: #FFB533;
+box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.social-btn i {
+font-size: 22px;
+color: white;
+}
+.footer-left, .footer-center, .footer-right {
+margin: 0;
+padding: 0;
+}
+
+
+
+.footer-logo-2{
+
+width: 300px;
+}
+
+#success-message, #error-message {
+animation: fadeInMessage 0.5s ease-in-out;
+
+}
+
+@keyframes fadeInMessage {
+    0% {
+        opacity: 0;
+    }
+    100% {
+        opacity: 1;
+    }
+}
+
+
+@media (max-width: 1720px) {
+.logo-container {
+
+    margin-top: -3%;
+
+}
+
+
+}
+</style>
 </head>
 <body>
-<div class="footer">
-    <div class="footer-left">
-        <img src="/sistema_reservas/Sistema_reservas-/img/logo2.png" alt="Logo" class="footer-logo">
-        <div class="social-buttons">
-            <a href="https://www.instagram.com/casaemprenderlf/" target="_blank" class="social-btn instagram-btn">
-                <i class="fab fa-instagram"></i>
+    <div class="footer">
+        <div class="footer-left">
+            <img src="/sistema_reservas/Sistema_reservas-/img/logo2.png" alt="Logo" class="footer-logo">
+            <div class="social-buttons">
+                <a href="https://www.instagram.com/casaemprenderlf/" target="_blank" class="social-btn instagram-btn">
+                    <i class="fab fa-instagram"></i>
+                </a>
+                <a href="https://www.facebook.com/FomentolaFlorida" target="_blank" class="social-btn facebook-btn">
+                    <i class="fab fa-facebook-f"></i>
+                </a>
+                <a href="https://www.fomentolf.cl/index.php" target="_blank" class="social-btn website-btn">
+                    <i class="fas fa-globe"></i>
+                </a>
+            </div>
+        </div>
+        
+        <div class="footer-center">
+        <h3 id="contact">COFODEP</h3>
+            <a href="https://www.fomentolf.cl/quienes-somos.php">Quiénes somos</a>
+            <a href="https://www.fomentolf.cl/convenios.php">Convenios</a>
+            <a href="https://www.fomentolf.cl/proyectos.php">Proyectos</a>
+            <a href="https://www.fomentolf.cl/innovacion.php">Innovación</a>
+        </div>
+        <div class="footer-right">
+            <a href="https://www.fomentolf.cl/contactanos.php" style="text-decoration: none; color: white;">
+                <h3 id="contact">Contáctanos</h3>
             </a>
-            <a href="https://www.facebook.com/FomentolaFlorida" target="_blank" class="social-btn facebook-btn">
-                <i class="fab fa-facebook-f"></i>
-            </a>
-            <a href="https://www.fomentolf.cl/index.php" target="_blank" class="social-btn website-btn">
-                <i class="fas fa-globe"></i>
-            </a>
-        </div> 
+            <p>Enrique Olivares 1003</p>
+            <p>La Florida, Chile</p>
+            <p>Estadio Bicentenario</p>
+        </div>
+        <div class="footer-left-2">
+            <img src="/sistema_reservas/Sistema_reservas-/img/logoEmprender2.png" alt="Logo" class="footer-logo-2">
+        </div>
+        
     </div>
-    <div class="footer-center">
-    <h3 id="contact">COFODEP</h3>
-        <a href="https://www.fomentolf.cl/quienes-somos.php">Quiénes somos</a>
-        <a href="https://www.fomentolf.cl/convenios.php">Convenios</a>
-        <a href="https://www.fomentolf.cl/proyectos.php">Proyectos</a>
-        <a href="https://www.fomentolf.cl/innovacion.php">Innovación</a>
-    </div>
-    <div class="footer-right">
-        <a href="https://www.fomentolf.cl/contactanos.php" style="text-decoration: none; color: white;">
-            <h3 id="contact">Contáctanos</h3>
-        </a>
-        <p>Enrique Olivares 1003</p>
-        <p>La Florida, Chile</p>
-        <p>Estadio Bicentenario</p>
-    </div> 
+    
 
     
 </body>
