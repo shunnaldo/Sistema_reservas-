@@ -2,73 +2,70 @@
 // Incluir el archivo de conexión
 include('../conexion.php');
 
+// Iniciar sesión
+session_start();
+
+// Verificar si el usuario tiene permisos para registrar (solo admins)
+if (!isset($_SESSION['admin_id']) || empty($_SESSION['rol']) || trim(strtolower($_SESSION['rol'])) !== 'admin') {
+    header("Location: registroAdmin.php?error=" . urlencode('No tienes permisos para registrar usuarios.'));
+    exit;
+}
+
 // Verificar si el formulario fue enviado
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // Obtener los valores del formulario
-    $nombre = $_POST['nombre'];
-    $correo = $_POST['correo'];
+    $nombre = trim($_POST['nombre']);
+    $correo = trim($_POST['correo']);
     $contrasena = $_POST['contrasena'];
+    $rol = isset($_POST['rol']) && ($_POST['rol'] == 'admin' || $_POST['rol'] == 'staff') ? $_POST['rol'] : 'staff';
 
     // 1. Validar el correo electrónico
     if (!filter_var($correo, FILTER_VALIDATE_EMAIL)) {
-        header("Location: registroAdmin.php?error=correo_invalido");
+        header("Location: registroAdmin.php?error=" . urlencode('Correo inválido.'));
         exit;
     }
 
-    // 2. Validar que el correo no esté en dominios de correos temporales (opcional)
-    $dominios_temporales = ['mailinator.com', 'tempmail.com', '10minutemail.com']; // Puedes agregar más dominios
+    // 2. Evitar dominios de correos temporales
+    $dominios_temporales = ['mailinator.com', 'tempmail.com', '10minutemail.com'];
     $correo_dominio = substr(strrchr($correo, "@"), 1);
-
     if (in_array($correo_dominio, $dominios_temporales)) {
-        header("Location: registroAdmin.php?error=correo_temporal");
+        header("Location: registroAdmin.php?error=" . urlencode('No se permiten correos temporales.'));
         exit;
     }
 
     // 3. Validar la contraseña (mínimo 8 caracteres, al menos una mayúscula, un número y un símbolo)
-    if (strlen($contrasena) < 8) {
-        header("Location: registroAdmin.php?error=contrasena_corta");
-        exit;
-    }
-
-    if (!preg_match("/[A-Z]/", $contrasena)) {
-        header("Location: registroAdmin.php?error=contrasena_mayuscula");
-        exit;
-    }
-
-    if (!preg_match("/[0-9]/", $contrasena)) {
-        header("Location: registroAdmin.php?error=contrasena_numero");
-        exit;
-    }
-
-    if (!preg_match("/[\W_]/", $contrasena)) {
-        header("Location: registroAdmin.php?error=contrasena_simbolo");
+    if (strlen($contrasena) < 8 ||
+        !preg_match("/[A-Z]/", $contrasena) ||
+        !preg_match("/[0-9]/", $contrasena) ||
+        !preg_match("/[\W_]/", $contrasena)) {
+        header("Location: registroAdmin.php?error=" . urlencode('La contraseña no cumple los requisitos.'));
         exit;
     }
 
     // 4. Validar si el correo ya existe
-    $sql = "SELECT * FROM Administradores WHERE correo = ?";
+    $sql = "SELECT id_usuario FROM Administradores WHERE correo = ?";
     $stmt = $conexion->prepare($sql);
     $stmt->bind_param("s", $correo);
     $stmt->execute();
     $result = $stmt->get_result();
-
+    
     if ($result->num_rows > 0) {
-        header("Location: registroAdmin.php?error=correo_existente");
-        exit; // Detener el proceso si el correo ya existe
+        header("Location: registroAdmin.php?error=" . urlencode('El correo ya está registrado.'));
+        exit;
+    }
+
+    // 5. Hashear la contraseña antes de guardarla
+    $contrasena_hash = password_hash($contrasena, PASSWORD_DEFAULT);
+
+    // 6. Insertar los datos en la base de datos
+    $sql = "INSERT INTO Administradores (nombre, correo, contrasena, rol) VALUES (?, ?, ?, ?)";
+    $stmt = $conexion->prepare($sql);
+    $stmt->bind_param("ssss", $nombre, $correo, $contrasena_hash, $rol);
+
+    if ($stmt->execute()) {
+        header("Location: registroAdmin.php?success=" . urlencode('Registro exitoso.'));
     } else {
-        // Hashear la contraseña antes de guardarla
-        $contrasena_hash = password_hash($contrasena, PASSWORD_DEFAULT);
-
-        // Insertar los datos en la base de datos
-        $sql = "INSERT INTO Administradores (nombre, correo, contrasena) VALUES (?, ?, ?)";
-        $stmt = $conexion->prepare($sql);
-        $stmt->bind_param("sss", $nombre, $correo, $contrasena_hash);
-
-        if ($stmt->execute()) {
-            header("Location: registroAdmin.php?success=registro_exitoso");
-        } else {
-            header("Location: registroAdmin.php?error=registro_error");
-        }
+        header("Location: registroAdmin.php?error=" . urlencode('Error al registrar usuario.'));
     }
 
     $stmt->close();

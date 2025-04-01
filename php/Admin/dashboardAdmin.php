@@ -1,6 +1,11 @@
 <?php
 session_start();
 
+if (!isset($_SESSION['admin_id']) || $_SESSION['rol'] !== 'admin') {
+    header("Location: loginAdmin.php?error=No tienes permisos para registrar usuarios.");
+    exit;
+}
+
 // Verificar si el administrador está logueado
 if (!isset($_SESSION['admin_id'])) {
     header("Location: loginAdmin.php");

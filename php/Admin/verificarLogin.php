@@ -31,9 +31,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             session_start();
 
             // Guardar datos del administrador en la sesión
-            $_SESSION['admin_id'] = $admin['id_usuario'];  // Cambiar 'id' a 'id_usuario'
+            $_SESSION['admin_id'] = $admin['id_usuario'];  
             $_SESSION['nombre'] = $admin['nombre'];
             $_SESSION['correo'] = $admin['correo'];
+            $_SESSION['rol'] = $admin['rol']; // Guardar el rol en la sesión
+
 
             // Si el usuario selecciona "Mantener sesión"
             if (isset($_POST['recordar'])) {

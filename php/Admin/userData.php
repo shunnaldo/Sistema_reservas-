@@ -9,9 +9,11 @@ if (!isset($_SESSION['admin_id'])) {
 // Asegurar que los datos existen antes de enviarlos
 $nombre = $_SESSION['nombre'] ?? "";
 $correo = $_SESSION['correo'] ?? "";
+$rol = $_SESSION['rol'] ?? ""; // Ahora obtenemos el rol correctamente
 
 echo json_encode([
     'nombre' => $nombre,
-    'correo' => $correo
+    'correo' => $correo,
+    'rol' => $rol // Incluye el rol en la respuesta
 ]);
 ?>
