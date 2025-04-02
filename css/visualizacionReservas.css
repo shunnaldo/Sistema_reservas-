@@ -1,0 +1,16 @@
+.container-center {
+    text-align: center; /* Centra el título */
+    margin-bottom: 30px; /* Espacio entre el título y la tabla */
+}
+
+.container-fluid {
+    padding-top: 80px; /* Ajuste para el navbar */
+    display: block; /* Elimina el comportamiento de flex para que los elementos no se alineen horizontalmente */
+}
+
+.table-container {
+    width: 100%;
+    max-width: 1200px; /* Ajusta el máximo ancho de la tabla si es necesario */
+    overflow-x: auto; /* Hace que la tabla sea desplazable horizontalmente si es demasiado ancha */
+    margin: 0 auto; /* Centra la tabla dentro del contenedor */
+}

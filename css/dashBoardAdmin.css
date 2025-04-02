@@ -1,0 +1,59 @@
+.container-center {
+    text-align: center; /* Centra el título */
+    margin-bottom: 30px; /* Espacio entre el título y los elementos siguientes */
+}
+
+.container-fluid {
+    padding-top: 80px; /* Ajuste para el navbar */
+}
+
+.stats-container {
+    display: flex;
+    justify-content: center; /* Centra los elementos */
+    gap: 20px;
+    flex-wrap: wrap;
+}
+
+.stat-box {
+    flex: 1;
+    max-width: 250px; /* Limita el ancho para que no ocupe toda la pantalla */
+    background: #ffffff;
+    border-radius: 10px;
+    padding: 20px;
+    text-align: center;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    transition: transform 0.2s ease-in-out;
+}
+
+.stat-box i {
+    font-size: 32px;
+    color: #007bff;
+    margin-bottom: 10px;
+}
+
+.chart-container {
+    width: 100%;
+    max-width: 600px; /* Limita el ancho para que se ajuste mejor */
+    margin: 0 auto; /* Centra los gráficos */
+    padding: 20px;
+}
+
+#horasChart, #reservasChart {
+    width: 100% !important;
+    height: 300px; /* Ajusta la altura de los gráficos */
+    max-height: 400px;
+}
+
+.table-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center; /* Centra horizontalmente */
+    justify-content: center;
+    width: 100%;
+    margin-top: 50px; /* Baja la tabla */
+}
+
+.table {
+    max-width: 1000px; /* Ajusta el ancho de la tabla */
+    width: 100%;
+}
