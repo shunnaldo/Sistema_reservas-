@@ -15,7 +15,7 @@ $updateQuery = "
 $conexion->query($updateQuery);
 
 // Obtener reservas actualizadas
-$sql = "SELECT * FROM Reservas";
+$sql = "SELECT * FROM Reservas ORDER BY FIELD(estado, 'lista', 'pendiente', 'finalizada'), fecha, hora_inicio";
 $result = $conexion->query($sql);
 
 // Construir el HTML de la tabla (solo el `<tbody>`)

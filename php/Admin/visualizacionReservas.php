@@ -24,7 +24,9 @@ $updateQuery = "
 $conexion->query($updateQuery);
 
 // Obtener reservas actualizadas
-$sql = "SELECT * FROM Reservas";
+$sql = "SELECT * FROM Reservas ORDER BY 
+        FIELD(estado, 'lista', 'pendiente', 'finalizada')";
+
 $result = $conexion->query($sql);
 ?>
 
