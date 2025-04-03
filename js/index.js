@@ -10,10 +10,6 @@ document.getElementById('reservation-form').addEventListener('submit', function 
     const fecha = document.getElementById('fecha').value;
     const horaInicio = document.getElementById('horaInicio').value;
     const horaFin = document.getElementById('horaFin').value;
-    
-
-    
-
 
     // Expresión regular para validar que solo contenga letras y espacios
     const nombreApellidoRegex = /^[a-zA-ZáéíóúÁÉÍÓÚñÑ\s]+$/;
@@ -23,15 +19,16 @@ document.getElementById('reservation-form').addEventListener('submit', function 
         return;
     }
 
-    // fecha y hora actuales
+    
     const now = new Date();
     const fechaSeleccionada = new Date(fecha + "T" + horaInicio);
 
     // Verificar si la fecha y hora seleccionadas son válidas y no están en pasado
-    if (fechaSeleccionada < now) {
+    if (fechaSeleccionada < now && (fechaSeleccionada.getDate() !== now.getDate() || fechaSeleccionada.getHours() < now.getHours())) {
         alert("La fecha y hora deben ser válidas o a futuro.");
         return;
     }
+
 
     if (horaInicio && horaFin) {
         const horaInicioDate = new Date("1970-01-01T" + horaInicio + "Z");
@@ -42,9 +39,8 @@ document.getElementById('reservation-form').addEventListener('submit', function 
         if (diferenciaHoras > 2) {
             alert("El máximo de horas para agendar es 2.");
             return;
-        }
-        else if (diferenciaHoras < 0.5){
-            alert("El mínimo de tiempo para agendar es de 30M");
+        } else if (diferenciaHoras < 1) {
+            alert("El mínimo de tiempo para agendar es de 1 hora.");
             return;
         }
     } else {
@@ -61,8 +57,6 @@ document.getElementById('reservation-form').addEventListener('submit', function 
         fecha: fecha,
         horaInicio: horaInicio,
         horaFin: horaFin
-        
-     
     };
 
     fetch('/sistema_reservas/Sistema_reservas-/php/guardarReserva.php', {
