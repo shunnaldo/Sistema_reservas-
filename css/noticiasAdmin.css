@@ -8,12 +8,7 @@
     display: block; /* Elimina el comportamiento de flex para que los elementos no se alineen horizontalmente */
 }
 
-.table-container {
-    width: 100%;
-    max-width: 1200px; /* Ajusta el máximo ancho de la tabla si es necesario */
-    overflow-x: auto; /* Hace que la tabla sea desplazable horizontalmente si es demasiado ancha */
-    margin: 0 auto; /* Centra la tabla dentro del contenedor */
-}
+
 
 
 
