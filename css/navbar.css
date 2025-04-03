@@ -1,14 +1,19 @@
 .navbar-custom {
     background-color: #161616;
+    display: flex;
 }
 .navbar-custom .navbar-brand,
 .navbar-custom .nav-link {
     color: #ffffff !important;
+   
 }
 .navbar-icon {
-    height: 70px; 
-    margin-right: 10px;
+    height: 80px; 
+    margin-right: 0px;
+    width: 100px;
+
 }
+
 .navbar-toggler {
     border: none;
     background-color: rgba(255, 255, 255, 0.1);

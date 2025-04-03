@@ -12,274 +12,249 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 <style>
-    @media (max-width: 1280px) {
+        @media (max-width: 1280px) {
+            .logo-container {
+                padding: 10px;
+                margin-left: 0%;
+            }
 
+            .logo {
+                width: 100%;
+                margin-top: -30%;
+            }
+
+            /* Formulario */
+            .form-container {
+                padding: 20px;
+                width: 75%; 
+                height: 150%;
+                margin-top: 170%;
+                margin-left: 0%;
+            }
+
+            h2 {
+                font-size: 22px;
+            }
+
+            label {
+                font-size: 12px;
+            }
+
+            .input-rut, .input-text, button {
+                font-size: 14px;
+                padding: 12px;
+            }
+
+            button {
+                font-size: 16px;
+            }
+
+            .message {
+                font-size: 12px;
+            }
+        }
+
+        @media (max-width: 768px) {
+    body {
+        display: flex;
+        flex-direction: column;
+        min-height: 150vh;
+        margin: 0;
+        padding: 0;
+        background-color: #212121;
+    }
+
+    .form-container {
+        margin-top: 50%;
+    }
+
+    .footer {
+        width: 100%;
+        background-color: #212121;
+        display: flex;
+        flex-direction: column;
+        margin-left: -25%;
+        gap: 20px;
+    }
+
+    .footer-left, .footer-center, .footer-right, .footer-left-2 {
+        width: 100%; 
+        text-align: left; 
+        padding: 10px 20px; 
+        margin-bottom: 10px; 
+        box-sizing: border-box; 
+    }
+
+    /* Logo ajustado */
+    .footer-logo {
+        width: 100%; 
+        max-width: 180px; 
+        margin: 0 auto; 
+    }
+    .footer-logo-2{
+        margin-left: auto;
+        margin-left: 80px;
+        margin-top: auto;
+        max-width: 300px;
+        width: 100%;
+    }
+
+    /* Botones sociales */
+    .social-buttons {
+        display: flex;
+        gap: 20px;
+        margin-top: 10px;
+        justify-content: flex-start; 
+    }
+
+    .social-btn {
+        font-size: 30px;
+        padding: 12px;
+        border-radius: 50%;
+        display: inline-block;
+        text-align: center;
+        transition: transform 0.3s ease;
+    }
+
+    .social-btn:hover {
+        transform: scale(1.2);
+    }
+
+    /* Enlaces en el footer */
    
-.logo-container {
-    padding: 10px;
-    margin-left: 0%;
-}
 
-.logo {
-    width: 100%;
-    margin-top: -30%;
-}
-
-/* Formulario */
-.form-container {
-    padding: 20px;
-    width: 75%; 
-    height: 150%;
-    margin-top: 170%;
-    margin-left: 0%;
-}
-
-h2 {
-    font-size: 22px;
-}
-
-label {
-    font-size: 12px;
-}
-
-.input-rut, .input-text, button {
-    font-size: 14px;
-    padding: 12px;
-}
-
-button {
-    font-size: 16px;
-}
-
-.message {
-    font-size: 12px;
-}
-}
-@media (max-width: 768px) {
-.footer {
-    width: 100%;
-    min-height: 600px;
-    margin-top: 50px; 
-    position: relative;
-    padding: 15px;
-    height: auto; 
-    box-sizing: border-box;
-    flex-direction: column;
-    padding-bottom: 40px; 
-    background-color: #212121;
-    display: flex;
-    align-items: flex-start; /* Alinea todo el contenido a la izquierda */
-}
-
-.footer-left, .footer-right {
-    width: 100%;
-    margin: 0;
-    padding: 0;
-}
-
-.footer-logo {
-    width: 150px; 
-    margin-bottom: 10px;
-}
-
-.social-buttons {
-    justify-content: center;
-    gap: 15px; /* Espacio entre los botones */
-}
-
-.social-btn {
-    font-size: 25px; /* Reducir el tamaño de los iconos */
-    padding: 10px;
-}
-
-.footer-center p {
-    font-size: 16px;
-}
-
-.footer-right {
-    font-size: 14px;
-    margin-top: 10px;
-    margin-left: 50%;
-}
-
-.footer-logo-2 {
-    width: 150px; 
-}
-
-.footer-left, .footer-center, .footer-right {
-    display: flex;
-    flex-direction: column;
-}
-
-.footer-center {
-    width: 100% !important; 
-    display: block !important; 
-    margin-left: 0 !important; 
-    margin-right: 0 !important; 
-    padding: 0 !important; 
-}
-.footer-center a {
-    display: block; 
-    margin-bottom: 10px; 
-}
-}
-
-.footer {
-background-color: #212121;
-color: #fff;
-padding: 30px 40px;
-display: flex;
-justify-content: space-between;
-align-items: center;
-width: 100%;
-position: relative;
-bottom: 0;
-left: 0;
-height: 180px;
-box-sizing: border-box; 
-}
-
-
-
-
-.footer-left {
-display: flex;
-flex-direction: column;
-align-items: flex-start;
-margin-left: 5%;
-gap: 12px;
-}
-
-.footer-logo {
-width: 200px;
-}
-
-.social-buttons {
-display: flex;
-gap: 20px;
-}
-
-.social-btn {
-font-size: 30px;
-padding: 12px;
-border-radius: 50%;
-display: inline-block;
-text-align: center;
-transition: transform 0.3s ease;
-}
-
-.social-btn:hover {
-transform: scale(1.2);
-}
-
-.instagram-btn {
-background-color: #212121;
-color: white;
-}
-
-.facebook-btn {
-background-color: #212121;
-color: white;
-}
-
-.website-btn {
-background-color: #212121;
-color: #ffffff;
-}
-
-.footer-center {
-display: flex;
-flex-direction: column;
-align-items: center;
-justify-content: center;
-gap: 6px;
-margin-left: 50%;
-max-width: 300px;
-line-height: 1.5;
-font-size: 16px;
-margin-top: 30px;
-}
-
-.footer-center p {
-font-weight: bold;
-font-size: 18px;
-margin-bottom: 10px;
-color: white;
-}
-
-.footer-center a {
-color: white;
-text-decoration: none;
-font-size: 16px;
-transition: color 0.3s ease;
-}
-
-.footer-center a:hover {
-color: #FFC239;
-}
-
-.footer-right {
-display: flex;
-flex-direction: column;
-align-items: flex-start;
-gap: 6px;
-max-width: 300px;
-font-size: 16px;
-line-height: 1.5;
-margin-right: 5%;
-}
-
-#contact:hover {
-color: #FFB533;
-box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-}
-
-.social-btn i {
-font-size: 22px;
-color: white;
-}
-.footer-left, .footer-center, .footer-right {
-margin: 0;
-padding: 0;
-}
-
-
-
-.footer-logo-2{
-
-width: 300px;
-}
-
-#success-message, #error-message {
-animation: fadeInMessage 0.5s ease-in-out;
-
-}
-
-@keyframes fadeInMessage {
-    0% {
-        opacity: 0;
-    }
-    100% {
-        opacity: 1;
+    .footer-center a:hover {
+        color: #FFC239;
     }
 }
 
+        body, html {
+            margin: 0;
+            padding: 0;
+            background-color: #212121;
+            height: 100%;
+        }
 
-@media (max-width: 1720px) {
-.logo-container {
+        .footer {
+            background-color: #212121;
+            color: #fff;
+            padding: 30px 40px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            width: 100%;
+            box-sizing: border-box;
+        }
 
-    margin-top: -3%;
+        .footer-left, .footer-right {
+            width: 30%;
+            text-align: start;
+            padding: 10px 0;
+        }
 
-}
+        .footer-center {
+            width: 30%;
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            justify-content: space-between;
+            gap: 6px;
+            line-height: 1.5;
+            font-size: 16px;
+            margin-left: 20px;
+        }
 
+        .footer-center h3, .footer-center a {
+            color: white;
+        }
 
-}
+        .footer-center a {
+            text-decoration: none;
+            font-size: 16px;
+            transition: color 0.3s ease;
+        }
+
+        .footer-center a:hover {
+            color: #FFC239;
+        }
+
+        .footer-logo {
+            width: 200px;
+        }
+
+        .footer-logo-2 {
+            width: 200px;
+        }
+
+        .social-buttons {
+            display: flex;
+            gap: 20px;
+        }
+
+        .social-btn {
+            font-size: 30px;
+            padding: 12px;
+            border-radius: 50%;
+            display: inline-block;
+            text-align: center;
+            transition: transform 0.3s ease;
+        }
+
+        .social-btn:hover {
+            transform: scale(1.2);
+        }
+
+        .instagram-btn, .facebook-btn, .website-btn {
+            background-color: #212121;
+            color: white;
+        }
+
+        /* Ajuste de la alineación de los elementos */
+        .footer-left, .footer-center, .footer-right {
+            margin: 0;
+            padding: 0;
+        }
+
+        /* Estilos para el texto de contacto */
+        #contact:hover {
+            color: #FFB533;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+
+        .social-btn i {
+            font-size: 22px;
+            color: white;
+        }
+
+        /* Animación de mensajes de éxito y error */
+        #success-message, #error-message {
+            animation: fadeInMessage 0.5s ease-in-out;
+        }
+        .footer-logo-2{
+            width: 300px;
+
+        }
+
+        @keyframes fadeInMessage {
+            0% {
+                opacity: 0;
+            }
+            100% {
+                opacity: 1;
+            }
+        }
+
+        @media (max-width: 1720px) {
+            .logo-container {
+                margin-top: -3%;
+            }
+        }
 </style>
 </head>
 <body>
     <div class="footer">
         <div class="footer-left">
-            <img src="/sistema_reservas/Sistema_reservas-/img/logo2.png" alt="Logo" class="footer-logo">
+            <img src="../img/logo2.png" alt="Logo" class="footer-logo">
             <div class="social-buttons">
                 <a href="https://www.instagram.com/casaemprenderlf/" target="_blank" class="social-btn instagram-btn">
                     <i class="fab fa-instagram"></i>
@@ -309,7 +284,7 @@ animation: fadeInMessage 0.5s ease-in-out;
             <p>Parque Balneario</p>
         </div>
         <div class="footer-left-2">
-            <img src="/sistema_reservas/Sistema_reservas-/img/logoEmprender2.png" alt="Logo" class="footer-logo-2">
+            <img src="../img/logoEmprender2.png" alt="Logo" class="footer-logo-2">
         </div>
         
     </div>
