@@ -6,17 +6,18 @@
     <title>Reserva</title>
     <link rel="stylesheet" href="css/index.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600&display=swap" rel="stylesheet">
-
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <link rel="stylesheet" href="css/navbar.css">
 
 </head>
 <body>
 
-   <div class="logo-container">
-        <img src="img/logoEmprender.png" alt="Logo" class="logo">
-    </div> 
+<div id="navbar-container"></div> 
 
-    <div class="form-container">
+<div class="form-container">
         <h2 id="reserva">Reservar Hora</h2>
         <form id="reservation-form" method="POST">
             <div class="form-group">
@@ -48,12 +49,34 @@
                 <input type="date" id="fecha" name="fecha" required class="input-text">
             </div>
             <div class="form-group">
-                <label for="horaInicio">Hora de inicio:</label>
-                <input type="time" id="horaInicio" name="horaInicio" required class="input-text">
+            <label for="horaInicio">Hora de inicio:</label>
+                <select id="horaInicio" name="horaInicio" required class="input-text">
+                    <option value="09:00">09:00</option>
+                    <option value="10:00">10:00</option>
+                    <option value="11:00">11:00</option>
+                    <option value="12:00">12:00</option>
+                    <option value="13:00">13:00</option>
+                    <option value="14:00">14:00</option>
+                    <option value="15:00">15:00</option>
+                    <option value="16:00">16:00</option>
+                    <option value="17:00">17:00</option>
+                    <option value="18:00">18:00</option>
+                </select>
+
             </div>
             <div class="form-group">
-                <label for="horaFin">Hora de fin:</label>
-                <input type="time" id="horaFin" name="horaFin" required class="input-text">
+            <label for="horaFin">Hora de fin:</label>
+                <select id="horaFin" name="horaFin" required class="input-text">
+                    <option value="10:00">10:00</option>
+                    <option value="11:00">11:00</option>
+                    <option value="12:00">12:00</option>
+                    <option value="13:00">13:00</option>
+                    <option value="14:00">14:00</option>
+                    <option value="15:00">15:00</option>
+                    <option value="16:00">16:00</option>
+                    <option value="17:00">17:00</option>
+                    <option value="18:00">18:00</option>
+                </select>
             </div>
             <button type="submit">Reservar</button>
         </form>
@@ -62,46 +85,18 @@
         <div id="error-message" style="display: none; color: red;"></div>
     </div>
 
-    <div class="footer">
-    <div class="footer-left">
-        <img src="img/logo2.png" alt="Logo" class="footer-logo">
-        <div class="social-buttons">
-            <a href="https://www.instagram.com/casaemprenderlf/" target="_blank" class="social-btn instagram-btn">
-                <i class="fab fa-instagram"></i>
-            </a>
-            <a href="https://www.facebook.com/FomentolaFlorida" target="_blank" class="social-btn facebook-btn">
-                <i class="fab fa-facebook-f"></i>
-            </a>
-            <a href="https://www.fomentolf.cl/index.php" target="_blank" class="social-btn website-btn">
-                <i class="fas fa-globe"></i>
-            </a>
-        </div>
-    </div>
-    
-    <div class="footer-center">
-    <h3 id="contact">COFODEP</h3>
-        <a href="https://www.fomentolf.cl/quienes-somos.php">Quiénes somos</a>
-        <a href="https://www.fomentolf.cl/convenios.php">Convenios</a>
-        <a href="https://www.fomentolf.cl/proyectos.php">Proyectos</a>
-        <a href="https://www.fomentolf.cl/innovacion.php">Innovación</a>
-    </div>
-    <div class="footer-right">
-        <a href="https://www.fomentolf.cl/contactanos.php" style="text-decoration: none; color: white;">
-            <h3 id="contact">Contáctanos</h3>
-        </a>
-        <p>Enrique Olivares 1003</p>
-        <p>La Florida, Chile</p>
-        <p>Estadio Bicentenario</p>
-    </div>
-    <div class="footer-left-2">
-        <img src="img/logoEmprender2.png" alt="Logo" class="footer-logo-2">
-    </div>
-    
+ 
+
 </div>
-
    
+    <div id="footer-container"></div>
 
-    <script src="/js/index.js"></script>
+    <script src="js/navbar.js"></script>
+    <script src="js/index.js"></script>
+    <script src="js/footer.js"></script>
 
-</body>
+
+
+
+    </body>
 </html>

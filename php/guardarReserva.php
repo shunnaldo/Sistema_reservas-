@@ -30,6 +30,22 @@ if ($result_check->num_rows == 0) {
     exit;
 }
 
+// 1️⃣ Verificar si el usuario ya tiene una reserva en la misma fecha
+$sql_check_reserva = "SELECT * FROM Reservas WHERE rut = ?";
+$stmt_check_reserva = $conexion->prepare($sql_check_reserva);
+$stmt_check_reserva->bind_param("s", $rut);
+$stmt_check_reserva->execute();
+$result_check_reserva = $stmt_check_reserva->get_result();
+
+if ($result_check_reserva->num_rows > 0) {
+    echo json_encode(['success' => false, 'message' => ' Usted ya cuenta con una reserva agendada']);
+    exit;
+}
+
+
+
+
+
 $sql = "SELECT * FROM Reservas 
         WHERE fecha = ? 
         AND cowork = ? 
