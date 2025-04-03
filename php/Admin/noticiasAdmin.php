@@ -1,3 +1,15 @@
+<?php
+// Iniciar la sesión
+session_start();
+
+// Verificar si el administrador está logueado y si tiene permisos de administrador
+if (!isset($_SESSION['admin_id']) || $_SESSION['rol'] !== 'admin') {
+    header("Location: loginAdmin.php?error=No tienes permisos para registrar usuarios.");
+    exit;
+}
+?>
+
+
 <!DOCTYPE html>
 <html lang="en">
 <head>

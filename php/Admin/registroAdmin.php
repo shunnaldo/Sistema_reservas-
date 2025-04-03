@@ -7,6 +7,12 @@ if (!isset($_SESSION['admin_id']) || $_SESSION['rol'] !== 'admin') {
     header("Location: loginAdmin.php?error=No tienes permisos para registrar usuarios.");
     exit;
 }
+
+
+if (!isset($_SESSION['admin_id']) || $_SESSION['rol'] !== 'admin') {
+    header("Location: loginAdmin.php?error=No tienes permisos para registrar usuarios.");
+    exit;
+}
 ?>
 
 <!DOCTYPE html>
@@ -25,39 +31,6 @@ if (!isset($_SESSION['admin_id']) || $_SESSION['rol'] !== 'admin') {
         <div class="container-center">
             <h2>Formulario de Registro</h2>
 
-            <!-- Mostrar mensajes de error o éxito -->
-            <?php
-                if (isset($_GET['error'])) {
-                    switch ($_GET['error']) {
-                        case 'correo_invalido':
-                            echo "<p style='color: red;'>El correo electrónico no es válido.</p>";
-                            break;
-                        case 'correo_temporal':
-                            echo "<p style='color: red;'>No se permiten correos electrónicos de dominios temporales.</p>";
-                            break;
-                        case 'contrasena_corta':
-                            echo "<p style='color: red;'>La contraseña debe tener al menos 8 caracteres.</p>";
-                            break;
-                        case 'contrasena_mayuscula':
-                            echo "<p style='color: red;'>La contraseña debe contener al menos una letra mayúscula.</p>";
-                            break;
-                        case 'contrasena_numero':
-                            echo "<p style='color: red;'>La contraseña debe contener al menos un número.</p>";
-                            break;
-                        case 'contrasena_simbolo':
-                            echo "<p style='color: red;'>La contraseña debe contener al menos un símbolo (como !, @, #, $, etc.).</p>";
-                            break;
-                        case 'correo_existente':
-                            echo "<p style='color: red;'>El correo ya está registrado. Por favor, use otro correo.</p>";
-                            break;
-                        case 'registro_error':
-                            echo "<p style='color: red;'>Hubo un error en el registro. Intenta nuevamente.</p>";
-                            break;
-                    }
-                } elseif (isset($_GET['success'])) {
-                    echo "<p style='color: green;'>Registro exitoso.</p>";
-                }
-            ?>
 
             <form action="registro.php" method="POST">
                 <label for="nombre">Nombre:</label>
@@ -82,6 +55,8 @@ if (!isset($_SESSION['admin_id']) || $_SESSION['rol'] !== 'admin') {
 
     <script src="../../js/navbarAdmin.js"></script>
     <script src="../../js/sidebar.js"></script>  
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
     <script>
         fetch('userData.php')
         .then(response => response.json())
@@ -96,5 +71,42 @@ if (!isset($_SESSION['admin_id']) || $_SESSION['rol'] !== 'admin') {
         })
         .catch(error => console.error('Error al obtener los datos del usuario:', error));
     </script>
+
+<script>
+        // Mostrar el mensaje de error o éxito utilizando SweetAlert2
+        <?php
+            // Mostrar error si existe
+            if (isset($_SESSION['error'])) {
+                echo "Swal.fire({
+                    icon: 'error',
+                    title: 'Error',
+                    text: '" . $_SESSION['error'] . "'
+                });";
+                unset($_SESSION['error']); // Eliminar el mensaje después de mostrarlo
+            }
+
+            // Mostrar éxito si existe
+            if (isset($_SESSION['success'])) {
+                echo "Swal.fire({
+                    icon: 'success',
+                    title: '¡Éxito!',
+                    text: '" . $_SESSION['success'] . "'
+                });";
+                unset($_SESSION['success']); // Eliminar el mensaje después de mostrarlo
+            }
+        ?>
+    </script>
+
+<script>
+   document.addEventListener("DOMContentLoaded", function() {
+       const dropdownToggle = document.querySelector(".sidebar__dropdown-toggle");
+       const dropdownMenu = document.querySelector(".sidebar__dropdown");
+   
+       dropdownToggle.addEventListener("click", function() {
+           dropdownMenu.style.display = (dropdownMenu.style.display === "flex") ? "none" : "flex";
+           dropdownToggle.classList.toggle("active");
+       });
+   });
+   </script>    
 </body>
 </html>
