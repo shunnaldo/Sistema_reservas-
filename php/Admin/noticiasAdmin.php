@@ -10,12 +10,13 @@ if (!isset($_SESSION['admin_id']) || $_SESSION['rol'] !== 'admin') {
 
 $mensaje = "";
 
+// Procesar formulario
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $titulo = trim($_POST["titulo"]);
     $cuerpo = trim($_POST["cuerpo"]);
     $link = trim($_POST["link"]);
+    $usuario_id = $_SESSION['admin_id'];
 
-    // Validar enlace externo (opcional)
     if (!empty($link) && !filter_var($link, FILTER_VALIDATE_URL)) {
         $mensaje = "⚠️ El enlace proporcionado no es válido.";
     } else {
@@ -24,14 +25,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $rutaDestino = "uploads/" . $nombreImagen;
 
             if (move_uploaded_file($_FILES["imagen"]["tmp_name"], $rutaDestino)) {
-                $sql = "INSERT INTO contenido (tipo, titulo, cuerpo, imagen, link) VALUES ('noticia', ?, ?, ?, ?)";
+                $sql = "INSERT INTO contenido (tipo, titulo, cuerpo, imagen, link, usuario_id) VALUES ('noticia', ?, ?, ?, ?, ?)";
                 $stmt = $conexion->prepare($sql);
-                $stmt->bind_param("ssss", $titulo, $cuerpo, $nombreImagen, $link);
+                $stmt->bind_param("ssssi", $titulo, $cuerpo, $nombreImagen, $link, $usuario_id);
 
                 if ($stmt->execute()) {
-                    $mensaje = "✅ Noticia subida con éxito.";
-                    header("Location: noticiasAdmin.php");  // Redirige para evitar reenvío del formulario
-                    exit();  // Detiene la ejecución del script
+                    header("Location: noticiasAdmin.php?success=1");
+                    exit();
                 } else {
                     $mensaje = "❌ Error al guardar en la base de datos.";
                 }
@@ -44,6 +44,42 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     }
 }
 
+// Eliminar noticia
+if (isset($_GET['eliminar'])) {
+    $id_noticia = $_GET['eliminar'];
+
+    // Obtener la imagen para eliminarla del servidor
+    $sqlImagen = "SELECT imagen FROM contenido WHERE id = ?";
+    $stmt = $conexion->prepare($sqlImagen);
+    $stmt->bind_param("i", $id_noticia);
+    $stmt->execute();
+    $resultado = $stmt->get_result();
+    $noticia = $resultado->fetch_assoc();
+    $rutaImagen = "uploads/" . $noticia['imagen'];
+
+    if (file_exists($rutaImagen)) {
+        unlink($rutaImagen); // Eliminar imagen del servidor
+    }
+
+    // Eliminar noticia de la base de datos
+    $sqlEliminar = "DELETE FROM contenido WHERE id = ?";
+    $stmt = $conexion->prepare($sqlEliminar);
+    $stmt->bind_param("i", $id_noticia);
+    if ($stmt->execute()) {
+        header("Location: noticiasAdmin.php?eliminado=1");
+        exit();
+    } else {
+        $mensaje = "❌ Error al eliminar la noticia.";
+    }
+}
+
+// Obtener noticias de la base de datos
+$sqlNoticias = "SELECT c.*, a.nombre AS autor FROM contenido c 
+                JOIN Administradores a ON c.usuario_id = a.id_usuario 
+                WHERE c.tipo = 'noticia' 
+                ORDER BY c.fecha_creacion DESC";
+
+$resultNoticias = $conexion->query($sqlNoticias);
 ?>
 
 <!DOCTYPE html>
@@ -59,52 +95,72 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <link rel="stylesheet" href="../../css/noticiasAdmin.css">
 </head>
 <body>
+<div id="navbarAdmin-container"></div>
+<br>
+<div class="container-fluid">
+    <div class="container-center">
+        <h2>Subir Nueva Noticia</h2>
+    </div>
 
+    <?php if (!empty($mensaje)): ?>
+        <div class="alert alert-info"><?php echo $mensaje; ?></div>
+    <?php endif; ?>
 
-    <div id="navbarAdmin-container"></div>
+    <form action="" method="POST" enctype="multipart/form-data">
+        <label for="titulo">Título:</label>
+        <input type="text" name="titulo" required>
 
-    <div class="container-center ">
-        <div class="container-fluid">
+        <label for="cuerpo">Cuerpo:</label>
+        <textarea name="cuerpo" required></textarea>
 
-            <div class="container">
-                <h2 class="mt-4">Subir Nueva Noticia</h2>
+        <label for="imagen">Imagen:</label>
+        <input type="file" name="imagen" required>
 
-                <!-- Mensaje de resultado -->
-                <?php if (!empty($mensaje)): ?>
-                    <div class="alert alert-info"><?php echo $mensaje; ?></div>
-                <?php endif; ?>
+        <label for="link">Enlace (opcional):</label>
+        <input type="url" name="link" placeholder="https://ejemplo.com">
 
-                <form action="" method="POST" enctype="multipart/form-data" class="mt-3">
-                    <div class="mb-3">
-                        <label for="titulo" class="form-label">Título:</label>
-                        <input type="text" name="titulo" class="form-control" required>
+        <button type="submit">
+            <i class="fas fa-upload"></i> Subir Noticia
+        </button>
+    </form>
+
+    <!-- Mostrar Noticias -->
+    <div class="container-center mt-5">
+        <h2>Noticias Publicadas</h2>
+    </div>
+    
+    <div class="row">
+        <?php while ($noticia = $resultNoticias->fetch_assoc()): ?>
+            <div class="col-md-4">
+                <div class="card mb-4 shadow-sm">
+                    <img src="uploads/<?php echo $noticia['imagen']; ?>" class="card-img-top" alt="Imagen Noticia">
+                    <div class="card-body">
+                        <h5 class="card-title"><?php echo htmlspecialchars($noticia['titulo']); ?></h5>
+                        <p class="card-text"><?php echo nl2br(htmlspecialchars($noticia['cuerpo'])); ?></p>
+                        <p class="text-muted"><i class="bi bi-person-fill"></i> Publicado por: <strong><?php echo htmlspecialchars($noticia['autor']); ?></strong></p>
+                        <?php if (!empty($noticia['link'])): ?>
+                            <a href="<?php echo htmlspecialchars($noticia['link']); ?>" target="_blank" class="btn btn-sm btn-primary">
+                                <i class="fas fa-external-link-alt"></i> Ver más
+                            </a>
+                        <?php endif; ?>
+                        <br>
+                        <!-- Botones de Editar y Eliminar -->
+                        <a href="editarNoticia.php?id=<?php echo $noticia['id']; ?>" class="btn btn-sm btn-warning">
+                            <i class="fas fa-edit"></i> Editar
+                        </a>
+                        <a href="?eliminar=<?php echo $noticia['id']; ?>" class="btn btn-sm btn-danger" onclick="return confirm('¿Estás seguro de que deseas eliminar esta noticia?');">
+                            <i class="fas fa-trash-alt"></i> Eliminar
+                        </a>
                     </div>
-
-                    <div class="mb-3">
-                        <label for="cuerpo" class="form-label">Cuerpo:</label>
-                        <textarea name="cuerpo" class="form-control" required></textarea>
-                    </div>
-
-                    <div class="mb-3">
-                        <label for="imagen" class="form-label">Imagen:</label>
-                        <input type="file" name="imagen" class="form-control" required>
-                    </div>
-
-                    <div class="mb-3">
-                        <label for="link" class="form-label">Enlace (opcional):</label>
-                        <input type="url" name="link" class="form-control" placeholder="https://ejemplo.com">
-                    </div>
-
-                    <button type="submit" class="btn btn-primary">
-                        <i class="fas fa-upload"></i> Subir Noticia
-                    </button>
-                </form>
+                </div>
             </div>
-        </div>
+        <?php endwhile; ?>
+    </div>
 
-    </div>        
-    <script src="../../js/navbarAdmin.js"></script>
-    <script src="../../js/sidebar.js"></script>  
+</div>
+
+<script src="../../js/navbarAdmin.js"></script>
+<script src="../../js/sidebar.js"></script>  
 
 </body>
 </html>

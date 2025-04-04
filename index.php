@@ -18,7 +18,6 @@
 
 
 <div id="navbar-container"></div> 
-<br><br><br><br><br><br><br><br><br>
 
 <div class="form-container">
         <h2 id="reserva">Reservar Hora</h2>

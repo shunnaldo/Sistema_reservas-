@@ -24,7 +24,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // Si el correo existe
     if ($result->num_rows > 0) {
         $admin = $result->fetch_assoc();
-
+ 
         // 3. Verificar si la contraseña ingresada es correcta
         if (password_verify($contrasena, $admin['contrasena'])) {
             // Iniciar sesión
@@ -44,7 +44,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             }
 
             // Redirigir al panel de administración
-            header("Location: visualizacionReservas.php");
+            header("Location:visualizacionReservas.php");
             exit;
         } else {
             // Si la contraseña es incorrecta

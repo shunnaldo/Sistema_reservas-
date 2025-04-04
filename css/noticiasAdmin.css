@@ -1,14 +1,75 @@
+/* Centra el título */
 .container-center {
-    text-align: center; /* Centra el título */
-    margin-bottom: 30px; /* Espacio entre el título y la tabla */
+    text-align: center;
+    margin-bottom: 30px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
 }
 
+/* Contenedor principal con relleno superior para el navbar */
 .container-fluid {
-    padding-top: 80px; /* Ajuste para el navbar */
-    display: block; /* Elimina el comportamiento de flex para que los elementos no se alineen horizontalmente */
+    padding-top: 150px;
+    width: 100%;
+    max-width: 800px;
+    margin: 0 auto;
+    background-color: #f9f9f9;
+    border-radius: 8px;
+    padding: 80px;
 }
 
+/* Estilos de formularios */
+form {
+    text-align: left;
+}
 
+input[type="text"],
+input[type="url"],
+textarea,
+input[type="file"] {
+    width: 100%;
+    padding: 10px;
+    margin-top: 5px;
+    margin-bottom: 15px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    box-sizing: border-box;
+}
 
+/* Botón de envío */
+button[type="submit"] {
+    width: 100%;
+    padding: 12px;
+    font-size: 16px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 5px;
+}
 
+button[type="submit"]:hover {
+    background-color: #0056b3;
+}
 
+/* Mensajes de alerta */
+.alert {
+    font-size: 15px;
+    text-align: center;
+}
+
+/* Responsive: móviles y tablets */
+@media (max-width: 768px) {
+    .container-fluid {
+        padding: 15px;
+        margin: 0 10px;
+    }
+
+    h2 {
+        font-size: 20px;
+    }
+
+    button[type="submit"] {
+        font-size: 14px;
+    }
+}

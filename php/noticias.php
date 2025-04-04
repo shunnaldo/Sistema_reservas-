@@ -1,3 +1,16 @@
+<?php
+session_start();
+include('conexion.php');
+
+// Obtener noticias de la base de datos
+$sqlNoticias = "SELECT c.*, a.nombre AS autor FROM contenido c 
+                JOIN Administradores a ON c.usuario_id = a.id_usuario 
+                WHERE c.tipo = 'noticia' 
+                ORDER BY c.fecha_creacion DESC";
+
+$resultNoticias = $conexion->query($sqlNoticias);
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -14,83 +27,37 @@
 <body>
 
     <div id="navbar-container"></div> 
-    <!-- Carrusel de Noticias -->
-    <div id="newsCarousel" class="carousel slide" data-bs-ride="carousel">
-        <div class="carousel-inner">
-            <div class="carousel-item active">
-                <img src="../img/logo.png" class="d-block w-100" alt="Noticia 1">
-                <div class="carousel-caption d-none d-md-block">
 
-                </div>
-            </div>
-            <div class="carousel-item">
-                <img src="../img/Captura de pantalla 2025-03-27 163858.png" class="d-block w-100" alt="Noticia 2">
-                <div class="carousel-caption d-none d-md-block">
-
-                </div>
-            </div>
-            <div class="carousel-item">
-                <img src="../img/Captura de pantalla 2025-03-27 163858.png" class="d-block w-100" alt="Noticia 3">
-                <div class="carousel-caption d-none d-md-block">
-
-                </div>
-            </div>
-        </div>
-        <button class="carousel-control-prev" type="button" data-bs-target="#newsCarousel" data-bs-slide="prev">
-            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-            <span class="visually-hidden">Previous</span>
-        </button>
-        <button class="carousel-control-next" type="button" data-bs-target="#newsCarousel" data-bs-slide="next">
-            <span class="carousel-control-next-icon" aria-hidden="true"></span>
-            <span class="visually-hidden">Next</span>
-        </button>
-    </div>
-
-<br><br><br>
-       <!-- Sección de Noticias -->
-       <div class="container mt-5">
-    <h2 class="mb-4 text-center">Cursos y noticias de la Comunidad</h2>
+    
+    <div class="container mt-5">
+    <h2 class="text-center mb-4">Noticias</h2>
+    
     <div class="row">
-        <!-- Curso 1 -->
-        <div class="col-md-4">
-            <div class="card mb-4">
-                <img src="../img/Tarjetas-1-300x169.png" class="card-img-top" alt="Curso 1">
-                <div class="card-body">
-                    <h5 class="card-title">Tarjeta vecino</h5>
-                    <p class="card-text">La Tarjeta Vive La Florida se puede obtener en la Corporación de Fomento de La Florida. Los vecinos pueden inscribirse a través de su página web o en las oficinas correspondientes para recibir descuentos en servicios, combustibles, salud, y más.</p>
-                    <a href="https://www.instagram.com/fomentolaflorida/" class="btn btn-primary">Mas informacion</a>
+        <?php while ($noticia = $resultNoticias->fetch_assoc()): ?>
+            <div class="col-md-4 mb-4">
+                <div class="card">
+                    <!-- Imagen de la noticia -->
+                    <img src="Admin/uploads/<?php echo $noticia['imagen']; ?>" class="card-img-top" alt="Imagen Noticia">
+                    <div class="card-body">
+                        <h5 class="card-title"><?php echo htmlspecialchars($noticia['titulo']); ?></h5>
+                        <p class="card-text"><?php echo nl2br(htmlspecialchars($noticia['cuerpo'])); ?></p>
+                        <?php if (!empty($noticia['link'])): ?>
+                            <a href="<?php echo htmlspecialchars($noticia['link']); ?>" target="_blank" class="btn btn-primary">
+                                <i class="fas fa-external-link-alt"></i> Ver más
+                            </a>
+                        <?php endif; ?>
+                    </div>
                 </div>
             </div>
-        </div>
-        <!-- Curso 2 -->
-        <div class="col-md-4">
-            <div class="card mb-4">
-                <img src="../img/Captura de pantalla 2025-03-27 163858.png" class="card-img-top" alt="Curso 2">
-                <div class="card-body">
-                    <h5 class="card-title">Curso de Diseño Gráfico</h5>
-                    <p class="card-text">Domina herramientas como Photoshop y Illustrator para crear diseños profesionales.</p>
-                    <a href="#" class="btn btn-primary">Mas informacion</a>
-                </div>
-            </div>
-        </div>
-        <!-- Noticia tarjeta - tarjeta vecina -->
-        <div class="col-md-4">
-            <div class="card mb-4">
-                <img src="../img/Captura de pantalla 2025-03-27 163858.png" class="card-img-top" alt="Curso 2">
-                <div class="card-body">
-                    <h5 class="card-title">Curso de Diseño Gráfico</h5>
-                    <p class="card-text">Domina herramientas como Photoshop y Illustrator para crear diseños profesionales.</p>
-                    <a href="#" class="btn btn-primary">Mas informacion</a>
-                </div>
-            </div>
-        </div>
-
-
-
-
+        <?php endwhile; ?>
     </div>
+
 </div>
-<div id="footer-container"></div>
+
+
+
+
+    <div id="footer-container"></div>
 
 
 

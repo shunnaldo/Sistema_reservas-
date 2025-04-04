@@ -1,23 +1,23 @@
 /* Centra todo el contenido dentro del contenedor principal */
 .container-center {
-    text-align: center; /* Centra el texto */
-    margin: 0 auto; /* Asegura que el contenedor esté centrado */
-    width: 100%; /* Asegura que ocupe todo el ancho disponible */
-    max-width: 600px; /* Define un ancho máximo para el formulario */
-    padding: 20px; /* Espaciado alrededor del contenido */
-    background-color: #f9f9f9; /* Fondo de color gris claro */
-    border-radius: 8px; /* Bordes redondeados */
-    margin-top: 90px; /* Espacio desde la parte superior */
-    margin-bottom: 50px; /* Espacio desde la parte inferior */
+    text-align: center;
+    margin: 0 auto;
+    width: 100%;
+    max-width: 600px;
+    padding: 20px;
+    background-color: #f9f9f9;
+    border-radius: 8px;
+    margin-top: 90px;
+    margin-bottom: 50px;
 }
 
-/* Contenedor de la página, que permite al contenido centrarse en el área restante */
+/* Contenedor de la página */
 .main-container {
     display: flex;
-    justify-content: center; /* Centra el contenido horizontalmente */
-    align-items: flex-start; /* Centra el contenido verticalmente, pero comenzando desde la parte superior */
-    height: 100%; /* Asegura que ocupe todo el alto disponible */
-    padding-left: 250px; /* Ajuste para el sidebar, si es necesario */
+    justify-content: center;
+    align-items: flex-start;
+    height: 100%;
+    padding-left: 250px; /* Se ajustará en móvil */
 }
 
 /* Alinea el formulario y el contenido */
@@ -31,17 +31,17 @@ input[type="text"],
 input[type="email"],
 input[type="password"],
 input[type="submit"] {
-    width: 100%; /* Hace que los campos ocupen todo el ancho */
+    width: 100%;
     padding: 10px;
     margin: 10px 0;
     border: 1px solid #ccc;
     border-radius: 5px;
-    box-sizing: border-box; /* Asegura que el padding no sobresalga del ancho */
+    box-sizing: border-box;
 }
 
 /* Estilo del botón */
 input[type="submit"] {
-    background-color: #4CAF50; /* Color verde */
+    background-color: #4CAF50;
     color: white;
     border: none;
     cursor: pointer;
@@ -49,15 +49,39 @@ input[type="submit"] {
 }
 
 input[type="submit"]:hover {
-    background-color: #45a049; /* Efecto hover en el botón */
+    background-color: #45a049;
 }
 
-/* Asegura que los mensajes de error y éxito se muestren correctamente */
+/* Estilo de párrafos */
 p {
     font-size: 16px;
     font-weight: bold;
 }
 
 .container-fluid {
-    padding-top: 80px; /* Ajuste para el navbar */
+    padding-top: 80px;
+}
+
+/* MEDIA QUERY para dispositivos móviles */
+@media (max-width: 768px) {
+    .main-container {
+        flex-direction: column;
+        padding-left: 0;
+        padding-right: 0;
+        align-items: center;
+    }
+
+    .container-center {
+        margin-top: 60px;
+        margin-bottom: 30px;
+        padding: 15px;
+    }
+
+    input[type="submit"] {
+        font-size: 14px;
+    }
+
+    p {
+        font-size: 14px;
+    }
 }
