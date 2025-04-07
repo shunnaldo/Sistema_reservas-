@@ -65,7 +65,7 @@ $result = $conexion->query($sql);
                     <th>Fecha</th>
                     <th>Hora Inicio</th>
                     <th>Hora Fin</th>
-                    <th>Fecha de Creación</th>
+                    <th>Participantes</th>
                     <th>Lugar de Trabajo</th>
                     <th>Estado</th>
                     <th>Asistencia</th>
@@ -80,32 +80,39 @@ $result = $conexion->query($sql);
                         // Asignar clase CSS según el estado
                         switch ($row['estado']) {
                             case 'pendiente':
+                                $estadoText = 'Pendiente';
                                 $estadoClass = 'table-warning'; // Amarillo
                                 break;
                             case 'lista':
+                                $estadoText = 'En curso'; // O 'En progreso', como prefieras
                                 $estadoClass = 'table-success'; // Verde
                                 break;
                             case 'finalizada':
+                                $estadoText = 'Finalizada';
                                 $estadoClass = 'table-danger'; // Rojo
+                                break;
+                            default:
+                                $estadoText = $row['estado']; // En caso de que el estado sea otro
+                                $estadoClass = '';
                                 break;
                         }
 
                         echo "<tr class='$estadoClass'>
-                                <td>{$row['nombre_vecino']}</td>
-                                <td>{$row['apellido_vecino']}</td>
-                                <td>{$row['rut']}</td>
-                                <td>{$row['correo_vecino']}</td>
-                                <td>{$row['fecha']}</td>
-                                <td>{$row['hora_inicio']}</td>
-                                <td>{$row['hora_fin']}</td>
-                                <td>{$row['fecha_creacion']}</td>
-                                <td>{$row['cowork']}</td>
-                                <td>{$row['estado']}</td>
-                                <td>
-                                    <input type='checkbox' class='check-asistencia' data-id='{$row['id']}' 
-                                        onclick='confirmarAsistencia(this)' " . ($row['check_asistencia'] ? "checked" : "") . ">
-                                </td>
-                              </tr>";
+                        <td>{$row['nombre_vecino']}</td>
+                        <td>{$row['apellido_vecino']}</td>
+                        <td>{$row['rut']}</td>
+                        <td>{$row['correo_vecino']}</td>
+                        <td>{$row['fecha']}</td>
+                        <td>{$row['hora_inicio']}</td>
+                        <td>{$row['hora_fin']}</td>
+                        <td>{$row['cantidad_personas']}</td>
+                        <td>{$row['cowork']}</td>
+                        <td>{$estadoText}</td>
+                        <td>
+                            <input type='checkbox' class='check-asistencia' data-id='{$row['id']}' 
+                                onclick='confirmarAsistencia(this)' " . ($row['check_asistencia'] ? "checked" : "") . ">
+                        </td>
+                      </tr>";
                     }
                 } else {
                     echo "<tr><td colspan='11'>No hay reservas disponibles</td></tr>";
