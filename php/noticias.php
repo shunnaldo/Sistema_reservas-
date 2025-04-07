@@ -9,6 +9,18 @@ $sqlNoticias = "SELECT c.*, a.nombre AS autor FROM contenido c
                 ORDER BY c.fecha_creacion DESC";
 
 $resultNoticias = $conexion->query($sqlNoticias);
+
+// Obtener imágenes del carrusel
+$sqlCarrusel = "SELECT imagen FROM contenido WHERE tipo = 'carrusel' ORDER BY fecha_creacion DESC";
+$resultCarrusel = $conexion->query($sqlCarrusel);
+
+// Obtener noticias
+$sqlNoticias = "SELECT c.*, a.nombre AS autor FROM contenido c 
+                JOIN Administradores a ON c.usuario_id = a.id_usuario 
+                WHERE c.tipo = 'noticia' 
+                ORDER BY c.fecha_creacion DESC";
+
+$resultNoticias = $conexion->query($sqlNoticias);
 ?>
 
 <!DOCTYPE html>
@@ -27,6 +39,39 @@ $resultNoticias = $conexion->query($sqlNoticias);
 <body>
 
     <div id="navbar-container"></div> 
+
+
+
+    <!-- Carrusel -->
+    <?php if ($resultCarrusel->num_rows > 0): ?>
+        <div id="carouselExample" class="carousel slide mt-4" data-bs-ride="carousel">
+
+        <div class="carousel-inner">
+            <?php
+            $active = true;
+            while ($fila = $resultCarrusel->fetch_assoc()):
+            ?>
+            <div class="carousel-item <?php echo $active ? 'active' : ''; ?>">
+                <img src="Admin/uploads/<?php echo $fila['imagen']; ?>" class="d-block w-100" alt="Carrusel">
+            </div>
+            <?php
+            $active = false;
+            endwhile;
+            ?>
+        </div>
+        <button class="carousel-control-prev" type="button" data-bs-target="#carouselExample" data-bs-slide="prev">
+            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Anterior</span>
+        </button>
+        <button class="carousel-control-next" type="button" data-bs-target="#carouselExample" data-bs-slide="next">
+            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Siguiente</span>
+        </button>
+    </div>
+    <?php else: ?>
+        <p class="text-center mt-4">No hay imágenes en el carrusel.</p>
+    <?php endif; ?>
+
 
     
     <div class="container mt-5">
@@ -53,8 +98,6 @@ $resultNoticias = $conexion->query($sqlNoticias);
     </div>
 
 </div>
-
-
 
 
     <div id="footer-container"></div>
