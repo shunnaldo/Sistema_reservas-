@@ -46,6 +46,7 @@ if ($result->num_rows > 0) {
                         <td>{$row['hora_fin']}</td>
                         <td>{$row['fecha_creacion']}</td>
                         <td>{$row['cowork']}</td>
+                        <td>{$row['numero_telefono']}</td>
                         <td>{$row['estado']}</td>
                         <td>
                             <input type='checkbox' class='check-asistencia' data-id='{$row['id']}' ".($row['check_asistencia'] ? "checked" : "").">

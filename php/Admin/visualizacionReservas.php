@@ -4,7 +4,7 @@ if (!isset($_SESSION['admin_id'])) {
     header("Location: loginAdmin.php");
     exit;
 }
-
+ 
 require_once '../conexion.php';
 
 // Configurar zona horaria
@@ -28,6 +28,7 @@ $sql = "SELECT * FROM Reservas ORDER BY
         FIELD(estado, 'lista', 'pendiente', 'finalizada')";
 
 $result = $conexion->query($sql);
+
 ?>
 
 
@@ -67,8 +68,11 @@ $result = $conexion->query($sql);
                     <th>Hora Fin</th>
                     <th>Participantes</th>
                     <th>Lugar de Trabajo</th>
+                    <th>Telefono</th>
                     <th>Estado</th>
                     <th>Asistencia</th>
+                    <th>Acciones</th>
+
                 </tr>
             </thead>
             <tbody>
@@ -107,11 +111,22 @@ $result = $conexion->query($sql);
                         <td>{$row['hora_fin']}</td>
                         <td>{$row['cantidad_personas']}</td>
                         <td>{$row['cowork']}</td>
+                        <td>{$row['numero_telefono']}</td>
                         <td>{$estadoText}</td>
                         <td>
                             <input type='checkbox' class='check-asistencia' data-id='{$row['id']}' 
                                 onclick='confirmarAsistencia(this)' " . ($row['check_asistencia'] ? "checked" : "") . ">
                         </td>
+                    <td>
+                        <button class='btn btn-danger btn-sm' onclick='eliminarReserva({$row['id']})'>
+                            🗑
+                        </button>
+                    </td>
+
+
+
+
+
                       </tr>";
                     }
                 } else {
@@ -278,6 +293,28 @@ function confirmarAsistencia(checkbox) {
 
 </script>
 
+<script>
+    function eliminarReserva(id) {
+    if (confirm("¿Estás seguro de que deseas eliminar esta reserva?")) {
+        fetch('eliminarReserva.php', {
+            method: "POST",
+            headers: { "Content-Type": "application/x-www-form-urlencoded" },
+            body: `id=${id}`
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                alert("Reserva eliminada con éxito");
+                location.reload(); // Recargar la página para actualizar la tabla
+            } else {
+                alert("Error al eliminar la reserva");
+            }
+        })
+        .catch(error => console.error("Error:", error));
+    }
+}
+
+</script>
 
 
 </body>

@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
     <title>Reserva</title>
     <link rel="stylesheet" href="css/index.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
@@ -47,6 +48,20 @@
                 </select>
             </div>
             <div class="form-group">
+                <label for="telefono">Número de Teléfono:</label>
+                <input type="tel" id="telefono" name="telefono" required placeholder="Ej: +56912345678" class="input-text">
+            </div>
+
+            <div class="form-group">
+                <label for="cantidadPersonas">Cantidad de personas:</label>
+                <select id="cantidadPersonas" name="cantidadPersonas" required class="input-text">
+            <option value="1">1 </option>
+            <option value="2">2 </option>
+            <option value="3">3 </option>
+            <option value="4">4 </option>
+                </select>
+            </div>
+            <div class="form-group">
                 <label for="fecha">Selecciona el día:</label>
                 <input type="date" id="fecha" name="fecha" required class="input-text">
             </div>
@@ -86,9 +101,17 @@
         <div id="error-message" style="display: none; color: red;"></div>
     </div>
 
+
+
+    <div id="popupModal" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background-color: rgba(0,0,0,0.5); z-index:1000;">
+        <div style="background:white; padding:20px; border-radius:10px; max-width:400px; margin:100px auto; position:relative;">
+    <span id="closePopup" style="position:absolute; top:10px; right:15px; cursor:pointer; font-size:18px;">&times;</span>
+    <p id="popupMessage"></p>
+        </div>
+    </div>
+
  
 
-</div>
    
     <div id="footer-container"></div>
 

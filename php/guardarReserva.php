@@ -1,6 +1,6 @@
-
 <?php
 include('conexion.php');
+include('enviar_correo.php'); // Asegúrate de incluir el archivo donde tienes la función para enviar el correo
 
 $data = json_decode(file_get_contents('php://input'), true);
 
@@ -17,21 +17,26 @@ $cowork = $data['cowork'];
 $fecha = $data['fecha'];
 $hora_inicio = $data['horaInicio'];
 $hora_fin = $data['horaFin'];
+$cantidad_personas = $data['cantidadPersonas']; // Nuevo campo recibido
+$numero_telefono = $data['telefono'];
 
 $rut_cliente_sin_dv = substr($rut, 0, 8);
 
-$sql_check_rut = "SELECT * FROM ctrtecnicos WHERE LEFT(ctrtec_rut, 8) = ?";
+$sql_check_rut = "SELECT * FROM ctrtecnicos WHERE LEFT(ctrtec_id, 8) = ?";
 $stmt_check = $conexion->prepare($sql_check_rut);
 $stmt_check->bind_param("s", $rut_cliente_sin_dv);
 $stmt_check->execute();
 $result_check = $stmt_check->get_result();
 
 if ($result_check->num_rows == 0) {
-    echo json_encode(['success' => false, 'message' => 'Lo sentimos! Usted no cuenta con tarjeta vecina.']);
+    echo json_encode([ 
+        'success' => false, 
+        'message' => '¡Lo sentimos! No cuentas con la Tarjeta Vive La Florida. Solicítala acercándote a Casa Emprender ubicada en Alonso Ercilla #1380, La Florida. De Lunes a Jueves de 09:00 a 17:45 hrs y Viernes de 09:00 a 16:30 hrs. Recuerda traer tu carnét de identidad y comprobante de domicilio. ¡Te esperamos!'
+    ]);
     exit;
 }
 
-// 1️⃣ Verificar si el usuario ya tiene una reserva en la misma fecha
+// Verificar si el usuario ya tiene una reserva en la misma fecha
 $sql_check_reserva = "SELECT * FROM Reservas WHERE rut = ?";
 $stmt_check_reserva = $conexion->prepare($sql_check_reserva);
 $stmt_check_reserva->bind_param("s", $rut);
@@ -39,13 +44,9 @@ $stmt_check_reserva->execute();
 $result_check_reserva = $stmt_check_reserva->get_result();
 
 if ($result_check_reserva->num_rows > 0) {
-    echo json_encode(['success' => false, 'message' => ' Usted ya cuenta con una reserva agendada']);
+    echo json_encode(['success' => false, 'message' => 'Usted ya cuenta con una reserva agendada']);
     exit;
 }
-
-
-
-
 
 $sql = "SELECT * FROM Reservas 
         WHERE fecha = ? 
@@ -61,13 +62,12 @@ $result = $stmt->get_result();
 if ($result->num_rows > 0) {
     echo json_encode(['success' => false, 'message' => 'La hora seleccionada ya está ocupada en este cowork.']);
 } else {
-    $sql_insert = "INSERT INTO Reservas (rut, nombre_vecino, apellido_vecino, correo_vecino, fecha, hora_inicio, hora_fin, cowork) 
-                   VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+    $sql_insert = "INSERT INTO Reservas (rut, nombre_vecino, apellido_vecino, correo_vecino, fecha, hora_inicio, hora_fin, cowork, cantidad_personas, numero_telefono) 
+                   VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
     $stmt_insert = $conexion->prepare($sql_insert);
-    $stmt_insert->bind_param("ssssssss", $rut, $nombre, $apellido, $correo, $fecha, $hora_inicio, $hora_fin, $cowork);
+    $stmt_insert->bind_param("ssssssssss", $rut, $nombre, $apellido, $correo, $fecha, $hora_inicio, $hora_fin, $cowork, $cantidad_personas, $numero_telefono);
     $stmt_insert->execute();
-
     if ($stmt_insert->affected_rows > 0) {
         echo json_encode(['success' => true, 'message' => 'Reserva realizada con éxito.']);
     } else {
@@ -75,5 +75,20 @@ if ($result->num_rows > 0) {
     }
 
 
+    if ($stmt_insert->affected_rows > 0) {
+        // Obtener el ID de la reserva recién insertada
+        $idReserva = $stmt_insert->insert_id;
+        
+        // Llamar a la función para enviar el correo
+        $enviado = enviarCorreoConfirmacion($idReserva);  // Llama a la función de correo con el ID de reserva
+
+        if ($enviado) {
+            echo json_encode(['success' => true, 'message' => 'Reserva realizada con éxito y correo enviado.']);
+        } else {
+            echo json_encode(['success' => false, 'message' => 'Reserva realizada, pero hubo un problema al enviar el correo.']);
+        }
+    } else {
+        echo json_encode(['success' => false, 'message' => 'Error al realizar la reserva.']);
+    }
 }
 ?>

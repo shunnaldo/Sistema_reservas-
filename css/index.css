@@ -5,7 +5,7 @@
 }
 
 body {
-    background-image: url(../img/fondo1.png);
+    background-image: url(../img/fondo.png);
     background-size: cover; 
     background-position: center; 
     background-repeat: no-repeat; 
@@ -18,7 +18,6 @@ body {
     justify-content: center;
     align-items: center;
     flex-direction: column;
-    
 }
 
 
@@ -54,7 +53,7 @@ body {
     width: 200px;
     height: auto;
     border-radius: 8px;
-    padding: 10px; 
+    padding: 10px;
     background-color: transparent;
     max-width: 100%;
 }
@@ -66,12 +65,12 @@ body {
     box-shadow: 0 8px 30px rgba(0, 0, 0, 0);
     width: 100%;
     max-width: 500px;
-    padding: 30px;
+    padding: 10px 20px;
     border: 1px solid #e0e0e0;
     background-color: #ffffff;
     transition: transform 0.3s ease-in-out, box-shadow 0.3s ease, background-color 0.3s ease;
-}
 
+}
 
 
 h2 {
@@ -154,42 +153,283 @@ button:active {
 }
 
 /* Responsividad */
-@media (max-width: 480px) {
+@media (max-width: 768px) {
     body {
-        padding: 10px;
-    }
-
-    .logo-container {
-        padding: 10px;
+        display: flex;
+        flex-direction: column;
+        min-height: 140vh;
+        margin: 0;
+        padding: 0;
+        background-color: #212121;
+        
     }
 
     .form-container {
-        padding: 20px;
-        width: 90%; /* Ajuste para que el formulario ocupe un mayor ancho */
-        margin-top: 20%;
+        height: 110%;
+        top: -120px;
+        height: auto;
+        position: relative;
     }
 
-    h2 {
-        font-size: 22px;
+    .footer {
+        width: 100%;
+        background-color: #212121;
+        display: flex;
+        flex-direction: column;
+        margin-left: -25%;
+        gap: 20px;
     }
 
-    label {
-        font-size: 12px;
+    .footer-left, .footer-center, .footer-right, .footer-left-2 {
+        width: 100%; 
+        text-align: left; 
+        padding: 10px 20px; 
+        margin-bottom: 10px; 
+        box-sizing: border-box; 
     }
 
-    .input-rut, .input-text, button {
-        font-size: 14px;
+    /* Logo ajustado */
+    .footer-logo {
+        width: 100%; 
+        max-width: 180px; 
+        margin: 0 auto; 
+    }
+    .footer-logo-2{
+        margin-left: auto;
+        margin-left: 80px;
+        margin-top: auto;
+        max-width: 300px;
+        width: 100%;
+    }
+
+    /* Botones sociales */
+    .social-buttons {
+        display: flex;
+        gap: 20px;
+        margin-top: 10px;
+        justify-content: flex-start; 
+    }
+
+    .social-btn {
+        font-size: 30px;
         padding: 12px;
+        border-radius: 50%;
+        display: inline-block;
+        text-align: center;
+        transition: transform 0.3s ease;
     }
 
-    button {
-        font-size: 16px;
+    .social-btn:hover {
+        transform: scale(1.2);
     }
 
-    .message {
-        font-size: 12px;
+    /* Enlaces en el footer */
+   
+
+    .footer-center a:hover {
+        color: #FFC239;
     }
 }
+
+
+@media (max-width: 500px) {
+    body {
+        display: flex;
+        flex-direction: column;
+        min-height: 140vh;
+        margin: 0;
+        padding: 0;
+        background-color: #212121;
+        
+    }
+
+    .form-container {
+        height: 110%;
+        top: -120px;
+        height: auto;
+        position: relative;
+    }
+   
+    
+    .footer {
+        width: 100%;
+        background-color: #212121;
+        display: flex;
+        flex-direction: column;
+        margin-left: -25%;
+        gap: 20px;
+    }
+
+    .footer-left, .footer-center, .footer-right, .footer-left-2 {
+        width: 100%; 
+        text-align: left; 
+        padding: 10px 20px; 
+        margin-bottom: 10px; 
+        box-sizing: border-box; 
+    }
+
+    /* Logo ajustado */
+    .footer-logo {
+        width: 100%; 
+        max-width: 180px; 
+        margin: 0 auto; 
+    }
+    .footer-logo-2{
+        margin-left: auto;
+        margin-left: 80px;
+        margin-top: auto;
+        max-width: 300px;
+        width: 100%;
+    }
+
+    /* Botones sociales */
+    .social-buttons {
+        display: flex;
+        gap: 20px;
+        margin-top: 10px;
+        justify-content: flex-start; 
+    }
+
+    .social-btn {
+        font-size: 30px;
+        padding: 12px;
+        border-radius: 50%;
+        display: inline-block;
+        text-align: center;
+        transition: transform 0.3s ease;
+    }
+
+    .social-btn:hover {
+        transform: scale(1.2);
+    }
+
+    /* Enlaces en el footer */
+   
+
+    .footer-center a:hover {
+        color: #FFC239;
+    }
+}
+
+@media (max-width: 400px) {
+    body {
+        display: flex;
+        flex-direction: column;
+        min-height: 150vh;
+        margin: 0;
+        padding: 0;
+        background-color: #212121;
+        
+    }
+
+    .form-container {
+        height: 110%;
+        top: -80px;
+        height: auto;
+        position: relative;
+    }
+
+    .footer {
+        width: 100%;
+        background-color: #212121;
+        display: flex;
+        flex-direction: column;
+        margin-left: -25%;
+        gap: 20px;
+    }
+
+    .footer-left, .footer-center, .footer-right, .footer-left-2 {
+        width: 100%; 
+        text-align: left; 
+        padding: 10px 20px; 
+        margin-bottom: 10px; 
+        box-sizing: border-box; 
+    }
+
+    /* Logo ajustado */
+    .footer-logo {
+        width: 100%; 
+        max-width: 180px; 
+        margin: 0 auto; 
+    }
+    .footer-logo-2{
+        margin-left: auto;
+        margin-left: 80px;
+        margin-top: auto;
+        max-width: 300px;
+        width: 100%;
+    }
+
+    /* Botones sociales */
+    .social-buttons {
+        display: flex;
+        gap: 20px;
+        margin-top: 10px;
+        justify-content: flex-start; 
+    }
+
+    .social-btn {
+        font-size: 30px;
+        padding: 12px;
+        border-radius: 50%;
+        display: inline-block;
+        text-align: center;
+        transition: transform 0.3s ease;
+    }
+
+    .social-btn:hover {
+        transform: scale(1.2);
+    }
+
+    /* Enlaces en el footer */
+   
+
+    .footer-center a:hover {
+        color: #FFC239;
+    }
+}
+
+@media (min-width: 1025px) and (max-width: 1900px) {
+    body {
+        display: flex;
+        flex-direction: column;
+        min-height: 180vh;
+        margin: 0;
+        padding: 0;
+        background-color: #212121;
+        
+    }
+
+    .form-container {
+        height: 110%;
+        top: 10px;
+        height: auto;
+        position: relative;
+    }
+
+ 
+}
+
+
+@media (min-width:1300px) and (max-width: 1550px) {
+    body {
+        display: flex;
+        flex-direction: column;
+        min-height: 200vh;
+        margin: 0;
+        padding: 0;
+        background-color: #212121;
+        
+    }
+
+    .form-container {
+        height: 90%;
+        top: 10px;
+        height: auto;
+        position: relative;
+    }
+}
+
 
 .footer {
     background-color: #212121;
@@ -206,7 +446,7 @@ button:active {
 }
 .form-container:hover{
 
-    transform: translateY(2px); 
+    transform: translateY(1px); 
 }
 
 .footer-left {

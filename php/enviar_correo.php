@@ -34,19 +34,21 @@ function enviarCorreoConfirmacion($idReserva) {
     try {
         // Configuración del servidor SMTP
         $mail->isSMTP();
-        $mail->Host = 'smtp.gmail.com'; // Cambia esto según tu proveedor SMTP
+        $mail->Host = 'mail.fomentolaflorida.cl'; // Cambia esto según tu proveedor SMTP
         $mail->SMTPAuth = true;
-        $mail->Username = 'benjaminparramolina@gmail.com'; // Tu correo
-        $mail->Password = 'fjqg gilv jpkp henv'; // Usa una "contraseña de aplicación"
-        $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;
-        $mail->Port = 587;
+        $mail->Username = 'casaemprender2025@fomentolaflorida.cl'; // Tu correo
+        $mail->Password = 'TvS9nSQmp4nJT7Q'; // Usa una "contraseña de aplicación"
+        $mail->SMTPSecure = PHPMailer::ENCRYPTION_SMTPS;
+        $mail->Port = 465;
+        $mail->SMTPDebug = 2; // 0 para desactivar, 2 para mostrar detalles
+        $mail->Debugoutput = 'html';
 
         // Configuración del correo
-        $mail->setFrom('benjaminparramolina@gmail.com', 'Reservas Cowork');
+        $mail->setFrom('casaemprender2025@fomentolaflorida.cl', 'Reservas Cowork');
         $mail->addAddress($correo, "$nombre $apellido");
 
         $mail->isHTML(true);
-        $mail->Subject = 'Confirmación de Reserva';
+        $mail->Subject = 'Confirmacion de Reserva';
         $mail->Body = "<h2>¡Tu reserva ha sido confirmada!</h2>
                       <p><strong>Nombre:</strong> $nombre $apellido</p>
                       <p><strong>RUT:</strong> $rut</p>

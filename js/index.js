@@ -10,8 +10,15 @@ document.getElementById('reservation-form').addEventListener('submit', function 
     const fecha = document.getElementById('fecha').value;
     const horaInicio = document.getElementById('horaInicio').value;
     const horaFin = document.getElementById('horaFin').value;
+    const cantidadPersonas = parseInt(document.getElementById('cantidadPersonas').value, 10);
+    const telefono = document.getElementById('telefono').value;
 
-    // Expresión regular para validar que solo contenga letras y espacios
+
+    if (isNaN(cantidadPersonas) || cantidadPersonas < 1 || cantidadPersonas > 4) {
+        alert("La cantidad de personas debe estar entre 1 y 4.");
+        return;
+    }
+
     const nombreApellidoRegex = /^[a-zA-ZáéíóúÁÉÍÓÚñÑ\s]+$/;
 
     if (!nombreApellidoRegex.test(nombre) || !nombreApellidoRegex.test(apellido)) {
@@ -19,16 +26,20 @@ document.getElementById('reservation-form').addEventListener('submit', function 
         return;
     }
 
-    
     const now = new Date();
     const fechaSeleccionada = new Date(fecha + "T" + horaInicio);
 
-    // Verificar si la fecha y hora seleccionadas son válidas y no están en pasado
     if (fechaSeleccionada < now && (fechaSeleccionada.getDate() !== now.getDate() || fechaSeleccionada.getHours() < now.getHours())) {
         alert("La fecha y hora deben ser válidas o a futuro.");
         return;
     }
 
+     
+    const diaSemana = fechaSeleccionada.getDay(); 
+    if ((diaSemana === 2 || diaSemana === 5) && cowork === 'oficina') {
+        alert('Actualmente el cowork "Oficina" se encuentra deshabilitado los días martes y viernes.');
+        return;
+    }
 
     if (horaInicio && horaFin) {
         const horaInicioDate = new Date("1970-01-01T" + horaInicio + "Z");
@@ -56,7 +67,9 @@ document.getElementById('reservation-form').addEventListener('submit', function 
         cowork: cowork,
         fecha: fecha,
         horaInicio: horaInicio,
-        horaFin: horaFin
+        horaFin: horaFin,
+        cantidadPersonas: cantidadPersonas,
+        telefono: telefono 
     };
 
     fetch('/sistema_reservas/Sistema_reservas-/php/guardarReserva.php', {
@@ -71,12 +84,19 @@ document.getElementById('reservation-form').addEventListener('submit', function 
         const successMessageElement = document.getElementById('success-message');
         const errorMessageElement = document.getElementById('error-message');
 
+        // Detectar si el mensaje es el relacionado con la Tarjeta Vecina
+        if (data.message.includes("Tarjeta Vive La Florida")) {
+            document.getElementById('popupMessage').innerText = data.message;
+            document.getElementById('popupModal').style.display = 'block';
+            return;
+        }
+
         if (data.success) {
             successMessageElement.innerText = data.message;
             successMessageElement.style.display = 'block';
             errorMessageElement.style.display = 'none';
 
-            setTimeout(function() {
+            setTimeout(function () {
                 successMessageElement.style.display = 'none';
             }, 3000);
 
@@ -89,5 +109,10 @@ document.getElementById('reservation-form').addEventListener('submit', function 
     })
     .catch(error => {
         console.error('Error:', error);
+    });
+
+    // Cerrar popup al hacer clic en la X
+    document.getElementById('closePopup').addEventListener('click', function () {
+        document.getElementById('popupModal').style.display = 'none';
     });
 });
