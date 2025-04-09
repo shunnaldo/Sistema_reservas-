@@ -1,10 +1,6 @@
 <?php
 session_start();
 
-if (!isset($_SESSION['admin_id']) || $_SESSION['rol'] !== 'admin') {
-    header("Location: loginAdmin.php?error=No tienes permisos para registrar usuarios.");
-    exit;
-}
 
 // Verificar si el administrador está logueado
 if (!isset($_SESSION['admin_id'])) {
@@ -146,7 +142,7 @@ while ($row = $result_reservas_por_hora->fetch_assoc()) {
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 <body>
-    <div id="navbarAdmin-container"></div>
+    <div id="navbarStaff-container"></div>
 
     <div class="container-fluid">
         <div class="container-center">
@@ -249,7 +245,7 @@ while ($row = $result_reservas_por_hora->fetch_assoc()) {
         </div>
     </div>
 
-    <script src="../../js/navbarAdmin.js"></script>
+    <script src="../../js/sidebarStaff.js"></script>
     <script src="../../js/sidebar.js"></script>
     <script>
         document.addEventListener("DOMContentLoaded", function() {
