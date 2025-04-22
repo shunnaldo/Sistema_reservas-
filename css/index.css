@@ -5,7 +5,7 @@
 }
 
 body {
-    background-image: url(../img/fondo.png);
+    background-image: url(https://i.postimg.cc/prRXSw-Y4/fondo.png);
     background-size: cover; 
     background-position: center; 
     background-repeat: no-repeat; 
@@ -13,7 +13,7 @@ body {
     font-family: 'Arial', sans-serif;
     margin: 0;
     color: #212121;
-    min-height: 150vh;
+    min-height: 170vh;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -157,7 +157,7 @@ button:active {
     body {
         display: flex;
         flex-direction: column;
-        min-height: 140vh;
+        min-height: 160vh;
         margin: 0;
         padding: 0;
         background-color: #212121;
@@ -315,7 +315,7 @@ button:active {
     body {
         display: flex;
         flex-direction: column;
-        min-height: 150vh;
+        min-height: 170vh;
         margin: 0;
         padding: 0;
         background-color: #212121;
@@ -415,7 +415,7 @@ button:active {
     body {
         display: flex;
         flex-direction: column;
-        min-height: 200vh;
+        min-height: 210vh;
         margin: 0;
         padding: 0;
         background-color: #212121;

@@ -3,44 +3,21 @@ use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\Exception;
 
 require 'vendor/autoload.php';
-require 'conexion.php'; // Conexión a la base de datos
+require 'conexion.php'; 
 
-function enviarCorreoConfirmacion($idReserva) {
-    global $conexion;
-
-    // Buscar los datos de la reserva en la BD
-    $sql = "SELECT * FROM Reservas WHERE id = ?";
-    $stmt = $conexion->prepare($sql);
-    $stmt->bind_param("i", $idReserva);
-    $stmt->execute();
-    $resultado = $stmt->get_result();
-
-    if ($resultado->num_rows === 0) {
-        return false; // No se encontró la reserva
-    }
-
-    $reserva = $resultado->fetch_assoc();
-    $correo = $reserva['correo_vecino'];
-    $nombre = $reserva['nombre_vecino'];
-    $apellido = $reserva['apellido_vecino'];
-    $rut = $reserva['rut'];
-    $cowork = $reserva['cowork'];
-    $fecha = $reserva['fecha'];
-    $hora_inicio = $reserva['hora_inicio'];
-    $hora_fin = $reserva['hora_fin'];
-
+function enviarCorreoConfirmacion($correo, $nombre, $apellido, $rut, $cowork, $fecha, $hora_inicio, $hora_fin) {
     $mail = new PHPMailer(true);
 
     try {
         // Configuración del servidor SMTP
         $mail->isSMTP();
-        $mail->Host = 'mail.fomentolaflorida.cl'; // Cambia esto según tu proveedor SMTP
+        $mail->Host = 'mail.fomentolaflorida.cl';
         $mail->SMTPAuth = true;
-        $mail->Username = 'casaemprender2025@fomentolaflorida.cl'; // Tu correo
-        $mail->Password = 'TvS9nSQmp4nJT7Q'; // Usa una "contraseña de aplicación"
+        $mail->Username = 'casaemprender2025@fomentolaflorida.cl';
+        $mail->Password = 'TvS9nSQmp4nJT7Q';
         $mail->SMTPSecure = PHPMailer::ENCRYPTION_SMTPS;
         $mail->Port = 465;
-        $mail->SMTPDebug = 2; // 0 para desactivar, 2 para mostrar detalles
+        $mail->SMTPDebug = 0; // Puedes poner 2 para debug o 0 para producción
         $mail->Debugoutput = 'html';
 
         // Configuración del correo
@@ -48,7 +25,7 @@ function enviarCorreoConfirmacion($idReserva) {
         $mail->addAddress($correo, "$nombre $apellido");
 
         $mail->isHTML(true);
-        $mail->Subject = 'Confirmacion de Reserva';
+        $mail->Subject = 'Confirmación de Reserva';
         $mail->Body = '
         <div style="font-family: Arial, sans-serif; color: #333;">
             <div style="max-width: 600px; margin: auto; border: 1px solid #e0e0e0; border-radius: 10px; overflow: hidden;">
@@ -96,15 +73,9 @@ function enviarCorreoConfirmacion($idReserva) {
                     <span style="font-size: 12px; color: #666;">Este correo fue enviado automáticamente. Por favor, no respondas a este mensaje.</span>
                 </div>
             </div>
-        </div>';
-    
+</div>';
 
-        // Enviar correo
-        if ($mail->send()) {
-            return true;
-        } else {
-            return false;
-        }
+        return $mail->send();
     } catch (Exception $e) {
         return false;
     }

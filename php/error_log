@@ -1,0 +1,92 @@
+[07-Apr-2025 21:03:33 UTC] PHP Warning:  Undefined array key "cantidadPersonas" in /home/fomentol/public_html/sistema_reservas/Sistema_reservas-/php/guardarReserva.php on line 19
+[08-Apr-2025 15:04:57 UTC] PHP Warning:  Undefined array key "telefono" in /home/fomentol/public_html/sistema_reservas/Sistema_reservas-/php/guardarReserva.php on line 20
+[08-Apr-2025 15:05:21 UTC] PHP Warning:  Undefined array key "telefono" in /home/fomentol/public_html/sistema_reservas/Sistema_reservas-/php/guardarReserva.php on line 20
+[08-Apr-2025 15:22:45 UTC] PHP Warning:  Undefined array key "telefono" in /home/fomentol/public_html/sistema_reservas/Sistema_reservas-/php/guardarReserva.php on line 20
+[08-Apr-2025 15:23:37 UTC] PHP Warning:  Undefined array key "telefono" in /home/fomentol/public_html/sistema_reservas/Sistema_reservas-/php/guardarReserva.php on line 20
+[08-Apr-2025 15:25:11 UTC] PHP Warning:  Undefined array key "telefono" in /home/fomentol/public_html/sistema_reservas/Sistema_reservas-/php/guardarReserva.php on line 20
+[08-Apr-2025 15:25:36 UTC] PHP Warning:  Undefined array key "telefono" in /home/fomentol/public_html/sistema_reservas/Sistema_reservas-/php/guardarReserva.php on line 20
+[08-Apr-2025 15:31:15 UTC] PHP Warning:  Undefined array key "telefono" in /home/fomentol/public_html/sistema_reservas/Sistema_reservas-/php/guardarReserva.php on line 20
+[08-Apr-2025 15:32:50 UTC] PHP Warning:  Undefined array key "telefono" in /home/fomentol/public_html/sistema_reservas/Sistema_reservas-/php/guardarReserva.php on line 20
+[08-Apr-2025 17:20:59 UTC] PHP Warning:  Undefined array key "telefono" in /home/fomentol/public_html/sistema_reservas/Sistema_reservas-/php/guardarReserva.php on line 20
+[08-Apr-2025 17:40:25 UTC] PHP Warning:  Undefined array key "telefono" in /home/fomentol/public_html/sistema_reservas/Sistema_reservas-/php/guardarReserva.php on line 21
+[08-Apr-2025 17:40:43 UTC] PHP Warning:  Undefined array key "telefono" in /home/fomentol/public_html/sistema_reservas/Sistema_reservas-/php/guardarReserva.php on line 21
+[08-Apr-2025 17:40:47 UTC] PHP Warning:  Undefined array key "telefono" in /home/fomentol/public_html/sistema_reservas/Sistema_reservas-/php/guardarReserva.php on line 21
+[09-Apr-2025 15:08:10 UTC] PHP Warning:  Undefined array key "telefono" in /home/fomentol/public_html/sistema_reservas/Sistema_reservas-/php/guardarReserva.php on line 21
+[10-Apr-2025 20:25:10 UTC] PHP Fatal error:  Uncaught mysqli_sql_exception: Duplicate entry '26883927' for key 'PRIMARY' in /home/fomentol/public_html/sistema_reservas/Sistema_reservas-/php/guardarDatosForm.php:27
+Stack trace:
+#0 /home/fomentol/public_html/sistema_reservas/Sistema_reservas-/php/guardarDatosForm.php(27): mysqli_stmt->execute()
+#1 {main}
+  thrown in /home/fomentol/public_html/sistema_reservas/Sistema_reservas-/php/guardarDatosForm.php on line 27
+[10-Apr-2025 20:25:33 UTC] PHP Fatal error:  Uncaught mysqli_sql_exception: Duplicate entry '26883927' for key 'PRIMARY' in /home/fomentol/public_html/sistema_reservas/Sistema_reservas-/php/guardarDatosForm.php:27
+Stack trace:
+#0 /home/fomentol/public_html/sistema_reservas/Sistema_reservas-/php/guardarDatosForm.php(27): mysqli_stmt->execute()
+#1 {main}
+  thrown in /home/fomentol/public_html/sistema_reservas/Sistema_reservas-/php/guardarDatosForm.php on line 27
+[10-Apr-2025 20:26:02 UTC] PHP Fatal error:  Uncaught mysqli_sql_exception: Duplicate entry '26883927' for key 'PRIMARY' in /home/fomentol/public_html/sistema_reservas/Sistema_reservas-/php/guardarDatosForm.php:27
+Stack trace:
+#0 /home/fomentol/public_html/sistema_reservas/Sistema_reservas-/php/guardarDatosForm.php(27): mysqli_stmt->execute()
+#1 {main}
+  thrown in /home/fomentol/public_html/sistema_reservas/Sistema_reservas-/php/guardarDatosForm.php on line 27
+[10-Apr-2025 20:29:07 UTC] PHP Fatal error:  Uncaught mysqli_sql_exception: Duplicate entry '26883927' for key 'PRIMARY' in /home/fomentol/public_html/sistema_reservas/Sistema_reservas-/php/guardarDatosForm.php:27
+Stack trace:
+#0 /home/fomentol/public_html/sistema_reservas/Sistema_reservas-/php/guardarDatosForm.php(27): mysqli_stmt->execute()
+#1 {main}
+  thrown in /home/fomentol/public_html/sistema_reservas/Sistema_reservas-/php/guardarDatosForm.php on line 27
+[10-Apr-2025 20:29:21 UTC] PHP Fatal error:  Uncaught mysqli_sql_exception: Duplicate entry '26883927' for key 'PRIMARY' in /home/fomentol/public_html/sistema_reservas/Sistema_reservas-/php/guardarDatosForm.php:27
+Stack trace:
+#0 /home/fomentol/public_html/sistema_reservas/Sistema_reservas-/php/guardarDatosForm.php(27): mysqli_stmt->execute()
+#1 {main}
+  thrown in /home/fomentol/public_html/sistema_reservas/Sistema_reservas-/php/guardarDatosForm.php on line 27
+[10-Apr-2025 20:35:07 UTC] PHP Fatal error:  Uncaught mysqli_sql_exception: Duplicate entry '26883927' for key 'PRIMARY' in /home/fomentol/public_html/sistema_reservas/Sistema_reservas-/php/guardarDatosForm.php:27
+Stack trace:
+#0 /home/fomentol/public_html/sistema_reservas/Sistema_reservas-/php/guardarDatosForm.php(27): mysqli_stmt->execute()
+#1 {main}
+  thrown in /home/fomentol/public_html/sistema_reservas/Sistema_reservas-/php/guardarDatosForm.php on line 27
+[10-Apr-2025 20:42:42 UTC] PHP Fatal error:  Uncaught mysqli_sql_exception: Duplicate entry '268839275' for key 'PRIMARY' in /home/fomentol/public_html/sistema_reservas/Sistema_reservas-/php/guardarDatosForm.php:27
+Stack trace:
+#0 /home/fomentol/public_html/sistema_reservas/Sistema_reservas-/php/guardarDatosForm.php(27): mysqli_stmt->execute()
+#1 {main}
+  thrown in /home/fomentol/public_html/sistema_reservas/Sistema_reservas-/php/guardarDatosForm.php on line 27
+[10-Apr-2025 20:43:11 UTC] PHP Fatal error:  Uncaught mysqli_sql_exception: Duplicate entry '268839275' for key 'PRIMARY' in /home/fomentol/public_html/sistema_reservas/Sistema_reservas-/php/guardarDatosForm.php:27
+Stack trace:
+#0 /home/fomentol/public_html/sistema_reservas/Sistema_reservas-/php/guardarDatosForm.php(27): mysqli_stmt->execute()
+#1 {main}
+  thrown in /home/fomentol/public_html/sistema_reservas/Sistema_reservas-/php/guardarDatosForm.php on line 27
+[10-Apr-2025 20:43:30 UTC] PHP Fatal error:  Uncaught mysqli_sql_exception: Duplicate entry '268839275' for key 'PRIMARY' in /home/fomentol/public_html/sistema_reservas/Sistema_reservas-/php/guardarDatosForm.php:27
+Stack trace:
+#0 /home/fomentol/public_html/sistema_reservas/Sistema_reservas-/php/guardarDatosForm.php(27): mysqli_stmt->execute()
+#1 {main}
+  thrown in /home/fomentol/public_html/sistema_reservas/Sistema_reservas-/php/guardarDatosForm.php on line 27
+[10-Apr-2025 20:46:06 UTC] PHP Fatal error:  Uncaught mysqli_sql_exception: Duplicate entry '268839275' for key 'PRIMARY' in /home/fomentol/public_html/sistema_reservas/Sistema_reservas-/php/guardarDatosForm.php:27
+Stack trace:
+#0 /home/fomentol/public_html/sistema_reservas/Sistema_reservas-/php/guardarDatosForm.php(27): mysqli_stmt->execute()
+#1 {main}
+  thrown in /home/fomentol/public_html/sistema_reservas/Sistema_reservas-/php/guardarDatosForm.php on line 27
+[10-Apr-2025 20:46:35 UTC] PHP Fatal error:  Uncaught mysqli_sql_exception: Duplicate entry '268839275' for key 'PRIMARY' in /home/fomentol/public_html/sistema_reservas/Sistema_reservas-/php/guardarDatosForm.php:27
+Stack trace:
+#0 /home/fomentol/public_html/sistema_reservas/Sistema_reservas-/php/guardarDatosForm.php(27): mysqli_stmt->execute()
+#1 {main}
+  thrown in /home/fomentol/public_html/sistema_reservas/Sistema_reservas-/php/guardarDatosForm.php on line 27
+[10-Apr-2025 20:46:56 UTC] PHP Fatal error:  Uncaught mysqli_sql_exception: Duplicate entry '268839275' for key 'PRIMARY' in /home/fomentol/public_html/sistema_reservas/Sistema_reservas-/php/guardarDatosForm.php:27
+Stack trace:
+#0 /home/fomentol/public_html/sistema_reservas/Sistema_reservas-/php/guardarDatosForm.php(27): mysqli_stmt->execute()
+#1 {main}
+  thrown in /home/fomentol/public_html/sistema_reservas/Sistema_reservas-/php/guardarDatosForm.php on line 27
+[10-Apr-2025 21:22:12 UTC] PHP Fatal error:  Uncaught mysqli_sql_exception: Duplicate entry '268839275' for key 'PRIMARY' in /home/fomentol/public_html/sistema_reservas/Sistema_reservas-/php/guardarDatosForm.php:29
+Stack trace:
+#0 /home/fomentol/public_html/sistema_reservas/Sistema_reservas-/php/guardarDatosForm.php(29): mysqli_stmt->execute()
+#1 {main}
+  thrown in /home/fomentol/public_html/sistema_reservas/Sistema_reservas-/php/guardarDatosForm.php on line 29
+[10-Apr-2025 21:22:31 UTC] PHP Fatal error:  Uncaught mysqli_sql_exception: Duplicate entry '268839275' for key 'PRIMARY' in /home/fomentol/public_html/sistema_reservas/Sistema_reservas-/php/guardarDatosForm.php:29
+Stack trace:
+#0 /home/fomentol/public_html/sistema_reservas/Sistema_reservas-/php/guardarDatosForm.php(29): mysqli_stmt->execute()
+#1 {main}
+  thrown in /home/fomentol/public_html/sistema_reservas/Sistema_reservas-/php/guardarDatosForm.php on line 29
+[10-Apr-2025 21:22:33 UTC] PHP Fatal error:  Uncaught mysqli_sql_exception: Duplicate entry '268839275' for key 'PRIMARY' in /home/fomentol/public_html/sistema_reservas/Sistema_reservas-/php/guardarDatosForm.php:29
+Stack trace:
+#0 /home/fomentol/public_html/sistema_reservas/Sistema_reservas-/php/guardarDatosForm.php(29): mysqli_stmt->execute()
+#1 {main}
+  thrown in /home/fomentol/public_html/sistema_reservas/Sistema_reservas-/php/guardarDatosForm.php on line 29
+[11-Apr-2025 14:54:19 UTC] PHP Warning:  Undefined array key "telefono" in /home/fomentol/public_html/sistema_reservas/Sistema_reservas-/php/guardarReserva.php on line 21
+[11-Apr-2025 14:54:48 UTC] PHP Warning:  Undefined array key "telefono" in /home/fomentol/public_html/sistema_reservas/Sistema_reservas-/php/guardarReserva.php on line 21
+[11-Apr-2025 14:54:55 UTC] PHP Warning:  Undefined array key "telefono" in /home/fomentol/public_html/sistema_reservas/Sistema_reservas-/php/guardarReserva.php on line 21

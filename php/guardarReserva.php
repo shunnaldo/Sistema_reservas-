@@ -49,20 +49,24 @@ if ($result_check_reserva->num_rows > 0) {
     exit;
 }
 
-$sql = "SELECT * FROM Reservas 
+$sql = "SELECT COUNT(*) as total_reservas FROM Reservas 
         WHERE fecha = ? 
         AND cowork = ? 
-        AND check_asistencia != 0
-        AND ((hora_inicio <= ? AND hora_fin > ?) 
-        OR (hora_inicio < ? AND hora_fin >= ?))";
+        AND estado IN ('pendiente', 'lista')
+        AND (
+            (hora_inicio <= ? AND hora_fin > ?) 
+            OR (hora_inicio < ? AND hora_fin >= ?)
+        )";
 
 $stmt = $conexion->prepare($sql);
 $stmt->bind_param("ssssss", $fecha, $cowork, $hora_inicio, $hora_inicio, $hora_fin, $hora_fin);
 $stmt->execute();
 $result = $stmt->get_result();
+$row = $result->fetch_assoc();
 
-if ($result->num_rows > 0) {
-    echo json_encode(['success' => false, 'message' => 'La hora seleccionada ya está ocupada en este cowork.']);
+if ($row['total_reservas'] >= 6) {
+    echo json_encode(['success' => false, 'message' => 'La hora seleccionada no se encuentra disponible en este cowork.']);
+    exit;
 } else {
 
 
