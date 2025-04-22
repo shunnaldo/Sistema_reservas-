@@ -1,3 +1,20 @@
+<?php
+include('php/conexion.php');
+
+// Obtener los días bloqueados
+$sql = "SELECT * FROM diasBloqueados ORDER BY fecha ASC";
+$result = $conexion->query($sql);
+$diasBloqueados = [];
+while ($row = $result->fetch_assoc()) {
+    $diasBloqueados[] = [
+        'fecha' => $row['fecha'],
+        'motivo' => $row['motivo']
+    ];
+}
+?>
+
+
+
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -120,6 +137,31 @@
     <script src="js/footer.js"></script>
 
 
+    <script>
+        // Pasamos los días bloqueados al frontend
+        const diasBloqueados = <?php echo json_encode($diasBloqueados); ?>;
+
+        // Función para verificar si la fecha está bloqueada
+        function verificarFechaBloqueada(fechaSeleccionada) {
+            for (const dia of diasBloqueados) {
+                if (dia.fecha === fechaSeleccionada) {
+                    return dia.motivo;
+                }
+            }
+            return null;
+        }
+
+        // Lógica para el evento de selección de fecha
+        document.getElementById('fecha').addEventListener('change', function () {
+            const fechaSeleccionada = this.value;
+            const motivoBloqueo = verificarFechaBloqueada(fechaSeleccionada);
+
+            if (motivoBloqueo) {
+                alert(`Este día está bloqueado por el siguiente motivo: ${motivoBloqueo}`);
+                document.getElementById('fecha').value = ''; // Limpiar la fecha seleccionada
+            }
+        });
+    </script>
 
 
     </body>
