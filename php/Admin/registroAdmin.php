@@ -46,6 +46,7 @@ if (!isset($_SESSION['admin_id']) || $_SESSION['rol'] !== 'admin') {
                 <select id="rol" name="rol" required>
                     <option value="staff">Staff</option>
                     <option value="admin">Administrador</option>
+                    <option value="proyecto">Proyecto</option> 
                 </select><br><br>
 
                 <input type="submit" value="Registrar">

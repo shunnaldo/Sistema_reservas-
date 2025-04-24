@@ -43,8 +43,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 setcookie('nombre', $admin['nombre'], time() + (86400 * 30), "/");
             }
 
-            // Redirigir al panel de administración
-            header("Location:visualizacionReservas.php");
+            // Redirigir según el rol
+            if ($admin['rol'] === 'proyecto') {
+                header("Location: sidebarproyecto.html");
+            } else {
+                header("Location: visualizacionReservas.php");
+            }
             exit;
         } else {
             // Si la contraseña es incorrecta
