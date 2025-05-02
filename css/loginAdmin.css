@@ -1,0 +1,87 @@
+/* Centra todo el contenido dentro del contenedor principal */
+.container-center {
+    text-align: center;
+    margin: 0 auto;
+    width: 100%;
+    max-width: 600px;
+    padding: 20px;
+    background-color: #f9f9f9;
+    border-radius: 8px;
+    margin-top: 90px;
+    margin-bottom: 50px;
+}
+
+/* Contenedor de la página */
+.main-container {
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    height: 100%;
+    padding-left: 250px; /* Se ajustará en móvil */
+}
+
+/* Alinea el formulario y el contenido */
+form {
+    display: block;
+    margin-top: 20px;
+}
+
+/* Estilo de los inputs y botones */
+input[type="text"],
+input[type="email"],
+input[type="password"],
+input[type="submit"] {
+    width: 100%;
+    padding: 10px;
+    margin: 10px 0;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    box-sizing: border-box;
+}
+
+/* Estilo del botón */
+input[type="submit"] {
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+input[type="submit"]:hover {
+    background-color: #45a049;
+}
+
+/* Estilo de párrafos */
+p {
+    font-size: 16px;
+    font-weight: bold;
+}
+
+.container-fluid {
+    padding-top: 80px;
+}
+
+/* MEDIA QUERY para dispositivos móviles */
+@media (max-width: 768px) {
+    .main-container {
+        flex-direction: column;
+        padding-left: 0;
+        padding-right: 0;
+        align-items: center;
+    }
+
+    .container-center {
+        margin-top: 60px;
+        margin-bottom: 30px;
+        padding: 15px;
+    }
+
+    input[type="submit"] {
+        font-size: 14px;
+    }
+
+    p {
+        font-size: 14px;
+    }
+}

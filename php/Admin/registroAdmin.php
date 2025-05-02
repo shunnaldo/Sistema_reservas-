@@ -21,7 +21,7 @@ if (!isset($_SESSION['admin_id']) || $_SESSION['rol'] !== 'admin') {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Registro de Administrador</title>
-    <link rel="stylesheet" href="../../css/registroAdmin.css">
+    <link rel="stylesheet" href="../../css/loginAdmin.css">
 </head>
 <body>
 
