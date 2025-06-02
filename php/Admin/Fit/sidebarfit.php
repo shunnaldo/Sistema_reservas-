@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>sidebar</title>
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/remixicon/4.2.0/remixicon.css">
+
+    <link rel="stylesheet" href="../../../css/navbarAdmin.css">
+
+</head>
+<body>
+    
+        <!--=============== HEADER ===============-->
+    <header class="header" id="header">
+        <div class="header__container">
+           <button class="header__toggle" id="header-toggle">
+              <i class="ri-menu-line"></i>
+           </button>
+        </div>
+     </header>
+
+     <!--=============== SIDEBAR ===============-->
+     <nav class="sidebar" id="sidebar">
+        <div class="sidebar__container">
+            <div class="sidebar__user">
+                <div class="sidebar__img">
+                    <img src="../../../img/Logo CE negro-02.png" alt="User Image">
+                </div>
+                <div class="sidebar__info">
+                </div>
+
+            </div>
+
+           <div class="sidebar__content">
+              <div> 
+                 <h3 class="sidebar__title">MANAGE</h3>
+
+                 <div class="sidebar__list">
+                  
+                  <a href="#" class="sidebar__link ">
+                     <i class="ri-pie-chart-2-fill"></i>
+                     <span></span>
+                  </a>
+                     
+
+                 </div>
+              </div>
+
+              <div>
+                 <h3 class="sidebar__title">SETTINGS</h3>
+
+
+                 <div class="sidebar__actions">
+
+                  <a href="logout.php" class="sidebar__link">
+                     <i class="ri-logout-box-r-fill"></i>
+                     <span>Log Out</span>
+                  </a>
+                  
+               </div>
+
+              </div>
+           </div>
+
+        </div>
+     </nav>
+
+     <script src="../../../js/sidebar.js"></script>
+
+
+</body>
+</html>
