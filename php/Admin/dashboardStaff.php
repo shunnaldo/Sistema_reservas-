@@ -129,10 +129,35 @@ while ($row = $result_reservas_por_hora->fetch_assoc()) {
 }
 
 
+// Consulta para obtener los datos de coworks por mes
+$sql_coworks_por_mes = "SELECT 
+    DATE_FORMAT(fecha, '%M') AS mes,
+    cowork,
+    COUNT(*) AS cantidad_reservas
+FROM Reservas
+GROUP BY mes, cowork
+ORDER BY STR_TO_DATE(mes, '%M'), cantidad_reservas DESC";
+
+$result_coworks_por_mes = $conexion->query($sql_coworks_por_mes);
+
+// Organizar los datos para el gráfico
+$coworks_por_mes = [];
+while ($row = $result_coworks_por_mes->fetch_assoc()) {
+    $mes = $row['mes'];
+    if (!isset($coworks_por_mes[$mes])) {
+        $coworks_por_mes[$mes] = [];
+    }
+    $coworks_por_mes[$mes][] = [
+        'cowork' => $row['cowork'],
+        'cantidad' => $row['cantidad_reservas']
+    ];
+}
+
 ?>
 
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -141,6 +166,7 @@ while ($row = $result_reservas_por_hora->fetch_assoc()) {
     <link rel="stylesheet" href="../../css/dashBoardAdmin.css">
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
+
 <body>
     <div id="navbarStaff-container"></div>
 
@@ -195,7 +221,7 @@ while ($row = $result_reservas_por_hora->fetch_assoc()) {
                     </div>
                 </div>
 
-                
+
 
             </div>
 
@@ -207,11 +233,28 @@ while ($row = $result_reservas_por_hora->fetch_assoc()) {
                         <canvas id="crecimientoDiaChart"></canvas>
                     </div>
                 </div>
-                
+
                 <div class="col-md-6">
                     <div class="chart-container mt-4">
                         <h4>Reservas por Hora</h4>
                         <canvas id="reservasPorHoraChart"></canvas>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="chart-container mt-4">
+                        <h4>Uso de Coworks por Mes</h4>
+                        <div class="mb-3">
+                            <label for="mesSelect" class="form-label">Selecciona un Mes:</label>
+                            <select id="mesSelect" class="form-select">
+                                <?php foreach (array_keys($coworks_por_mes) as $mes): ?>
+                                    <option value="<?php echo $mes; ?>"><?php echo ucfirst($mes); ?></option>
+                                <?php endforeach; ?>
+                            </select>
+                        </div>
+                        <canvas id="coworksPorMesChart"></canvas>
                     </div>
                 </div>
             </div>
@@ -230,7 +273,8 @@ while ($row = $result_reservas_por_hora->fetch_assoc()) {
                         </tr>
                     </thead>
                     <tbody>
-                        <?php $posicion = 1; foreach ($vecinos as $vecino): ?>
+                        <?php $posicion = 1;
+                        foreach ($vecinos as $vecino): ?>
                             <tr>
                                 <td><?php echo $posicion++; ?></td>
                                 <td><?php echo $vecino['rut']; ?></td>
@@ -262,7 +306,9 @@ while ($row = $result_reservas_por_hora->fetch_assoc()) {
                         hoverOffset: 4
                     }]
                 },
-                options: { responsive: true }
+                options: {
+                    responsive: true
+                }
             });
 
             // Cambiar la información del cowork seleccionado
@@ -271,7 +317,7 @@ while ($row = $result_reservas_por_hora->fetch_assoc()) {
             const coworkNombre = document.getElementById("coworkNombre");
             const coworkReservas = document.getElementById("coworkReservas");
 
-            selectElement.addEventListener("change", function () {
+            selectElement.addEventListener("change", function() {
                 const selectedCowork = this.value;
                 const coworkInfo = coworksData.find(c => c.cowork === selectedCowork);
 
@@ -307,150 +353,233 @@ while ($row = $result_reservas_por_hora->fetch_assoc()) {
                 },
                 options: {
                     responsive: true,
-                    scales: { y: { beginAtZero: true, max: 8 * 60 } }
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            max: 8 * 60
+                        }
+                    }
                 }
             });
         });
     </script>
     <script>
         // Gráfico de Índice de Asistencia
-const ctxAsistencia = document.getElementById('asistenciaChart').getContext('2d');
-new Chart(ctxAsistencia, {
-    type: 'doughnut',
-    data: {
-        labels: ['Asistieron', 'No Asistieron'],
-        datasets: [{
-            data: [<?php echo $asistencias; ?>, <?php echo $no_asistencias; ?>],
-            backgroundColor: ['#4BC0C0', '#FF6384'],
-            hoverOffset: 4
-        }]
-    },
-    options: {
-        responsive: true,
-        plugins: {
-            tooltip: {
-                callbacks: {
-                    label: function(context) {
-                        const total = context.dataset.data.reduce((a, b) => a + b, 0);
-                        const value = context.raw;
-                        const percentage = ((value / total) * 100).toFixed(1);
-                        return `${context.label}: ${value} (${percentage}%)`;
+        const ctxAsistencia = document.getElementById('asistenciaChart').getContext('2d');
+        new Chart(ctxAsistencia, {
+            type: 'doughnut',
+            data: {
+                labels: ['Asistieron', 'No Asistieron'],
+                datasets: [{
+                    data: [<?php echo $asistencias; ?>, <?php echo $no_asistencias; ?>],
+                    backgroundColor: ['#4BC0C0', '#FF6384'],
+                    hoverOffset: 4
+                }]
+            },
+            options: {
+                responsive: true,
+                plugins: {
+                    tooltip: {
+                        callbacks: {
+                            label: function(context) {
+                                const total = context.dataset.data.reduce((a, b) => a + b, 0);
+                                const value = context.raw;
+                                const percentage = ((value / total) * 100).toFixed(1);
+                                return `${context.label}: ${value} (${percentage}%)`;
+                            }
+                        }
                     }
                 }
             }
-        }
-    }
-});
-
+        });
     </script>
     <script>
-// Gráfico de Crecimiento Acumulado Mes a Mes
-const ctxCrecimiento = document.getElementById('crecimientoChart').getContext('2d');
-new Chart(ctxCrecimiento, {
-    type: 'line',  // Tipo de gráfico de línea
-    data: {
-        labels: <?php echo json_encode($labels_comparativo); ?>,  // Los meses
-        datasets: [{
-            label: 'Crecimiento Acumulado de Reservas',
-            data: <?php echo json_encode($crecimiento_por_mes); ?>,  // Crecimiento acumulado
-            borderColor: '#FF9F40',  // Color de la línea
-            backgroundColor: 'rgba(255, 159, 64, 0.2)',  // Fondo de la línea
-            borderWidth: 2,
-            fill: false,  // No rellenar debajo de la línea
-            tension: 0.4  // Suaviza la línea
-        }]
-    },
-    options: {
-        responsive: true,
-        scales: {
-            y: {
-                beginAtZero: true,  // Asegura que el eje Y empiece desde 0
-                ticks: {
-                    callback: function(value) {
-                        return value;  // No formatear los ticks de y-axis
+        // Gráfico de Crecimiento Acumulado Mes a Mes
+        const ctxCrecimiento = document.getElementById('crecimientoChart').getContext('2d');
+        new Chart(ctxCrecimiento, {
+            type: 'line', // Tipo de gráfico de línea
+            data: {
+                labels: <?php echo json_encode($labels_comparativo); ?>, // Los meses
+                datasets: [{
+                    label: 'Crecimiento Acumulado de Reservas',
+                    data: <?php echo json_encode($crecimiento_por_mes); ?>, // Crecimiento acumulado
+                    borderColor: '#FF9F40', // Color de la línea
+                    backgroundColor: 'rgba(255, 159, 64, 0.2)', // Fondo de la línea
+                    borderWidth: 2,
+                    fill: false, // No rellenar debajo de la línea
+                    tension: 0.4 // Suaviza la línea
+                }]
+            },
+            options: {
+                responsive: true,
+                scales: {
+                    y: {
+                        beginAtZero: true, // Asegura que el eje Y empiece desde 0
+                        ticks: {
+                            callback: function(value) {
+                                return value; // No formatear los ticks de y-axis
+                            }
+                        }
+                    },
+                    x: {
+                        title: {
+                            display: true,
+                            text: 'Meses'
+                        }
                     }
                 }
-            },
-            x: {
-                title: {
-                    display: true,
-                    text: 'Meses'
-                }
             }
-        }
-    }
-});
-
-
-
+        });
     </script>
     <script>
-// Gráfico de Crecimiento por Día dentro de cada Mes (gráfico lineal)
-const ctxDia = document.getElementById('crecimientoDiaChart').getContext('2d');
-new Chart(ctxDia, {
-    type: 'line',  // Cambiar a gráfico lineal
-    data: {
-        labels: <?php echo json_encode($labels_dia_comparativo); ?>,  // Los días del mes
-        datasets: [{
-            label: 'Reservas por Día',
-            data: <?php echo json_encode($reservas_por_dia_comparativo); ?>,  // Reservas por día
-            borderColor: '#FF6384',  // Color de la línea
-            backgroundColor: 'rgba(255, 99, 132, 0.2)',  // Fondo de la línea (ligeramente transparente)
-            borderWidth: 2,
-            fill: true,  // Rellenar debajo de la línea
-            tension: 0.4  // Suaviza la línea
-        }]
-    },
-    options: {
-        responsive: true,
-        scales: {
-            y: {
-                beginAtZero: true,  // Asegura que el eje Y empiece desde 0
+        // Gráfico de Crecimiento por Día dentro de cada Mes (gráfico lineal)
+        const ctxDia = document.getElementById('crecimientoDiaChart').getContext('2d');
+        new Chart(ctxDia, {
+            type: 'line', // Cambiar a gráfico lineal
+            data: {
+                labels: <?php echo json_encode($labels_dia_comparativo); ?>, // Los días del mes
+                datasets: [{
+                    label: 'Reservas por Día',
+                    data: <?php echo json_encode($reservas_por_dia_comparativo); ?>, // Reservas por día
+                    borderColor: '#FF6384', // Color de la línea
+                    backgroundColor: 'rgba(255, 99, 132, 0.2)', // Fondo de la línea (ligeramente transparente)
+                    borderWidth: 2,
+                    fill: true, // Rellenar debajo de la línea
+                    tension: 0.4 // Suaviza la línea
+                }]
             },
-            x: {
-                title: {
-                    display: true,
-                    text: 'Días del Mes'
-                },
-                ticks: {
-                    autoSkip: true,  // Para evitar que las etiquetas se superpongan
-                    maxRotation: 45,  // Ángulo de rotación de las etiquetas
-                    minRotation: 45
+            options: {
+                responsive: true,
+                scales: {
+                    y: {
+                        beginAtZero: true, // Asegura que el eje Y empiece desde 0
+                    },
+                    x: {
+                        title: {
+                            display: true,
+                            text: 'Días del Mes'
+                        },
+                        ticks: {
+                            autoSkip: true, // Para evitar que las etiquetas se superpongan
+                            maxRotation: 45, // Ángulo de rotación de las etiquetas
+                            minRotation: 45
+                        }
+                    }
                 }
             }
-        }
-    }
-});
-
-
+        });
     </script>
     <script>
         document.addEventListener("DOMContentLoaded", function() {
-    // Gráfico de Reservas por Hora
-    const ctxHora = document.getElementById('reservasPorHoraChart').getContext('2d');
-    new Chart(ctxHora, {
-        type: 'bar',  // Tipo de gráfico de barras
-        data: {
-            labels: <?php echo json_encode($labels_hora); ?>,  // Las horas
-            datasets: [{
-                label: 'Reservas por Hora',
-                data: <?php echo json_encode($reservas_por_hora); ?>,  // Cantidad de reservas por hora
-                backgroundColor: '#FF6384',  // Color de las barras
-                borderColor: '#FF6384',
-                borderWidth: 1
-            }]
-        },
-        options: {
-            responsive: true,
-            scales: {
-                y: {
-                    beginAtZero: true,  // Asegura que el eje Y empiece desde 0
+            // Gráfico de Reservas por Hora
+            const ctxHora = document.getElementById('reservasPorHoraChart').getContext('2d');
+            new Chart(ctxHora, {
+                type: 'bar', // Tipo de gráfico de barras
+                data: {
+                    labels: <?php echo json_encode($labels_hora); ?>, // Las horas
+                    datasets: [{
+                        label: 'Reservas por Hora',
+                        data: <?php echo json_encode($reservas_por_hora); ?>, // Cantidad de reservas por hora
+                        backgroundColor: '#FF6384', // Color de las barras
+                        borderColor: '#FF6384',
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    scales: {
+                        y: {
+                            beginAtZero: true, // Asegura que el eje Y empiece desde 0
+                        }
+                    }
                 }
-            }
-        }
-    });
-});
+            });
+        });
+    </script>
 
+    <script>
+        // Gráfico de Coworks por Mes - Versión corregida
+        document.addEventListener("DOMContentLoaded", function() {
+            const ctxCoworksMes = document.getElementById('coworksPorMesChart');
+            const coworksPorMesData = <?php echo json_encode($coworks_por_mes); ?>;
+
+            // Verificar si hay datos
+            if (Object.keys(coworksPorMesData).length === 0) {
+                ctxCoworksMes.innerHTML = '<p class="text-center text-muted">No hay datos disponibles</p>';
+                document.getElementById('mesSelect').style.display = 'none';
+                return;
+            }
+
+            // Función para crear el gráfico
+            function createCoworksChart(selectedMes) {
+                const dataForMes = coworksPorMesData[selectedMes] || [];
+                const labels = dataForMes.map(item => item.cowork);
+                const data = dataForMes.map(item => item.cantidad);
+
+                // Colores dinámicos
+                const backgroundColors = dataForMes.map((_, index) => {
+                    const hue = (index * 360 / Math.max(1, dataForMes.length)) % 360;
+                    return `hsl(${hue}, 70%, 50%)`;
+                });
+
+                return new Chart(ctxCoworksMes, {
+                    type: 'bar',
+                    data: {
+                        labels: labels,
+                        datasets: [{
+                            label: 'Reservas',
+                            data: data,
+                            backgroundColor: backgroundColors,
+                            borderColor: backgroundColors.map(color => color.replace('50%)', '30%)')),
+                            borderWidth: 1
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        scales: {
+                            y: {
+                                beginAtZero: true,
+                                title: {
+                                    display: true,
+                                    text: 'Cantidad de Reservas'
+                                }
+                            },
+                            x: {
+                                title: {
+                                    display: true,
+                                    text: 'Coworks'
+                                }
+                            }
+                        },
+                        plugins: {
+                            tooltip: {
+                                callbacks: {
+                                    label: function(context) {
+                                        return `${context.raw} reservas`;
+                                    }
+                                }
+                            }
+                        }
+                    }
+                });
+            }
+
+            // Inicializar gráfico
+            let coworksChart = null;
+            const initialMes = Object.keys(coworksPorMesData)[0];
+            if (initialMes) {
+                coworksChart = createCoworksChart(initialMes);
+            }
+
+            // Manejar cambio de mes
+            document.getElementById('mesSelect').addEventListener('change', function() {
+                if (coworksChart) {
+                    coworksChart.destroy();
+                }
+                coworksChart = createCoworksChart(this.value);
+            });
+        });
     </script>
 </body>
+
 </html>
