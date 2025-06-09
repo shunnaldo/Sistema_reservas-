@@ -153,6 +153,60 @@ while ($row = $result_coworks_por_mes->fetch_assoc()) {
     ];
 }
 
+// Consulta para obtener asistencia por mes y cowork
+$sql_asistencia_mes_cowork = "SELECT 
+    DATE_FORMAT(fecha, '%M') AS mes,
+    cowork,
+    SUM(CASE WHEN check_asistencia = 1 THEN 1 ELSE 0 END) AS asistencias,
+    SUM(CASE WHEN check_asistencia = 0 OR check_asistencia IS NULL THEN 1 ELSE 0 END) AS no_asistencias,
+    COUNT(*) AS total
+FROM Reservas
+GROUP BY mes, cowork
+ORDER BY STR_TO_DATE(mes, '%M'), cowork";
+
+$result_asistencia_mes_cowork = $conexion->query($sql_asistencia_mes_cowork);
+
+// Organizar los datos para el gráfico
+$asistencia_por_mes_cowork = [];
+while ($row = $result_asistencia_mes_cowork->fetch_assoc()) {
+    $mes = $row['mes'];
+    if (!isset($asistencia_por_mes_cowork[$mes])) {
+        $asistencia_por_mes_cowork[$mes] = [];
+    }
+
+    $porcentaje_asistencia = ($row['total'] > 0) ? round(($row['asistencias'] / $row['total']) * 100, 2) : 0;
+
+    $asistencia_por_mes_cowork[$mes][] = [
+        'cowork' => $row['cowork'],
+        'asistencias' => $row['asistencias'],
+        'no_asistencias' => $row['no_asistencias'],
+        'total' => $row['total'],
+        'porcentaje_asistencia' => $porcentaje_asistencia
+    ];
+}
+
+// Consulta para obtener totales por mes
+$sql_totales_mes = "SELECT 
+    DATE_FORMAT(fecha, '%M') AS mes,
+    SUM(CASE WHEN check_asistencia = 1 THEN 1 ELSE 0 END) AS total_asistencias,
+    SUM(CASE WHEN check_asistencia = 0 OR check_asistencia IS NULL THEN 1 ELSE 0 END) AS total_no_asistencias,
+    COUNT(*) AS total_reservas
+FROM Reservas
+GROUP BY mes
+ORDER BY STR_TO_DATE(mes, '%M')";
+
+$totales_por_mes = $conexion->query($sql_totales_mes)->fetch_all(MYSQLI_ASSOC);
+$totales_mes_data = [];
+foreach ($totales_por_mes as $row) {
+    $totales_mes_data[$row['mes']] = [
+        'total_asistencias' => $row['total_asistencias'],
+        'total_no_asistencias' => $row['total_no_asistencias'],
+        'total_reservas' => $row['total_reservas'],
+        'porcentaje_asistencia' => ($row['total_reservas'] > 0) ?
+            round(($row['total_asistencias'] / $row['total_reservas']) * 100, 2) : 0
+    ];
+}
+
 ?>
 
 <!DOCTYPE html>
@@ -165,6 +219,37 @@ while ($row = $result_coworks_por_mes->fetch_assoc()) {
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
     <link rel="stylesheet" href="../../css/dashBoardAdmin.css">
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        /* Agregar en tu archivo CSS */
+        .card {
+            border-radius: 10px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .card-header {
+            background-color: #f8f9fa;
+            border-bottom: 1px solid #eee;
+            padding: 0.75rem 1.25rem;
+        }
+
+        .table-responsive {
+            margin-top: 1rem;
+        }
+
+        .table th {
+            white-space: nowrap;
+        }
+
+        .table-bordered th,
+        .table-bordered td {
+            text-align: center;
+        }
+
+        .table-dark {
+            background-color: #343a40;
+            color: white;
+        }
+    </style>
 </head>
 
 <body>
@@ -259,7 +344,32 @@ while ($row = $result_coworks_por_mes->fetch_assoc()) {
                 </div>
             </div>
 
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="chart-container mt-4">
+                        <h4>Asistencia por Mes</h4>
+                        <div class="mb-3">
+                            <label for="mesAsistenciaSelect" class="form-label">Selecciona un Mes:</label>
+                            <select id="mesAsistenciaSelect" class="form-select">
+                                <?php foreach (array_keys($asistencia_por_mes_cowork) as $mes): ?>
+                                    <option value="<?php echo $mes; ?>"><?php echo ucfirst($mes); ?></option>
+                                <?php endforeach; ?>
+                            </select>
+                        </div>
 
+                        <div id="asistenciaCoworkContainer">
+                            <!-- Aquí se cargarán dinámicamente las tablas por cowork -->
+                        </div>
+
+                        <div class="mt-4">
+                            <h5>Total del Mes</h5>
+                            <div id="totalMesContainer" class="table-responsive">
+                                <!-- Aquí se cargarán los totales del mes -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
             <!-- Tabla de Vecinos -->
             <div class="table-container mt-4">
                 <h4>Ranking de Vecinos con más Reservas</h4>
@@ -580,6 +690,118 @@ while ($row = $result_coworks_por_mes->fetch_assoc()) {
             });
         });
     </script>
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            const asistenciaData = <?php echo json_encode($asistencia_por_mes_cowork); ?>;
+            const totalesData = <?php echo json_encode($totales_mes_data); ?>;
+            const mesSelect = document.getElementById('mesAsistenciaSelect');
+            const coworkContainer = document.getElementById('asistenciaCoworkContainer');
+            const totalContainer = document.getElementById('totalMesContainer');
+
+            function updateAsistenciaData(selectedMes) {
+                coworkContainer.innerHTML = '';
+                totalContainer.innerHTML = '';
+
+                const mesData = asistenciaData[selectedMes] || [];
+                const totalMes = totalesData[selectedMes] || {
+                    total_asistencias: 0,
+                    total_no_asistencias: 0,
+                    total_reservas: 0,
+                    porcentaje_asistencia: 0
+                };
+
+                mesData.forEach(cowork => {
+                    const asistencias = Math.round(cowork.asistencias);
+                    const no_asistencias = Math.round(cowork.no_asistencias);
+                    const total = Math.round(cowork.total);
+                    const porcentaje = Math.round(cowork.porcentaje_asistencia);
+                    const porcentaje_no = 100 - porcentaje;
+
+                    const coworkCard = document.createElement('div');
+                    coworkCard.className = 'card mb-3';
+                    coworkCard.innerHTML = `
+                    <div class="card-header">
+                        <h5 class="mb-0">${cowork.cowork}</h5>
+                    </div>
+                    <div class="card-body d-flex flex-wrap align-items-center">
+                        <div class="w-50 p-2">
+                            <canvas id="chart-${cowork.cowork.replace(/\s+/g, '-')}" height="150"></canvas>
+                        </div>
+                        <div class="w-50 p-2">
+                            <table class="table table-sm">
+                                <tr><th>Asistencias:</th><td>${asistencias} (${porcentaje}%)</td></tr>
+                                <tr><th>No asistencias:</th><td>${no_asistencias} (${porcentaje_no}%)</td></tr>
+                                <tr><th>Total reservas:</th><td>${total}</td></tr>
+                            </table>
+                        </div>
+                    </div>
+                `;
+                    coworkContainer.appendChild(coworkCard);
+
+                    const ctx = document.getElementById(`chart-${cowork.cowork.replace(/\s+/g, '-')}`).getContext('2d');
+                    new Chart(ctx, {
+                        type: 'doughnut',
+                        data: {
+                            labels: ['Asistieron', 'No Asistieron'],
+                            datasets: [{
+                                data: [asistencias, no_asistencias],
+                                backgroundColor: ['#4BC0C0', '#FF6384'],
+                                borderWidth: 1
+                            }]
+                        },
+                        options: {
+                            responsive: true,
+                            plugins: {
+                                legend: {
+                                    position: 'bottom'
+                                },
+                                tooltip: {
+                                    callbacks: {
+                                        label: function(context) {
+                                            const total = context.dataset.data.reduce((a, b) => a + b, 0);
+                                            const percentage = Math.round((context.raw / total) * 100);
+                                            return `${context.label}: ${context.raw} (${percentage}%)`;
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    });
+                });
+
+                // Mostrar totales del mes (redondeados también)
+                totalContainer.innerHTML = `
+                <table class="table table-bordered">
+                    <thead class="table-dark">
+                        <tr>
+                            <th>Total Asistencias</th>
+                            <th>Total No Asistencias</th>
+                            <th>Total Reservas</th>
+                            <th>Porcentaje Asistencia</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>${Math.round(totalMes.total_asistencias)}</td>
+                            <td>${Math.round(totalMes.total_no_asistencias)}</td>
+                            <td>${Math.round(totalMes.total_reservas)}</td>
+                            <td>${Math.round(totalMes.porcentaje_asistencia)}%</td>
+                        </tr>
+                    </tbody>
+                </table>
+            `;
+            }
+
+            if (mesSelect.options.length > 0) {
+                updateAsistenciaData(mesSelect.value);
+            }
+
+            mesSelect.addEventListener('change', function() {
+                updateAsistenciaData(this.value);
+            });
+        });
+    </script>
+
 </body>
 
 </html>
