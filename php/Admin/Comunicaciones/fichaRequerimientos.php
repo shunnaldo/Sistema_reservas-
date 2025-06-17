@@ -1,10 +1,23 @@
+<?php
+session_start(); // Asegúrate de que la sesión esté iniciada
+
+// Verifica si el usuario está logueado y tiene el rol adecuado
+if (!isset($_SESSION['id_usuario']) || $_SESSION['rol'] !== 'proponente' || $_SESSION['area'] !== 'Comunicaciones') {
+    // Si no está logueado o no tiene el rol adecuado, redirige al login
+    header("Location: login.php?error=no_autorizado");
+    exit();  // Asegúrate de llamar a exit() para que no se siga ejecutando el script
+}
+// // Recupera el id_proponente desde la sesión
+// $id_proponente = $_SESSION['id_proponente'];  // El id_proponente está en la sesión
+
+?>
 <!DOCTYPE html>
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <title>Estado de Solicitudes</title>
+    <title>Ficha de Requerimientos</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.4.3/dist/css/bootstrap.min.css" rel="stylesheet">
-        <style>
+    <style>
         .section-header {
             background-color: #f8f9fa;
             padding: 10px 15px;
