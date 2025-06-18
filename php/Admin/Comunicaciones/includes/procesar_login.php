@@ -71,7 +71,7 @@ if ($result->num_rows === 1) {
                 header("Location: ../dashboard/proponente_fit.php");
             } elseif ($usuario['area'] === 'DAF') {
                 error_log("Redirigiendo a proponente_daf.php");  // Log de redirección
-                header("Location: ../dashboard/proponente_daf.php");
+                header("Location: /sistema_reservas/Sistema_reservas-/PHP/Admin/Daf/dasboard_daf.php");
             } else {
                 error_log("Redirigiendo a proponente.php");  // Log de redirección
                 header("Location: ../dashboard/proponente.php"); // Genérico

@@ -29,7 +29,7 @@
                             </div>
                         <?php endif; ?>
 
-                        <form method="POST" action="/CasaEmprender/Sistema_reservas-/PHP/Admin/Comunicaciones/includes/procesar_login.php" class="needs-validation" novalidate>
+                        <form method="POST" action="../Comunicaciones/includes/procesar_login.php" class="needs-validation" novalidate>
 
 
                             <div class="mb-3">
