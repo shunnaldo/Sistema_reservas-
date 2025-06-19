@@ -41,27 +41,6 @@ try {
     $duracion_valor       = isset($_POST['duracion_valor']) ? intval($_POST['duracion_valor']) : null;
     $duracion_tipo        = isset($_POST['duracion_tipo']) ? $_POST['duracion_tipo'] : null;
 
-    // // Verificar si el proponente ya existe en la base de datos
-    // $sqlProponenteExistente = "SELECT id_proponente FROM proponente WHERE correo = ?";
-    // $stmtProponenteExistente = $conexion->prepare($sqlProponenteExistente);
-    // $stmtProponenteExistente->bind_param("s", $email);
-    // $stmtProponenteExistente->execute();
-    // $resultadoProponente = $stmtProponenteExistente->get_result();
-
-    // // Si el proponente ya existe, usamos su id, si no, lo insertamos
-    // if ($resultadoProponente->num_rows > 0) {
-    //     $proponente = $resultadoProponente->fetch_assoc();
-    //     $id_proponente = $proponente['id_proponente'];  // Obtener el id del proponente existente
-    // } else {
-    //     // Insertar nuevo proponente
-    //     $sqlInsertarProponente = "INSERT INTO proponente (nombre_completo, cargo_rol, organizacion, direccion, telefono, correo)
-    //     VALUES ('$nombre_completo', '$cargo', '$organizacion', '$direccion', '$telefono', '$email')";
-    //     if (!$conexion->query($sqlInsertarProponente)) {
-    //         throw new Exception("Error al insertar proponente: " . $conexion->error);
-    //     }
-    //     $id_proponente = $conexion->insert_id;  // Obtener el nuevo id_proponente
-    // }
-
     // Generar correlativo número/año actual
     $anio_actual = date("Y");
     $sqlUltimo = "SELECT MAX(CAST(SUBSTRING_INDEX(numero_fip, '/', 1) AS UNSIGNED)) as ultimo_num 
@@ -106,6 +85,13 @@ try {
         throw new Exception("Error al insertar proyecto: " . $conn->error);
     }
     $id_proyecto = $conn->insert_id;
+
+    // Capturar el id_proyecto que acabamos de insertar
+    $id_proyecto = $conn->insert_id;  // Este es el id del proyecto recién insertado
+
+    // Guardar el id_proyecto en la sesión para utilizarlo en la ficha de requerimientos
+    $_SESSION['id_proyecto'] = $id_proyecto;
+    
 
     // Estado inicial del proyecto
     $estado_inicial_nombre = 'Realizado';
