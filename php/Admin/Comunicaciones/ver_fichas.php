@@ -11,46 +11,12 @@ if (!isset($_SESSION['id_usuario']) || $_SESSION['rol'] !== 'proponente' || $_SE
 // Obtener id_usuario desde la sesión
 $id_usuario = $_SESSION['id_usuario'];  // Obtiene el id_usuario desde la sesión
 
-// Incluir archivo de conexión
-require_once __DIR__ . '/bd/conexion_test.php';
+// Incluir archivo que contiene la consulta y manejo de resultados
+include './includes/consultar_fichas.php';
 
-// Inicializar la variable $fichas como un array vacío
-$fichas = [];
+// Aquí ya no es necesario volver a abrir ni cerrar la conexión, ya que lo estás manejando en consultar_fichas.php
 
-// Consulta para obtener las fichas del usuario, incluyendo el estado
-$sql = "SELECT 
-            p.id_proyecto,
-            p.numero_fip,
-            p.nombre AS nombre_proyecto,
-            p.fecha_presentacion,
-            p.duracion_valor,
-            p.duracion_tipo,
-            u.nombre AS nombre_usuario,
-            u.apellido AS apellido_usuario,
-            u.correo AS correo_usuario,
-            u.rol AS cargo,
-            u.area AS organizacion,
-            es.nombre_estado AS estado_proyecto,
-            es.id_estado AS id_estado
-        FROM proyecto p
-        LEFT JOIN usuarios u ON p.id_usuario = u.id_usuario
-        LEFT JOIN estado_fip es ON p.id_estado_actual = es.id_estado 
-        WHERE p.id_usuario = ?";  // Filtro por id_usuario
-
-$stmt = $conn->prepare($sql);
-$stmt->bind_param("i", $id_usuario); // Enlazamos el id_usuario
-$stmt->execute();
-$result = $stmt->get_result();
-
-// Agregar los resultados a la variable $fichas
-while ($row = $result->fetch_assoc()) {
-    $fichas[] = $row;
-}
-
-$stmt->close();
-$conn->close();
 ?>
-
 
 <!DOCTYPE html>
 <html lang="es">
@@ -140,6 +106,11 @@ $conn->close();
 
         .estado-6 {
             /* Finalizado */
+            background-color:rgb(0, 234, 255);
+            color: white;
+        }
+        .estado-7 {
+            /* Finalizado */
             background-color: #dc3545;
             color: white;
         }
@@ -179,14 +150,7 @@ $conn->close();
                     <div class="text-center p-4">
                         <i class="fas fa-user-shield fa-3x mb-3"></i>
                         <h4>Panel Proponente</h4>
-                        <div class="d-flex align-items-center justify-content-center mt-3">
-                            <div class="user-avatar me-2">
-                                J
-                            </div>
-                            <span>Juan Proponente</span>
-                        </div>
                     </div>
-
                     <ul class="nav flex-column px-3">
                         <li class="nav-item">
                             <a class="nav-link active" href="#">
@@ -223,33 +187,49 @@ $conn->close();
 
                         <div class="d-flex align-items-center">
                             <span class="navbar-brand mb-0 h1">
-                                <i class="fas fa-home me-2"></i>Inicio
+                                <i class="fas fa-home me-2"></i>Mis Fichas
                             </span>
                         </div>
-
                     </div>
                 </nav>
 
                 <!-- Page Content -->
                 <div class="container-fluid p-4">
-                    <div class="row mb-4">
-                        <div class="col-12">
-                            <div class="card border-success">
-                                <div class="card-header bg-success text-white">
-                                    <h5 class="mb-0"><i class="fas fa-info-circle me-2"></i>Mis Fichas</h5>
-                                </div>
-                                <div class="card-body">
-                                    <div class="row">
-                                        <div class="col-md-12">
-                                            <p>Desde aquí puedes ver y gestionar todas las propuestas que has creado.</p>
-                                        </div>
-                                    </div>
-                                </div>
+                    <!-- Filtros -->
+                    <form method="GET" class="mb-4">
+                        <div class="row">
+                            <div class="col-md-4">
+                                <label for="estado" class="form-label">Estado</label>
+                                <select class="form-select" id="estado" name="estado">
+                                    <option value="">Seleccione estado</option>
+                                    <option value="1" <?php echo (isset($_GET['estado']) && $_GET['estado'] == 1) ? 'selected' : ''; ?>>Borrador</option>
+                                    <option value="2" <?php echo (isset($_GET['estado']) && $_GET['estado'] == 2) ? 'selected' : ''; ?>>Realizado</option>
+                                    <option value="3" <?php echo (isset($_GET['estado']) && $_GET['estado'] == 3) ? 'selected' : ''; ?>>En Revisión</option>
+                                    <option value="4" <?php echo (isset($_GET['estado']) && $_GET['estado'] == 4) ? 'selected' : ''; ?>>Aprobado</option>
+                                    <option value="5" <?php echo (isset($_GET['estado']) && $_GET['estado'] == 5) ? 'selected' : ''; ?>>Enviado</option>
+                                    <option value="6" <?php echo (isset($_GET['estado']) && $_GET['estado'] == 6) ? 'selected' : ''; ?>>Finalizado</option>
+                                    <option value="7" <?php echo (isset($_GET['estado']) && $_GET['estado'] == 7) ? 'selected' : ''; ?>>Rechazado</option>
+                                </select>
+                            </div>
+
+                            <div class="col-md-4">
+                                <label for="fecha_inicio" class="form-label">Fecha Inicio</label>
+                                <input type="date" class="form-control" id="fecha_inicio" name="fecha_inicio" value="<?php echo isset($_GET['fecha_inicio']) ? $_GET['fecha_inicio'] : ''; ?>">
+                            </div>
+
+                            <div class="col-md-4">
+                                <label for="fecha_fin" class="form-label">Fecha Fin</label>
+                                <input type="date" class="form-control" id="fecha_fin" name="fecha_fin" value="<?php echo isset($_GET['fecha_fin']) ? $_GET['fecha_fin'] : ''; ?>">
+                            </div>
+
+                            <div class="col-12 mt-3 text-center">
+                                <button type="submit" class="btn btn-success">Filtrar</button>
                             </div>
                         </div>
-                    </div>
+                    </form>
 
-                    <div class="row">
+                    <!-- Resultados -->
+                    <div class="row mb-4">
                         <div class="col-12">
                             <div class="card border-success">
                                 <div class="card-header bg-success text-white">
@@ -290,25 +270,29 @@ $conn->close();
                                                             </td>
                                                             <td class="text-end">
                                                                 <div class="btn-action-group">
+                                                                    
+                                                                <!-- DETALLE FICHA -->
                                                                     <a href="detalleFicha.php?id_proyecto=<?php echo $ficha['id_proyecto']; ?>"
                                                                         class="btn btn-sm btn-outline-success btn-action"
-                                                                        data-bs-toggle="tooltip"
-                                                                        data-bs-placement="top"
-                                                                        title="Ver detalles">
+                                                                        title="Ver Ficha FIP">
                                                                         <i class="bi bi-eye-fill"></i>
                                                                     </a>
-
-
-                                                                    <a href="estadoSolicitud.php?id_proyecto=<?php echo $ficha['id_proyecto']; ?>"
+                                                                    <!-- DETALLE REQUERIMIENTOS -->
+                                                                    <a href="detalleFichaRequerimientos.php?id_proyecto=<?php echo $ficha['id_proyecto']; ?>"
                                                                         class="btn btn-sm btn-outline-success btn-action"
                                                                         data-bs-toggle="tooltip"
                                                                         data-bs-placement="top"
-                                                                        title="Estado">
-                                                                        <i class="bi bi-download"></i>
+                                                                        title="Ver Ficha Requerimientos">
+                                                                        <i class="bi bi-clock-history"></i>
                                                                     </a>
-
-
-
+                                                                    
+                                                                <!-- ESTADO SOLICITUD -->
+                                                                    <a href="estadoSolicitud.php?id_proyecto=<?php echo $ficha['id_proyecto']; ?>"
+                                                                        class="btn btn-sm btn-outline-success btn-action"
+                                                                        title="Estado">
+                                                                        <i class="bi bi-hourglass-split"></i>
+                                                                    </a>
+                                                                    
                                                                 </div>
                                                             </td>
                                                         </tr>
@@ -325,6 +309,21 @@ $conn->close();
                             </div>
                         </div>
                     </div>
+
+                    <!-- Paginación -->
+                    <div class="d-flex justify-content-center">
+                        <nav aria-label="Paginación">
+                            <ul class="pagination">
+                                <li class="page-item <?php echo ($page <= 1) ? 'disabled' : ''; ?>">
+                                    <a class="page-link" href="?page=<?php echo $page - 1; ?>">Anterior</a>
+                                </li>
+                                <li class="page-item <?php echo ($page >= $total_pages) ? 'disabled' : ''; ?>">
+                                    <a class="page-link" href="?page=<?php echo $page + 1; ?>">Siguiente</a>
+                                </li>
+                            </ul>
+                        </nav>
+                    </div>
+
                 </div>
             </div>
         </div>
@@ -332,15 +331,7 @@ $conn->close();
 
     <!-- Bootstrap 5 JS Bundle with Popper -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-    <script>
-        // Activar tooltips
-        document.addEventListener('DOMContentLoaded', function() {
-            var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
-            var tooltipList = tooltipTriggerList.map(function(tooltipTriggerEl) {
-                return new bootstrap.Tooltip(tooltipTriggerEl);
-            });
-        });
-    </script>
 </body>
+
 
 </html>

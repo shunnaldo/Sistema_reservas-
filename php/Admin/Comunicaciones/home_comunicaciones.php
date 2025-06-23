@@ -4,9 +4,21 @@ session_start(); // Inicia la sesión
 // Verifica si el usuario está logueado y tiene el rol adecuado
 if (!isset($_SESSION['id_usuario']) || $_SESSION['rol'] !== 'proponente' || $_SESSION['area'] !== 'Comunicaciones') {
     // Si no está logueado o no tiene el rol adecuado, redirige al login
-    header("Location: login.php?error=no_autorizado");
+    header("Location: /CasaEmprender/Sistema_reservas-/PHP/Admin/Public/login.php");
     exit();  // Asegúrate de llamar a exit() para que no se siga ejecutando el script
 }
+include './includes/notificaciones_recientes.php';
+
+include './includes/contador_propuestas.php';
+
+// Variables para los diferentes estados
+$aprobado = isset($estado_proyectos['Aprobado']) ? $estado_proyectos['Aprobado'] : 0;
+$borrador = isset($estado_proyectos['Borrador']) ? $estado_proyectos['Borrador'] : 0;
+$en_revision = isset($estado_proyectos['En Revisión']) ? $estado_proyectos['En Revisión'] : 0;
+$enviado = isset($estado_proyectos['Enviado']) ? $estado_proyectos['Enviado'] : 0;
+$finalizado = isset($estado_proyectos['Finalizado']) ? $estado_proyectos['Finalizado'] : 0;
+$realizado = isset($estado_proyectos['Realizado']) ? $estado_proyectos['Realizado'] : 0;
+$rechazado = isset($estado_proyectos['Rechazado']) ? $estado_proyectos['Rechazado'] : 0;
 ?>
 
 
@@ -199,6 +211,7 @@ if (!isset($_SESSION['id_usuario']) || $_SESSION['rol'] !== 'proponente' || $_SE
 
                     <div class="row">
                         <!-- Resumen de Propuestas -->
+
                         <div class="col-md-6 mb-4">
                             <div class="card h-100 border-success">
                                 <div class="card-header bg-success text-white">
@@ -206,25 +219,19 @@ if (!isset($_SESSION['id_usuario']) || $_SESSION['rol'] !== 'proponente' || $_SE
                                 </div>
                                 <div class="card-body">
                                     <div class="row text-center">
-                                        <div class="col-4">
-                                            <div class="p-3 bg-light rounded">
-                                                <h3 class="text-success">5</h3>
-                                                <small>En Proceso</small>
-                                            </div>
-                                        </div>
-                                        <div class="col-4">
-                                            <div class="p-3 bg-light rounded">
-                                                <h3 class="text-success">3</h3>
-                                                <small>Aprobadas</small>
-                                            </div>
-                                        </div>
-                                        <div class="col-4">
-                                            <div class="p-3 bg-light rounded">
-                                                <h3 class="text-success">2</h3>
-                                                <small>Rechazadas</small>
-                                            </div>
+                                        <!-- Mostramos los estados en una fila -->
+                                        <div class="col">
+                                            <span class="badge bg-success"><?= $aprobado ?> Aprobadas</span>
+                                            <span class="badge bg-danger"><?= $rechazado ?> Rechazadas</span>
+                                            <span class="badge bg-warning"><?= $en_revision ?> En Revisión</span>
+                                            <span class="badge bg-secondary"><?= $borrador ?> Borrador</span>
+                                            <span class="badge bg-info"><?= $enviado ?> Enviado</span>
+                                            <span class="badge bg-dark"><?= $finalizado ?> Finalizado</span>
+                                            <span class="badge bg-primary"><?= $realizado ?> Realizado</span>
                                         </div>
                                     </div>
+
+                                    <!-- Gráfico -->
                                     <div class="mt-4">
                                         <canvas id="propuestasChart" height="150"></canvas>
                                     </div>
@@ -232,7 +239,9 @@ if (!isset($_SESSION['id_usuario']) || $_SESSION['rol'] !== 'proponente' || $_SE
                             </div>
                         </div>
 
+
                         <!-- Notificaciones Recientes -->
+
                         <div class="col-md-6 mb-4">
                             <div class="card h-100 border-success">
                                 <div class="card-header bg-success text-white">
@@ -240,27 +249,14 @@ if (!isset($_SESSION['id_usuario']) || $_SESSION['rol'] !== 'proponente' || $_SE
                                 </div>
                                 <div class="card-body p-0">
                                     <div class="list-group list-group-flush">
-                                        <a href="#" class="list-group-item list-group-item-action">
-                                            <div class="d-flex w-100 justify-content-between">
-                                                <h6 class="mb-1">Propuesta aprobada</h6>
-                                                <small class="text-success">Hoy</small>
-                                            </div>
-                                            <p class="mb-1">Tu propuesta "Proyecto X" ha sido aprobada</p>
-                                        </a>
-                                        <a href="#" class="list-group-item list-group-item-action">
-                                            <div class="d-flex w-100 justify-content-between">
-                                                <h6 class="mb-1">Nuevo comentario</h6>
-                                                <small class="text-success">Ayer</small>
-                                            </div>
-                                            <p class="mb-1">Tienes un nuevo comentario en "Proyecto Y"</p>
-                                        </a>
-                                        <a href="#" class="list-group-item list-group-item-action">
-                                            <div class="d-flex w-100 justify-content-between">
-                                                <h6 class="mb-1">Recordatorio</h6>
-                                                <small class="text-success">15/06/2023</small>
-                                            </div>
-                                            <p class="mb-1">Fecha límite para enviar documentos de "Proyecto Z"</p>
-                                        </a>
+                                        <?php foreach ($notificaciones as $notificacion): ?>
+                                            <a  class="list-group-item list-group-item-action">
+                                                <div class="d-flex w-100 justify-content-between">
+                                                    <h6 class="mb-1"><?= htmlspecialchars($notificacion['observaciones']) ?></h6>
+                                                    <small class="text-success"><?= date('d/m/Y', strtotime($notificacion['fecha_cambio'])) ?></small>
+                                                </div>
+                                            </a>
+                                        <?php endforeach; ?>
                                     </div>
                                     <div class="text-center p-3">
                                         <a href="#" class="btn btn-success btn-sm">
@@ -270,29 +266,23 @@ if (!isset($_SESSION['id_usuario']) || $_SESSION['rol'] !== 'proponente' || $_SE
                                 </div>
                             </div>
                         </div>
-                    </div>
 
-                    <!-- Acciones Rápidas -->
-                    <div class="row">
-                        <div class="col-12">
-                            <div class="card border-success">
-                                <div class="card-header bg-success text-white">
-                                    <h5 class="mb-0"><i class="fas fa-bolt me-2"></i>Acciones Rápidas</h5>
-                                </div>
-                                <div class="card-body">
-                                    <div class="d-flex flex-wrap justify-content-center">
-                                        <a href="#" class="btn btn-success m-2">
-                                            <i class="fas fa-plus-circle me-1"></i> Nueva Propuesta
-                                        </a>
-                                        <a href="#" class="btn btn-outline-success m-2">
-                                            <i class="fas fa-upload me-1"></i> Subir Documentos
-                                        </a>
-                                        <a href="#" class="btn btn-outline-success m-2">
-                                            <i class="fas fa-question-circle me-1"></i> Centro de Ayuda
-                                        </a>
-                                        <a href="#" class="btn btn-outline-success m-2">
-                                            <i class="fas fa-calendar-check me-1"></i> Ver Calendario
-                                        </a>
+                        <!-- Acciones Rápidas -->
+                        <div class="row">
+                            <div class="col-12">
+                                <div class="card border-success">
+                                    <div class="card-header bg-success text-white">
+                                        <h5 class="mb-0"><i class="fas fa-bolt me-2"></i>Acciones Rápidas</h5>
+                                    </div>
+                                    <div class="card-body">
+                                        <div class="d-flex flex-wrap justify-content-center">
+                                            <a href="././formularioTest.php" class="btn btn-success m-2">
+                                                <i class="fas fa-plus-circle me-1"></i> Nueva Propuesta
+                                            </a>
+                                            <a href="#" class="btn btn-outline-success m-2">
+                                                <i class="fas fa-question-circle me-1"></i> Centro de Ayuda
+                                            </a>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -301,39 +291,44 @@ if (!isset($_SESSION['id_usuario']) || $_SESSION['rol'] !== 'proponente' || $_SE
                 </div>
             </div>
         </div>
-    </div>
 
-    <!-- Bootstrap 5 JS Bundle with Popper -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-    <!-- Chart.js -->
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <script>
-        // Gráfico de propuestas
-        const ctx = document.getElementById('propuestasChart').getContext('2d');
-        const propuestasChart = new Chart(ctx, {
-            type: 'doughnut',
-            data: {
-                labels: ['En Proceso', 'Aprobadas', 'Rechazadas'],
-                datasets: [{
-                    data: [5, 3, 2],
-                    backgroundColor: [
-                        '#ffc107',
-                        '#198754',
-                        '#dc3545'
-                    ],
-                    borderWidth: 1
-                }]
-            },
-            options: {
-                responsive: true,
-                plugins: {
-                    legend: {
-                        position: 'bottom'
+        <!-- Bootstrap 5 JS Bundle with Popper -->
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+        <!-- Chart.js -->
+        <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+        <script>
+            // Gráfico de propuestas
+            const ctx = document.getElementById('propuestasChart').getContext('2d');
+            const propuestasChart = new Chart(ctx, {
+                type: 'doughnut',
+                data: {
+                    labels: ['Aprobadas', 'Rechazadas', 'En Revisión', 'Borrador', 'Enviado', 'Finalizado', 'Realizado'],
+                    datasets: [{
+                        data: [<?= $aprobado ?>, <?= $rechazado ?>, <?= $en_revision ?>, <?= $borrador ?>, <?= $enviado ?>, <?= $finalizado ?>, <?= $realizado ?>],
+                        backgroundColor: [
+                            '#198754', // Aprobadas
+                            '#dc3545', // Rechazadas
+                            '#ffc107', // En Revisión
+                            '#6c757d', // Borrador
+                            '#17a2b8', // Enviado
+                            '#28a745', // Finalizado
+                            '#007bff' // Realizado
+                        ],
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    plugins: {
+                        legend: {
+                            position: 'bottom'
+                        }
                     }
                 }
-            }
-        });
-    </script>
+            });
+        </script>
+
 </body>
 
 </html>

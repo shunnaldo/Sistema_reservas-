@@ -11,39 +11,39 @@ $contrasena = $_POST['contrasena'];
 // Inicializamos una variable de error
 $error = '';
 
-// Validar campos
+// Validar campos vacíos
 if (empty($correo) || empty($contrasena)) {
-    $error = "Campos vacíos: correo = $correo, contraseña = $contrasena";
-    error_log($error);  // Log de error
+    // Si los campos están vacíos, asignamos un mensaje de error
+    $error = "Por favor, ingresa tanto el correo como la contraseña.";
     $_SESSION['error'] = $error;
-    header("Location: login.php?error=campos_vacios");
+    header("Location: login.php"); // Redirigir de nuevo al login
     exit();
 }
 
-error_log("Campos recibidos: correo = $correo, contraseña = $contrasena");
-
-// Buscar el usuario
+// Buscar el usuario en la base de datos
 $sql = "SELECT * FROM usuarios WHERE correo = ?";
 $stmt = $conn->prepare($sql);
 $stmt->bind_param("s", $correo);
 $stmt->execute();
 $result = $stmt->get_result();
 
+// Verificar si el usuario existe
 if ($result->num_rows === 1) {
+    // Si el usuario existe, verificar la contraseña
     $usuario = $result->fetch_assoc();
-    error_log("Usuario encontrado: " . json_encode($usuario));  // Log de usuario encontrado
 
+    // Verificar si la contraseña es correcta
     if (password_verify($contrasena, $usuario['contrasena'])) {
-        // Guardar datos en sesión
+        // Si la contraseña es correcta, guardar los datos del usuario en la sesión
         $_SESSION['id_usuario'] = $usuario['id_usuario'];
         $_SESSION['nombre'] = $usuario['nombre'];
         $_SESSION['apellido'] = $usuario['apellido'];
         $_SESSION['rol'] = $usuario['rol'];
         $_SESSION['area'] = $usuario['area'];
 
-        // Aquí agregamos el id_proponente si el usuario tiene rol de proponente
+        // Si el usuario tiene el rol 'proponente', obtener el id_proponente
         if ($usuario['rol'] === 'proponente') {
-            // Obtener el id_proponente relacionado
+            // Obtener id_proponente relacionado
             $sql_proponente = "SELECT id_proponente FROM proponente WHERE id_proponente = ?";
             $stmt_proponente = $conn->prepare($sql_proponente);
             $stmt_proponente->bind_param("i", $usuario['id_usuario']); // Asumimos que id_usuario es igual a id_proponente
@@ -53,42 +53,44 @@ if ($result->num_rows === 1) {
             if ($result_proponente->num_rows === 1) {
                 $proponente = $result_proponente->fetch_assoc();
                 $_SESSION['id_proponente'] = $proponente['id_proponente'];  // Guardamos el id_proponente en la sesión
-                error_log("Proponente encontrado: " . json_encode($proponente));  // Log del proponente encontrado
             }
             $stmt_proponente->close();
         }
 
-        // Redirección según rol y área
+        // Redirigir según el rol del usuario
         if ($usuario['rol'] === 'director') {
-            error_log("Redirigiendo a director.php");  // Log de redirección
             header("Location: /CasaEmprender/Sistema_reservas-/PHP/Admin/Director/home_director.php");
+
         } elseif ($usuario['rol'] === 'proponente') {
             if ($usuario['area'] === 'Comunicaciones') {
-                error_log("Redirigiendo a home_comunicaciones.php");  // Log de redirección
                 header("Location: /CasaEmprender/Sistema_reservas-/PHP/Admin/Comunicaciones/home_comunicaciones.php");
+
             } elseif ($usuario['area'] === 'FIT') {
-                error_log("Redirigiendo a proponente_fit.php");  // Log de redirección
-                header("Location: ../dashboard/proponente_fit.php");
+                header("Location: /CasaEmprender/Sistema_reservas-/PHP/Admin/Comunicaciones/home_comunicaciones.php");
+
             } elseif ($usuario['area'] === 'DAF') {
-                error_log("Redirigiendo a proponente_daf.php");  // Log de redirección
                 header("Location: ../dashboard/proponente_daf.php");
+                
             } else {
-                error_log("Redirigiendo a proponente.php");  // Log de redirección
-                header("Location: ../dashboard/proponente.php"); // Genérico
+                header("Location: ../dashboard/proponente.php"); // Redirigir a la página genérica para proponentes
             }
         } else {
-            error_log("Rol desconocido");  // Log si el rol es desconocido
-            header("Location: login.php?error=rol_desconocido");
+            // Si el rol es desconocido, redirigir al login
+            $error = "Rol desconocido. No se puede acceder al sistema.";
+            $_SESSION['error'] = $error;
+            header("Location: /CasaEmprender/Sistema_reservas-/PHP/Admin/Public/login.php");
         }
     } else {
-        error_log("Contraseña incorrecta");  // Log de contraseña incorrecta
-        $_SESSION['error'] = "Contraseña incorrecta";
-        header("Location: login.php?error=contrasena_incorrecta");
+        // Si la contraseña es incorrecta
+        $error = "Credenciales incorrectas. Inténtalo de nuevo.";
+        $_SESSION['error'] = $error;
+        header("Location: /CasaEmprender/Sistema_reservas-/PHP/Admin/Public/login.php"); // Redirigir de nuevo al login
     }
 } else {
-    error_log("Usuario no encontrado: $correo");  // Log si el usuario no es encontrado
-    $_SESSION['error'] = "Usuario no encontrado";
-    header("Location: login.php?error=usuario_no_encontrado");
+    // Si el usuario no es encontrado
+    $error = "Usuario no encontrado. Por favor, verifica el correo ingresado.";
+    $_SESSION['error'] = $error;
+    header("Location: /CasaEmprender/Sistema_reservas-/PHP/Admin/Public/login.php"); // Redirigir de nuevo al login
 }
 
-$conn->close();
+$conn->close(); // Cerrar la conexión a la base de datos

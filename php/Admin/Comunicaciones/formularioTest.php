@@ -199,7 +199,7 @@ if (!isset($_SESSION['id_usuario']) || $_SESSION['rol'] !== 'proponente' || $_SE
                                     <option value="N/A">N/A</option>
                                     <option value="Total Comuna">Total Comuna</option>
                                     <?php
-                                    for ($i = 1; $i <= 30; $i++) {
+                                    for ($i = 1; $i <= 36; $i++) {
                                         echo '<option value="UV ' . $i . '">UV ' . $i . '</option>';
                                     }
                                     ?>
@@ -241,23 +241,28 @@ if (!isset($_SESSION['id_usuario']) || $_SESSION['rol'] !== 'proponente' || $_SE
                         <div class="row g-3">
                             <div class="col-12">
                                 <label for="objetivo_general" class="form-label required-field">Objetivo General</label>
-                                <textarea class="form-control" id="objetivo_general" name="objetivo_general" rows="4" required></textarea>
+                                <textarea class="form-control" id="objetivo_general" name="objetivo_general" rows="4" maxlength="200" required oninput="updateCharacterCount('objetivo_general', 'objetivo_general_count')"></textarea>
+                                <small id="objetivo_general_count">200 caracteres restantes</small>
                             </div>
 
                             <div class="col-12">
                                 <label for="objetivos_especificos" class="form-label required-field">Objetivos Específicos (separar con punto y coma)</label>
-                                <textarea class="form-control" id="objetivos_especificos" name="objetivos_especificos" rows="4" required></textarea>
+                                <textarea class="form-control" id="objetivos_especificos" name="objetivos_especificos" rows="4" maxlength="200" required oninput="updateCharacterCount('objetivos_especificos', 'objetivos_especificos_count')"></textarea>
+                                <small id="objetivos_especificos_count">200 caracteres restantes</small>
                             </div>
 
                             <div class="col-12">
                                 <label for="descripcion" class="form-label required-field">Descripción Breve</label>
-                                <textarea class="form-control" id="descripcion" name="descripcion" rows="6" required></textarea>
+                                <textarea class="form-control" id="descripcion" name="descripcion" rows="6" maxlength="200" required oninput="updateCharacterCount('descripcion', 'descripcion_count')"></textarea>
+                                <small id="descripcion_count">200 caracteres restantes</small>
                             </div>
 
                             <div class="col-12">
                                 <label for="poblacion_meta" class="form-label required-field">Población Meta/Beneficiaria</label>
-                                <textarea class="form-control" id="poblacion_meta" name="poblacion_meta" rows="3" required></textarea>
+                                <textarea class="form-control" id="poblacion_meta" name="poblacion_meta" rows="3" maxlength="200" required oninput="updateCharacterCount('poblacion_meta', 'poblacion_meta_count')"></textarea>
+                                <small id="poblacion_meta_count">200 caracteres restantes</small>
                             </div>
+
 
                             <div class="col-12 mt-4">
                                 <h5 class="section-header">Características de la Población</h5>
@@ -311,7 +316,8 @@ if (!isset($_SESSION['id_usuario']) || $_SESSION['rol'] !== 'proponente' || $_SE
 
                             <div class="col-12">
                                 <label for="areas_impacto" class="form-label">Áreas Prioritarias de Impacto</label>
-                                <textarea class="form-control" id="areas_impacto" name="areas_impacto" rows="3"></textarea>
+                                <textarea class="form-control" id="areas_impacto" name="areas_impacto" rows="3" maxlength="200" oninput="updateCharacterCount('areas_impacto', 'areas_impacto_count')"></textarea>
+                                <small id="areas_impacto_count">200 caracteres restantes</small>
                             </div>
                         </div>
                     </div>
@@ -327,17 +333,20 @@ if (!isset($_SESSION['id_usuario']) || $_SESSION['rol'] !== 'proponente' || $_SE
                         <div class="row g-3">
                             <div class="col-12">
                                 <label for="descripcion_problema" class="form-label required-field">Descripción del Problema/Necesidad</label>
-                                <textarea class="form-control" id="descripcion_problema" name="descripcion_problema" rows="5" required></textarea>
+                                <textarea class="form-control" id="descripcion_problema" name="descripcion_problema" rows="5" maxlength="200" required oninput="updateCharacterCount('descripcion_problema', 'descripcion_problema_count')"></textarea>
+                                <small id="descripcion_problema_count">200 caracteres restantes</small>
                             </div>
 
                             <div class="col-12">
                                 <label for="oportunidad" class="form-label required-field">Oportunidad Identificada</label>
-                                <textarea class="form-control" id="oportunidad" name="oportunidad" rows="5" required></textarea>
+                                <textarea class="form-control" id="oportunidad" name="oportunidad" rows="5" maxlength="200" required oninput="updateCharacterCount('oportunidad', 'oportunidad_count')"></textarea>
+                                <small id="oportunidad_count">200 caracteres restantes</small>
                             </div>
 
                             <div class="col-12">
                                 <label for="impacto_anticipado" class="form-label required-field">Impacto Anticipado</label>
-                                <textarea class="form-control" id="impacto_anticipado" name="impacto_anticipado" rows="5" required></textarea>
+                                <textarea class="form-control" id="impacto_anticipado" name="impacto_anticipado" rows="5" maxlength="200" required oninput="updateCharacterCount('impacto_anticipado', 'impacto_anticipado_count')"></textarea>
+                                <small id="impacto_anticipado_count">200 caracteres restantes</small>
                             </div>
                         </div>
                     </div>
@@ -358,7 +367,8 @@ if (!isset($_SESSION['id_usuario']) || $_SESSION['rol'] !== 'proponente' || $_SE
 
                             <div class="col-md-6">
                                 <label for="componentes_principales" class="form-label">Componentes Principales</label>
-                                <textarea class="form-control" id="componentes_principales" name="componentes_principales" rows="3"></textarea>
+                                <textarea class="form-control" id="componentes_principales" name="componentes_principales" rows="3" maxlength="200" oninput="updateCharacterCount('componentes_principales', 'componentes_principales_count')"></textarea>
+                                <small id="componentes_principales_count">200 caracteres restantes</small>
                             </div>
 
                             <div class="col-12 mt-4">
@@ -405,12 +415,14 @@ if (!isset($_SESSION['id_usuario']) || $_SESSION['rol'] !== 'proponente' || $_SE
 
                             <div class="col-12">
                                 <label for="recursos_humanos" class="form-label">Personal Requerido</label>
-                                <textarea class="form-control" id="recursos_humanos" name="recursos_humanos" rows="3"></textarea>
+                                <textarea class="form-control" id="recursos_humanos" name="recursos_humanos" rows="3" maxlength="200" oninput="updateCharacterCount('recursos_humanos', 'recursos_humanos_count')"></textarea>
+                                <small id="recursos_humanos_count">200 caracteres restantes</small>
                             </div>
 
                             <div class="col-12">
                                 <label for="infraestructura_equipamiento" class="form-label">Infraestructura/Equipamiento</label>
-                                <textarea class="form-control" id="infraestructura_equipamiento" name="infraestructura_equipamiento" rows="3"></textarea>
+                                <textarea class="form-control" id="infraestructura_equipamiento" name="infraestructura_equipamiento" rows="3" maxlength="200" oninput="updateCharacterCount('infraestructura_equipamiento', 'infraestructura_equipamiento_count')"></textarea>
+                                <small id="infraestructura_equipamiento_count">200 caracteres restantes</small>
                             </div>
                         </div>
                     </div>
@@ -425,26 +437,31 @@ if (!isset($_SESSION['id_usuario']) || $_SESSION['rol'] !== 'proponente' || $_SE
                         <div class="row g-3">
                             <div class="col-md-6">
                                 <label for="viabilidad_tecnica" class="form-label">Viabilidad Técnica</label>
-                                <textarea class="form-control" id="viabilidad_tecnica" name="viabilidad_tecnica" rows="3"></textarea>
+                                <textarea class="form-control" id="viabilidad_tecnica" name="viabilidad_tecnica" rows="3" maxlength="200" oninput="updateCharacterCount('viabilidad_tecnica', 'viabilidad_tecnica_count')"></textarea>
+                                <small id="viabilidad_tecnica_count">200 caracteres restantes</small>
                             </div>
 
                             <div class="col-md-6">
                                 <label for="viabilidad_economica" class="form-label">Viabilidad Económica</label>
-                                <textarea class="form-control" id="viabilidad_economica" name="viabilidad_economica" rows="3"></textarea>
+                                <textarea class="form-control" id="viabilidad_economica" name="viabilidad_economica" rows="3" maxlength="200" oninput="updateCharacterCount('viabilidad_economica', 'viabilidad_economica_count')"></textarea>
+                                <small id="viabilidad_economica_count">200 caracteres restantes</small>
                             </div>
 
                             <div class="col-md-6">
                                 <label for="viabilidad_social" class="form-label">Viabilidad Social</label>
-                                <textarea class="form-control" id="viabilidad_social" name="viabilidad_social" rows="3"></textarea>
+                                <textarea class="form-control" id="viabilidad_social" name="viabilidad_social" rows="3" maxlength="200" oninput="updateCharacterCount('viabilidad_social', 'viabilidad_social_count')"></textarea>
+                                <small id="viabilidad_social_count">200 caracteres restantes</small>
                             </div>
 
                             <div class="col-md-6">
                                 <label for="viabilidad_ambiental" class="form-label">Viabilidad Ambiental</label>
-                                <textarea class="form-control" id="viabilidad_ambiental" name="viabilidad_ambiental" rows="3"></textarea>
+                                <textarea class="form-control" id="viabilidad_ambiental" name="viabilidad_ambiental" rows="3" maxlength="200" oninput="updateCharacterCount('viabilidad_ambiental', 'viabilidad_ambiental_count')"></textarea>
+                                <small id="viabilidad_ambiental_count">200 caracteres restantes</small>
                             </div>
                         </div>
                     </div>
                 </div>
+
 
                 <!-- SECCIÓN 6: Evaluación Inicial -->
 
@@ -488,7 +505,7 @@ if (!isset($_SESSION['id_usuario']) || $_SESSION['rol'] !== 'proponente' || $_SE
                                     <option value="4">4</option>
                                     <option value="5">5</option>
                                 </select>
-                            
+
                             </div>
 
                             <!-- Alineación con los Objetivos -->
@@ -501,14 +518,15 @@ if (!isset($_SESSION['id_usuario']) || $_SESSION['rol'] !== 'proponente' || $_SE
                                     <option value="4">4</option>
                                     <option value="5">5</option>
                                 </select>
-                               
+
                             </div>
 
                             <!-- Observaciones y Recomendaciones -->
                             <div class="col-12">
                                 <label for="observaciones_recomendaciones" class="form-label required-field">Observaciones y Recomendaciones del Comité Técnico</label>
-                                <textarea class="form-control" id="observaciones_recomendaciones" name="observaciones_recomendaciones" rows="5" required></textarea>
+                                <textarea class="form-control" id="observaciones_recomendaciones" name="observaciones_recomendaciones" rows="5" maxlength="200" required oninput="updateCharacterCount('observaciones_recomendaciones', 'observaciones_recomendaciones_count')"></textarea>
                                 <small class="form-text text-muted">Incluya cualquier comentario relevante, como ajustes recomendados o información adicional que el proyecto debe considerar para mejorar.</small>
+                                <small id="observaciones_recomendaciones_count">200 caracteres restantes</small>
                             </div>
                         </div>
                     </div>
@@ -566,5 +584,15 @@ if (!isset($_SESSION['id_usuario']) || $_SESSION['rol'] !== 'proponente' || $_SE
         </div>
     </div>
 </body>
+
+<script>
+    // Función para actualizar el contador de caracteres restantes
+    function updateCharacterCount(textareaId, countId) {
+        var textarea = document.getElementById(textareaId);
+        var count = document.getElementById(countId);
+        var remaining = 200 - textarea.value.length;
+        count.textContent = remaining + " caracteres restantes";
+    }
+</script>
 
 </html>

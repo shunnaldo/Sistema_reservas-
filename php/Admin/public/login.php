@@ -1,3 +1,13 @@
+<?php
+session_start(); // Iniciar la sesión
+
+// Mostrar mensaje de error si está presente en la sesión
+$error = isset($_SESSION['error']) ? $_SESSION['error'] : '';
+
+// Limpiar el mensaje de error para que no se muestre en la siguiente carga de la página
+unset($_SESSION['error']);
+?>
+
 <!DOCTYPE html>
 <html lang="es">
 
@@ -22,7 +32,8 @@
                         <h2><i class="fas fa-sign-in-alt"></i> Acceso al Sistema</h2>
                     </div>
                     <div class="card-body p-4">
-                        <?php if (isset($error)): ?>
+                        <!-- Mostrar error si existe -->
+                        <?php if (!empty($error)): ?>
                             <div class="alert alert-danger alert-dismissible fade show">
                                 <?php echo htmlspecialchars($error); ?>
                                 <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
@@ -30,8 +41,6 @@
                         <?php endif; ?>
 
                         <form method="POST" action="/CasaEmprender/Sistema_reservas-/PHP/Admin/Comunicaciones/includes/procesar_login.php" class="needs-validation" novalidate>
-
-
                             <div class="mb-3">
                                 <label for="correo" class="form-label">
                                     <i class="fas fa-user text-success me-2"></i>Correo electronico
@@ -42,7 +51,6 @@
                                     </span>
                                     <input type="mail" class="form-control" id="correo" name="correo"
                                         placeholder="Ingresa tu correo" required>
-
                                 </div>
                             </div>
 

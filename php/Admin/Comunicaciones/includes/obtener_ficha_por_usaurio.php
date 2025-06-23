@@ -11,7 +11,7 @@ if (!isset($_SESSION['id_usuario'])) {
 }
 
 // Recupera el id_usuario desde la sesión
-$id_usuario = $_SESSION['id_usuario']; // Usamos el id_usuario en lugar del id_proponente
+$id_usuario = $_SESSION['id_usuario']; 
 
 // Conexión a la base de datos
 require_once __DIR__ . '/../bd/conexion_test.php';

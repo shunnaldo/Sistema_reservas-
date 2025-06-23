@@ -1,5 +1,4 @@
 <?php
-// No es necesario llamar a session_start() aquí, ya que ya está en detalleFicha.php
 
 // Verificar si el id_proyecto está presente en la URL
 if (!isset($_GET['id_proyecto']) || empty($_GET['id_proyecto'])) {
