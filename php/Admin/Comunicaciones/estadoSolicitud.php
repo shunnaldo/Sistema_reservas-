@@ -224,6 +224,11 @@ if (!$data) {
             background-color: #dc3545;
             color: white;
         }
+        .estado-7 {
+            /* Rechazado */
+            background-color: #dc3545;
+            color: white;
+        }
     </style>
 </head>
 
@@ -366,6 +371,9 @@ if (!$data) {
             case 'finalizado':
                 echo 'estado-6';
                 break;
+                case 'rechazado':
+                echo 'estado-7';
+                break;
             default:
                 echo 'estado-1'; // Por defecto, poner un estado si no coincide
                 break;
@@ -373,7 +381,6 @@ if (!$data) {
         ?> fs-6">
                                         <?php echo $data['estado']; ?>
                                     </span>
-                                    <p class="text-muted mb-0">Última actualización: Hoy</p>
                                 </div>
 
                             </div>

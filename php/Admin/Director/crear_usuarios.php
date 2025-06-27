@@ -1,4 +1,4 @@
-<?php 
+<?php
 session_start();
 
 // Verificar si el usuario está logueado y tiene el rol adecuado
@@ -7,51 +7,13 @@ if (!isset($_SESSION['id_usuario']) || $_SESSION['rol'] !== 'director') {
     exit();
 }
 
-require_once(__DIR__ . '/../Comunicaciones/bd/conexion_test.php'); // Ajusta ruta según tu estructura
-
-// Crear usuario
-if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['create_user'])) {
-    // Recibir datos del formulario
-    $nombre     = filter_input(INPUT_POST, 'nombre', FILTER_SANITIZE_STRING);
-    $apellido   = filter_input(INPUT_POST, 'apellido', FILTER_SANITIZE_STRING);
-    $correo     = filter_input(INPUT_POST, 'correo', FILTER_SANITIZE_EMAIL);
-    $clave_plana = $_POST['clave'];
-    $rol        = $_POST['rol'];
-    $area       = $_POST['area'];
-
-    // Validar email
-    if (!filter_var($correo, FILTER_VALIDATE_EMAIL)) {
-        $error_message = "❌ El correo electrónico no es válido.";
-    } else {
-        // Encriptar contraseña
-        $hash = password_hash($clave_plana, PASSWORD_BCRYPT);
-
-        // Preparar SQL para insertar usuario
-        $sql = "INSERT INTO usuarios (nombre, apellido, correo, contrasena, rol, area) 
-                VALUES (?, ?, ?, ?, ?, ?)";
-
-        if ($stmt = $conn->prepare($sql)) {
-            // Bind params
-            $stmt->bind_param("ssssss", $nombre, $apellido, $correo, $hash, $rol, $area);
-
-            // Ejecutar y comprobar éxito
-            if ($stmt->execute()) {
-                $success_message = "✅ Usuario creado correctamente.";
-                header("Location: gestionar_usuarios.php"); // Redirigir a la página de gestionar usuarios
-                exit();
-            } else {
-                $error_message = "❌ Error al crear usuario: " . $stmt->error;
-            }
-            $stmt->close();
-        } else {
-            $error_message = "❌ Error al preparar la consulta: " . $conn->error;
-        }
-    }
-}
+require_once(__DIR__ . '/../Comunicaciones/bd/conexion_test.php');
+include './includes/crear_usuario_logica.php';
 ?>
 
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -66,12 +28,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['create_user'])) {
             --secondary-color: #146c43;
             --light-color: #f8f9fa;
         }
-        
+
         .sidebar {
             min-height: 100vh;
             background-color: var(--primary-color);
             color: white;
-            box-shadow: 2px 0 10px rgba(0,0,0,0.1);
+            box-shadow: 2px 0 10px rgba(0, 0, 0, 0.1);
         }
 
         .sidebar .nav-link {
@@ -122,7 +84,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['create_user'])) {
             margin: 0 auto;
             background: white;
             border-radius: 15px;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
             padding: 30px;
         }
 
@@ -150,14 +112,16 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['create_user'])) {
             margin-bottom: 8px;
         }
 
-        .form-control, .form-select {
+        .form-control,
+        .form-select {
             border-radius: 8px;
             padding: 12px 15px;
             border: 1px solid #ced4da;
             transition: all 0.3s;
         }
 
-        .form-control:focus, .form-select:focus {
+        .form-control:focus,
+        .form-select:focus {
             border-color: var(--primary-color);
             box-shadow: 0 0 0 0.25rem rgba(25, 135, 84, 0.25);
         }
@@ -217,6 +181,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['create_user'])) {
         }
     </style>
 </head>
+
 <body>
     <div class="container-fluid">
         <div class="row">
@@ -300,7 +265,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['create_user'])) {
                                 <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userDropdown">
                                     <li><a class="dropdown-item" href="#"><i class="fas fa-user me-2"></i>Perfil</a></li>
                                     <li><a class="dropdown-item" href="#"><i class="fas fa-cog me-2"></i>Configuración</a></li>
-                                    <li><hr class="dropdown-divider"></li>
+                                    <li>
+                                        <hr class="dropdown-divider">
+                                    </li>
                                     <li><a class="dropdown-item text-danger" href="./includes/logout.php"><i class="fas fa-sign-out-alt me-2"></i>Cerrar Sesión</a></li>
                                 </ul>
                             </div>
@@ -318,7 +285,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['create_user'])) {
                                     <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                                 </div>
                             <?php endif; ?>
-                            
+
                             <?php if (!empty($error_message)): ?>
                                 <div class="alert alert-danger alert-dismissible fade show" role="alert">
                                     <i class="fas fa-exclamation-circle me-2"></i><?= $error_message ?>
@@ -328,7 +295,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['create_user'])) {
 
                             <div class="form-container">
                                 <h2 class="form-title">Información del Usuario</h2>
-                                
+
                                 <form method="POST" action="">
                                     <div class="row">
                                         <div class="col-md-6 mb-3">
@@ -338,7 +305,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['create_user'])) {
                                                 <input type="text" class="form-control" id="nombre" name="nombre" required placeholder="Ej: Juan">
                                             </div>
                                         </div>
-                                        
+
                                         <div class="col-md-6 mb-3">
                                             <label for="apellido" class="form-label">Apellido</label>
                                             <div class="input-group">
@@ -347,7 +314,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['create_user'])) {
                                             </div>
                                         </div>
                                     </div>
-                                    
+
                                     <div class="mb-3">
                                         <label for="correo" class="form-label">Correo Electrónico</label>
                                         <div class="input-group">
@@ -355,7 +322,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['create_user'])) {
                                             <input type="email" class="form-control" id="correo" name="correo" required placeholder="Ej: usuario@ejemplo.com">
                                         </div>
                                     </div>
-                                    
+
                                     <div class="mb-3">
                                         <label for="clave" class="form-label">Contraseña</label>
                                         <div class="password-container">
@@ -367,7 +334,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['create_user'])) {
                                         </div>
                                         <small class="text-muted">La contraseña debe contener al menos 8 caracteres</small>
                                     </div>
-                                    
+
                                     <div class="row">
                                         <div class="col-md-6 mb-3">
                                             <label for="rol" class="form-label">Rol</label>
@@ -377,7 +344,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['create_user'])) {
                                                 <option value="proponente">Proponente</option>
                                             </select>
                                         </div>
-                                        
+
                                         <div class="col-md-6 mb-4">
                                             <label for="area" class="form-label">Área</label>
                                             <select class="form-select" id="area" name="area" required>
@@ -389,7 +356,24 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['create_user'])) {
                                             </select>
                                         </div>
                                     </div>
-                                    
+
+                                    <!-- Nuevos campos de teléfono y dirección -->
+                                    <div class="mb-3">
+                                        <label for="telefono" class="form-label">Teléfono</label>
+                                        <div class="input-group">
+                                            <span class="input-group-text"><i class="fas fa-phone"></i></span>
+                                            <input type="tel" class="form-control" id="telefono" name="telefono" required placeholder="Ej: 123-456-7890">
+                                        </div>
+                                    </div>
+
+                                    <div class="mb-3">
+                                        <label for="direccion" class="form-label">Dirección</label>
+                                        <div class="input-group">
+                                            <span class="input-group-text"><i class="fas fa-map-marker-alt"></i></span>
+                                            <input type="text" class="form-control" id="direccion" name="direccion" required placeholder="Ej: Calle Ficticia 123">
+                                        </div>
+                                    </div>
+
                                     <div class="d-grid gap-2 d-md-flex justify-content-md-end mt-4">
                                         <a href="gestionar_usuarios.php" class="btn btn-outline-secondary me-md-2">
                                             <i class="fas fa-arrow-left me-1"></i> Cancelar
@@ -403,19 +387,20 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['create_user'])) {
                         </div>
                     </div>
                 </div>
+
             </div>
         </div>
     </div>
 
     <!-- Bootstrap 5 JS Bundle with Popper -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-    
+
     <script>
         // Mostrar/ocultar contraseña
         document.getElementById('togglePassword').addEventListener('click', function() {
             const passwordInput = document.getElementById('clave');
             const icon = this;
-            
+
             if (passwordInput.type === 'password') {
                 passwordInput.type = 'text';
                 icon.classList.remove('fa-eye');
@@ -426,11 +411,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['create_user'])) {
                 icon.classList.add('fa-eye');
             }
         });
-        
+
         // Validación básica del formulario
         document.querySelector('form').addEventListener('submit', function(e) {
             const password = document.getElementById('clave').value;
-            
+
             if (password.length < 8) {
                 e.preventDefault();
                 alert('La contraseña debe tener al menos 8 caracteres');
@@ -438,4 +423,5 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['create_user'])) {
         });
     </script>
 </body>
+
 </html>

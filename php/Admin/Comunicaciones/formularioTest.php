@@ -2,13 +2,16 @@
 session_start(); // Asegúrate de que la sesión esté iniciada
 
 // Verifica si el usuario está logueado y tiene el rol adecuado
-if (!isset($_SESSION['id_usuario']) || $_SESSION['rol'] !== 'proponente' || $_SESSION['area'] !== 'Comunicaciones') {
-    // Si no está logueado o no tiene el rol adecuado, redirige al login
+if (!isset($_SESSION['id_usuario']) || $_SESSION['rol'] !== 'proponente' || 
+    ($_SESSION['area'] !== 'Comunicaciones' && $_SESSION['area'] !== 'DAF')) {
+    // Si no está logueado o no tiene el rol adecuado o el área no es 'Comunicaciones' ni 'DAF', redirige al login
     header("Location: login.php?error=no_autorizado");
     exit();  // Asegúrate de llamar a exit() para que no se siga ejecutando el script
 }
-// // Recupera el id_proponente desde la sesión
-// $id_proponente = $_SESSION['id_proponente'];  // El id_proponente está en la sesión
+
+// Si el usuario es proponente con área 'Comunicaciones' o 'DAF', puedes continuar con la lógica
+// Recupera el id_proponente desde la sesión
+$id_proponente = $_SESSION['id_proponente'];  // El id_proponente está en la sesión
 
 ?>
 

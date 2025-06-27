@@ -185,7 +185,7 @@ $conn->close();
                     <h3>Lista de Usuarios</h3>
 
                     <!-- Enlace a crear usuario -->
-                    <a href="crear_usuario.php" class="btn btn-success mb-3">
+                    <a href="crear_usuarios.php" class="btn btn-success mb-3">
                         <i class="fas fa-plus-circle me-2"></i> Crear Nuevo Usuario
                     </a>
 

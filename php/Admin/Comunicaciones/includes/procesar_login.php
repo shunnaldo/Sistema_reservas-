@@ -41,37 +41,29 @@ if ($result->num_rows === 1) {
         $_SESSION['rol'] = $usuario['rol'];
         $_SESSION['area'] = $usuario['area'];
 
-        // Si el usuario tiene el rol 'proponente', obtener el id_proponente
+        // Si el usuario tiene el rol 'proponente', guardar el id_usuario como id_proponente
         if ($usuario['rol'] === 'proponente') {
-            // Obtener id_proponente relacionado
-            $sql_proponente = "SELECT id_proponente FROM proponente WHERE id_proponente = ?";
-            $stmt_proponente = $conn->prepare($sql_proponente);
-            $stmt_proponente->bind_param("i", $usuario['id_usuario']); // Asumimos que id_usuario es igual a id_proponente
-            $stmt_proponente->execute();
-            $result_proponente = $stmt_proponente->get_result();
-
-            if ($result_proponente->num_rows === 1) {
-                $proponente = $result_proponente->fetch_assoc();
-                $_SESSION['id_proponente'] = $proponente['id_proponente'];  // Guardamos el id_proponente en la sesión
-            }
-            $stmt_proponente->close();
+            $_SESSION['id_proponente'] = $usuario['id_usuario'];  // Asignar el id_usuario como id_proponente
         }
 
-        // Redirigir según el rol del usuario
+        // Redirigir según el rol y área del usuario
         if ($usuario['rol'] === 'director') {
             header("Location: /CasaEmprender/Sistema_reservas-/PHP/Admin/Director/home_director.php");
 
         } elseif ($usuario['rol'] === 'proponente') {
-            if ($usuario['area'] === 'Comunicaciones') {
+            // Verificar si el área es 'DAF'
+            if ($usuario['area'] === 'DAF') {
+                header("Location: /CasaEmprender/Sistema_reservas-/PHP/Admin/DAF/home_daf.php"); // Redirigir a la página de DAF
+            } 
+            elseif ($usuario['area'] === 'Comunicaciones') {
                 header("Location: /CasaEmprender/Sistema_reservas-/PHP/Admin/Comunicaciones/home_comunicaciones.php");
 
-            } elseif ($usuario['area'] === 'FIT') {
+            } 
+            elseif ($usuario['area'] === 'FIT') {
                 header("Location: /CasaEmprender/Sistema_reservas-/PHP/Admin/Comunicaciones/home_comunicaciones.php");
 
-            } elseif ($usuario['area'] === 'DAF') {
-                header("Location: ../dashboard/proponente_daf.php");
-                
-            } else {
+            } 
+            else {
                 header("Location: ../dashboard/proponente.php"); // Redirigir a la página genérica para proponentes
             }
         } else {
@@ -94,3 +86,4 @@ if ($result->num_rows === 1) {
 }
 
 $conn->close(); // Cerrar la conexión a la base de datos
+?>

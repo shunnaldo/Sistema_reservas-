@@ -1,20 +1,23 @@
 <?php
-session_start(); // Asegúrate de que la sesión esté iniciada
+session_start(); // Inicia la sesión
 
-// Verifica si el usuario está logueado y tiene el rol adecuado
-if (!isset($_SESSION['id_usuario']) || $_SESSION['rol'] !== 'proponente' || $_SESSION['area'] !== 'Comunicaciones') {
-    // Si no está logueado o no tiene el rol adecuado, redirige al login
+
+// Verifica si el usuario está logueado y tiene el rol adecuado (proponente) y área (DAF)
+if (!isset($_SESSION['id_usuario']) || $_SESSION['rol'] !== 'proponente' || $_SESSION['area'] !== 'DAF') {
+    // Si no está logueado, no tiene el rol adecuado o el área no es DAF, redirige al login
     header("Location: login.php?error=no_autorizado");
     exit();  // Asegúrate de llamar a exit() para que no se siga ejecutando el script
 }
+
 
 // Obtener id_usuario desde la sesión
 $id_usuario = $_SESSION['id_usuario'];  // Obtiene el id_usuario desde la sesión
 
 // Incluir archivo que contiene la consulta y manejo de resultados
-include './includes/consultar_fichas.php';
+include './includes/obtener_fichas_fip.php';
 
 // Aquí ya no es necesario volver a abrir ni cerrar la conexión, ya que lo estás manejando en consultar_fichas.php
+
 
 ?>
 
@@ -106,9 +109,10 @@ include './includes/consultar_fichas.php';
 
         .estado-6 {
             /* Finalizado */
-            background-color:rgb(0, 234, 255);
+            background-color: rgb(0, 234, 255);
             color: white;
         }
+
         .estado-7 {
             /* Finalizado */
             background-color: #dc3545;
@@ -149,7 +153,7 @@ include './includes/consultar_fichas.php';
                 <div class="position-sticky pt-3">
                     <div class="text-center p-4">
                         <i class="fas fa-user-shield fa-3x mb-3"></i>
-                        <h4>Panel Proponente</h4>
+                        <h4>Panel DAF</h4>
                     </div>
                     <ul class="nav flex-column px-3">
                         <li class="nav-item">
@@ -159,12 +163,17 @@ include './includes/consultar_fichas.php';
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" href="./ver_fichas.php">
-                                <i class="fas fa-file-alt"></i> Mis Propuestas
+                                <i class="fas fa-file-alt"></i>Propuestas
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="./formularioTest.php">
+                            <a class="nav-link" href="./../Comunicaciones/formularioTest.php">
                                 <i class="fas fa-plus-circle"></i> Nueva Propuesta
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="./historial_solicitudes.php">
+                                <i class="fas fa-plus-circle"></i> Historial de solicitudes
                             </a>
                         </li>
                         <li class="nav-item">
@@ -187,11 +196,24 @@ include './includes/consultar_fichas.php';
 
                         <div class="d-flex align-items-center">
                             <span class="navbar-brand mb-0 h1">
-                                <i class="fas fa-home me-2"></i>Mis Fichas
+                                <i class="fas fa-home me-2"></i>Solicitudes
                             </span>
                         </div>
                     </div>
                 </nav>
+
+                <!-- MENSAJES DE APROBAR O RECHAZAR SOLICITUD  -->
+                <?php if (isset($_GET['mensaje']) && $_GET['mensaje'] === 'aprobado'): ?>
+                    <div class="alert alert-success alert-dismissible fade show" role="alert">
+                        <strong>¡Éxito!</strong> La solicitud fue aprobada correctamente.
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Cerrar"></button>
+                    </div>
+                <?php elseif (isset($_GET['mensaje']) && $_GET['mensaje'] === 'rechazado'): ?>
+                    <div class="alert alert-warning alert-dismissible fade show" role="alert">
+                        <strong>Atención:</strong> La solicitud fue rechazada correctamente.
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Cerrar"></button>
+                    </div>
+                <?php endif; ?>
 
                 <!-- Page Content -->
                 <div class="container-fluid p-4">
@@ -260,39 +282,38 @@ include './includes/consultar_fichas.php';
                                                             <td><?php echo $ficha['nombre_proyecto']; ?></td>
                                                             <td><?php echo date("d/m/Y", strtotime($ficha['fecha_presentacion'])); ?></td>
                                                             <td><?php echo $ficha['duracion_valor'] . ' ' . $ficha['duracion_tipo']; ?></td>
-                                                            <td><?php echo $ficha['nombre_usuario'] . " " . $ficha['apellido_usuario']; ?></td>
-                                                            <td><?php echo $ficha['cargo']; ?></td>
-                                                            <td><?php echo $ficha['organizacion']; ?></td>
+                                                            <td><?php echo $ficha['nombre'] . " " . $ficha['apellido']; ?></td>
+                                                            <td><?php echo $ficha['rol']; ?></td>
+                                                            <td><?php echo $ficha['area']; ?></td>
                                                             <td>
                                                                 <span class="badge-estado estado-<?php echo $ficha['id_estado']; ?>">
-                                                                    <?php echo $ficha['estado_proyecto']; ?>
+                                                                    <?php echo $ficha['nombre_estado']; ?>
                                                                 </span>
                                                             </td>
                                                             <td class="text-end">
                                                                 <div class="btn-action-group">
-                                                                    
-                                                                <!-- DETALLE FICHA -->
-                                                                    <a href="detalleFicha.php?id_proyecto=<?php echo $ficha['id_proyecto']; ?>"
+                                                                    <!-- DETALLE FICHA -->
+                                                                    <a href="detalle_ficha_fip.php?id_proyecto=<?php echo $ficha['id_proyecto']; ?>"
                                                                         class="btn btn-sm btn-outline-success btn-action"
                                                                         title="Ver Ficha FIP">
-                                                                        <i class="bi bi-eye-fill"></i>
+                                                                        <i class="bi bi-file-text"></i>
                                                                     </a>
                                                                     <!-- DETALLE REQUERIMIENTOS -->
-                                                                    <a href="detalleFichaRequerimientos.php?id_proyecto=<?php echo $ficha['id_proyecto']; ?>"
+                                                                    <a href="detalle_requerimientos.php?id_proyecto=<?php echo $ficha['id_proyecto']; ?>"
                                                                         class="btn btn-sm btn-outline-success btn-action"
                                                                         data-bs-toggle="tooltip"
                                                                         data-bs-placement="top"
                                                                         title="Ver Ficha Requerimientos">
-                                                                        <i class="bi bi-clock-history"></i>
+                                                                        <i class="bi bi-journal-richtext"></i>
                                                                     </a>
-                                                                    
-                                                                <!-- DECISION -->
-                                                                    <a href="estadoSolicitud.php?id_proyecto=<?php echo $ficha['id_proyecto']; ?>"
+
+                                                                    <!-- APROBAR O RECHAZAR SOLICITUD -->
+                                                                    <a href="aprobar_rechazar_proyecto.php?id_proyecto=<?php echo $ficha['id_proyecto']; ?>"
                                                                         class="btn btn-sm btn-outline-success btn-action"
-                                                                        title="aprobar/rechazar">
-                                                                        <i class="bi bi-hourglass-split"></i>
+                                                                        title="Aprobar o Rechazar Proyecto">
+                                                                        <i class="bi bi-check2-circle"></i>
                                                                     </a>
-                                                                    
+
                                                                 </div>
                                                             </td>
                                                         </tr>
@@ -310,23 +331,26 @@ include './includes/consultar_fichas.php';
                         </div>
                     </div>
 
-                    <!-- Paginación -->
-                    <div class="d-flex justify-content-center">
-                        <nav aria-label="Paginación">
-                            <ul class="pagination">
-                                <li class="page-item <?php echo ($page <= 1) ? 'disabled' : ''; ?>">
-                                    <a class="page-link" href="?page=<?php echo $page - 1; ?>">Anterior</a>
-                                </li>
-                                <li class="page-item <?php echo ($page >= $total_pages) ? 'disabled' : ''; ?>">
-                                    <a class="page-link" href="?page=<?php echo $page + 1; ?>">Siguiente</a>
-                                </li>
-                            </ul>
-                        </nav>
-                    </div>
-
                 </div>
             </div>
+
+            <!-- Paginación -->
+            <div class="d-flex justify-content-center">
+                <nav aria-label="Paginación">
+                    <ul class="pagination">
+                        <li class="page-item <?php echo ($page <= 1) ? 'disabled' : ''; ?>">
+                            <a class="page-link" href="?page=<?php echo $page - 1; ?>">Anterior</a>
+                        </li>
+                        <li class="page-item <?php echo ($page >= $total_pages) ? 'disabled' : ''; ?>">
+                            <a class="page-link" href="?page=<?php echo $page + 1; ?>">Siguiente</a>
+                        </li>
+                    </ul>
+                </nav>
+            </div>
+
         </div>
+    </div>
+    </div>
     </div>
 
     <!-- Bootstrap 5 JS Bundle with Popper -->
